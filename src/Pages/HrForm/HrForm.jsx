@@ -15,7 +15,7 @@ const HrForm = () => {
     const email = form.email.value;
     const password = form.password.value;
     const dateOfBirth = form.dateOfBirth.value;
-    const packageOption = form.package.value;
+    const packageOption = parseInt(form.package.value);
     const companyLogo = form.companyLogo.files[0];
     console.log({
       fullName,
