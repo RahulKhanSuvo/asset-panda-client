@@ -1,7 +1,12 @@
+import { useNavigate } from "react-router-dom";
+import { imageUpload } from "../../API/Utilits";
 import useAuth from "../../Hooks/useAuth";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const HrForm = () => {
-  const { userSignUp } = useAuth();
+  const { userSignUp, updateUserProfile } = useAuth();
+  const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -16,15 +21,38 @@ const HrForm = () => {
       fullName,
       companyName,
       email,
-      password,
       dateOfBirth,
       packageOption,
       companyLogo,
     });
-    try {
-    } catch (error) {
-      console.log(error);
-    }
+    const logoUrl = await imageUpload(companyLogo);
+    userSignUp(email, password)
+      .then((result) => {
+        console.log(result);
+        updateUserProfile({ displayName: fullName, photoURL: null })
+          .then(async () => {
+            try {
+              const { data } = await axiosPublic.post(`/hr/${email}`, {
+                fullName,
+                email,
+                companyName,
+                date_of_birth: dateOfBirth,
+                packageOption,
+                companyLogo: logoUrl,
+              });
+              console.log(data);
+              navigate("/payment");
+            } catch (error) {
+              console.log(error);
+            }
+          })
+          .catch((error) => {
+            console.log("error from update", error);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
