@@ -13,7 +13,6 @@ const AddEmployee = () => {
   const { userInfo } = useUserInfo();
   const { user } = useAuth();
   const { team, refetch: refetchTeam } = useTeam();
-  console.log("team", team);
   const {
     employeeCount,
     isLoading: isCountLoading,
@@ -61,7 +60,7 @@ const AddEmployee = () => {
   };
   // Add selected members to the team
   const handleAddToTeam = async (employeeData) => {
-    if (team.length >= employeeCount?.members) {
+    if (employeeCount?.members <= 0) {
       Swal.fire({
         toast: true,
         icon: "error",

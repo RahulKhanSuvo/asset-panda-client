@@ -4,10 +4,11 @@ import NavBar from "../Pages/Shared/NavBar/NavBar";
 const Main = () => {
   return (
     <>
-      <NavBar></NavBar>
-      <Outlet></Outlet>
+      <div>
+        <NavBar></NavBar>
+        <Outlet></Outlet>
+      </div>
     </>
   );
 };
-
 export default Main;

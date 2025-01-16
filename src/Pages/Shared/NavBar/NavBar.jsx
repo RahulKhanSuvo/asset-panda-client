@@ -22,6 +22,7 @@ const NavBar = () => {
     <>
       <NavLink to={"/hrHome"}>Home</NavLink>
       <NavLink to={"/hr/assets"}>Asset List</NavLink>
+      <NavLink to={"/hr/addAssets"}>Add an Asset</NavLink>
       <NavLink to={"/hr/allRequests"}>All Requests</NavLink>
       <NavLink to={"/hr/myEmployee"}>My Employee List</NavLink>
       <NavLink to={"/hr/addEmployee"}>Add an Employee</NavLink>

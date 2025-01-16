@@ -11,7 +11,6 @@ import {
 } from "firebase/auth";
 import auth from "../firebase/firebase.config";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
-import usePayment from "../Hooks/usePayment";
 
 const AuthProvider = ({ children }) => {
   const axiosPublic = useAxiosPublic();

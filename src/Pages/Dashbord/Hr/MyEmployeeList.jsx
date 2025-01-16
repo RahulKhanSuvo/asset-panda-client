@@ -6,10 +6,15 @@ import MyEmployeeColum from "./MyEmployeeColum";
 import Swal from "sweetalert2";
 
 const MyEmployeeList = () => {
-  const { user } = useAuth();
-  console.log(user.email);
+  const { user, loading } = useAuth();
+  if (loading) {
+    <>
+      <h3>Loading</h3>
+    </>;
+  }
   const axiosSecure = useAxiosSecure();
   const { team: teams, isLoading, refetch } = useTeam();
+
   const { employeeCount, refetch: countRefetch } = useEmployeeCount();
 
   const handleDelete = async (id) => {
@@ -46,6 +51,7 @@ const MyEmployeeList = () => {
       }
     });
   };
+
   return (
     <div>
       <div className="flex justify-between items-center px-4 py-2 bg-[#DAE1F3] ">
@@ -53,7 +59,7 @@ const MyEmployeeList = () => {
         <div>
           <p>
             {" "}
-            {teams.length} / {employeeCount.members}
+            {teams.length} / {employeeCount?.members}
           </p>
         </div>
       </div>
