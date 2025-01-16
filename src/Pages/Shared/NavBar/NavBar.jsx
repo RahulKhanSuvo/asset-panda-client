@@ -41,61 +41,63 @@ const NavBar = () => {
   );
 
   return (
-    <Container>
-      <div className="flex justify-between items-center py-4 sticky top-0 bg-white z-10 shadow-md">
-        {/* Logo */}
-        <div>
-          <img
-            className="w-24"
-            src={
-              paymentStatus.role === "employee"
-                ? user?.companyLogo
-                : "/default-logo.svg"
-            }
-            alt="Logo"
-          />
-        </div>
+    <nav className="bg-[#262E40]">
+      <Container>
+        <div className="flex justify-between items-center py-4 sticky top-0  z-10 text-white shadow-md">
+          {/* Logo */}
+          <div>
+            <img
+              className="w-24"
+              src={
+                paymentStatus.role === "employee"
+                  ? user?.companyLogo
+                  : "/default-logo.svg"
+              }
+              alt="Logo"
+            />
+          </div>
 
-        {/* Navigation Links */}
-        <div className="flex gap-6">
-          {paymentStatus.role === "hr"
-            ? hrLinks
-            : paymentStatus.role === "employee"
-            ? employeeLinks
-            : guestLinks}
-        </div>
+          {/* Navigation Links */}
+          <div className="flex gap-6">
+            {paymentStatus.role === "hr"
+              ? hrLinks
+              : paymentStatus.role === "employee"
+              ? employeeLinks
+              : guestLinks}
+          </div>
 
-        {/* User Profile and Authentication */}
-        <div>
-          {user ? (
-            <div className="flex gap-2 items-center">
-              {user?.photoURL ? (
-                <img
-                  src={user?.photoURL}
-                  alt="User Profile"
-                  className="w-10 h-10 rounded-full"
-                />
-              ) : (
-                <FaUserCircle size={40} color="#555" />
-              )}
-              <p className="ml-2">{user?.displayName}</p>
-              <button
-                onClick={handleLogout}
-                className="ml-4 px-4 py-2 bg-red-500 text-white rounded"
-              >
-                Logout
-              </button>
-            </div>
-          ) : (
-            <Link to={"/login"}>
-              <button className="px-4 py-2 bg-blue-500 text-white rounded">
-                Login
-              </button>
-            </Link>
-          )}
+          {/* User Profile and Authentication */}
+          <div>
+            {user ? (
+              <div className="flex gap-2 items-center">
+                {user?.photoURL ? (
+                  <img
+                    src={user?.photoURL}
+                    alt="User Profile"
+                    className="w-10 h-10 rounded-full"
+                  />
+                ) : (
+                  <FaUserCircle size={40} color="#555" />
+                )}
+                <p className="ml-2">{user?.displayName}</p>
+                <button
+                  onClick={handleLogout}
+                  className="ml-4 px-4 py-2 bg-red-500 text-white rounded"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link to={"/login"}>
+                <button className="px-4 py-2 bg-blue-500 text-white rounded">
+                  Login
+                </button>
+              </Link>
+            )}
+          </div>
         </div>
-      </div>
-    </Container>
+      </Container>
+    </nav>
   );
 };
 

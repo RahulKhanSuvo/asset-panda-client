@@ -5,6 +5,8 @@ import EmployeeForm from "../Pages/Employee/EmployeeForm";
 import LoginPage from "../Pages/Auth/LoginPage";
 import HrForm from "../Pages/HrForm/HrForm";
 import Payment from "../Pages/Payment/Payment";
+import EmployeeHome from "../Pages/Dashbord/Employee/EmployeeHome";
+import HrHome from "../Pages/Dashbord/Hr/HrHome";
 
 export const router = createBrowserRouter([
   {
@@ -15,6 +17,7 @@ export const router = createBrowserRouter([
         path: "/",
         element: <Home></Home>,
       },
+      // without login
       {
         path: "/signUp/employee",
         element: <EmployeeForm></EmployeeForm>,
@@ -30,6 +33,16 @@ export const router = createBrowserRouter([
       {
         path: "/payment",
         element: <Payment></Payment>,
+      },
+      // employee routes
+      {
+        path: "/employeeHome",
+        element: <EmployeeHome></EmployeeHome>,
+      },
+      // hr routes
+      {
+        path: "/hrHome",
+        element: <HrHome></HrHome>,
       },
     ],
   },

@@ -1,12 +1,15 @@
 import { FaGoogle } from "react-icons/fa";
-
 import useAuth from "../../Hooks/useAuth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { imageUpload } from "../../API/Utilits";
+import usePayment from "../../Hooks/usePayment";
+import { useNavigate } from "react-router-dom";
 
 const EmployeeForm = () => {
+  const [paymentStatus, isLoading, refetch] = usePayment();
   const { userSignUp, updateUserProfile, googleLogin } = useAuth();
   const axiosPublic = useAxiosPublic();
-
+  const navigate = useNavigate();
   const handleSocialLogin = () => {
     googleLogin()
       .then(async (result) => {
@@ -18,9 +21,12 @@ const EmployeeForm = () => {
               name: result.user.displayName,
               email: result.user.email,
               date_of_birth: null,
+              photo: result.user.photoURL || null,
             }
           );
           console.log(data);
+          refetch();
+          navigate("/employeeHome");
         } catch (error) {
           console.log(error);
         }
@@ -30,37 +36,35 @@ const EmployeeForm = () => {
       });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
     const date = form.date.value;
+    const photo = form.photo.files[0];
 
-    userSignUp(email, password)
-      .then((result) => {
-        console.log(result);
-        updateUserProfile({ displayName: name, photoURL: null })
-          .then(async () => {
-            try {
-              const { data } = await axiosPublic.post(`/employees/${email}`, {
-                name,
-                email,
-                date_of_birth: date,
-              });
-              console.log(data);
-            } catch (error) {
-              console.log(error);
-            }
-          })
-          .catch((error) => {
-            console.log("error from update", error);
-          });
-      })
-      .catch((error) => {
-        console.log(error);
+    try {
+      const logoUrl = await imageUpload(photo);
+      const result = await userSignUp(email, password);
+      console.log(result);
+
+      await updateUserProfile({ displayName: name, photoURL: logoUrl });
+      console.log("User profile updated");
+
+      const { data } = await axiosPublic.post(`/employees/${email}`, {
+        name,
+        email,
+        date,
+        image: logoUrl,
       });
+      console.log("Employee created:", data);
+      refetch();
+      navigate("/employeeHome");
+    } catch (error) {
+      console.error("Error creating employee:", error);
+    }
   };
 
   return (
@@ -69,7 +73,11 @@ const EmployeeForm = () => {
         Join as an Employee
       </h2>
       {/* Form Section */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4"
+        encType="multipart/form-data"
+      >
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Full Name
@@ -115,6 +123,17 @@ const EmployeeForm = () => {
             name="date"
             className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-[#F80136]"
             required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Profile Photo
+          </label>
+          <input
+            type="file"
+            name="photo"
+            accept="image/*"
+            className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-[#F80136]"
           />
         </div>
         <button

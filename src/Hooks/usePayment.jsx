@@ -5,6 +5,9 @@ import useAxiosSecure from "./useAxiosSecure";
 const usePayment = () => {
   const axiosSecure = useAxiosSecure();
   const { user, loading } = useAuth();
+
+  console.log("User email:", user?.email);
+
   const {
     data: paymentStatus = [],
     isLoading,
@@ -12,10 +15,15 @@ const usePayment = () => {
   } = useQuery({
     queryKey: ["payment", user?.email],
     queryFn: async () => {
-      const { data } = await axiosSecure(`/payment/status/${user?.email}`);
+      if (!user?.email) {
+        throw new Error("User email is undefined");
+      }
+      const { data } = await axiosSecure(`/payment/status/${user.email}`);
       return data;
     },
+    enabled: !!user?.email,
   });
+
   return [paymentStatus, isLoading, refetch];
 };
 
