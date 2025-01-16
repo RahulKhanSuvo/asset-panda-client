@@ -17,7 +17,7 @@ const AddEmployee = () => {
   const {
     employeeCount,
     isLoading: isCountLoading,
-    refetch,
+    refetch: refetchCount,
   } = useEmployeeCount();
   const navigate = useNavigate();
   const [selectedEmployees, setSelectedEmployees] = useState([]);
@@ -73,7 +73,7 @@ const AddEmployee = () => {
 
     try {
       // Add employee to the team
-      const { data } = await axiosSecure.post("/addTeam", {
+      await axiosSecure.post("/addTeam", {
         ...addTeamData,
         memberId: employeeData._id,
         memberName: employeeData.name,
@@ -83,8 +83,7 @@ const AddEmployee = () => {
       });
       employeeRefetch();
       refetchTeam();
-
-      // Success alert
+      refetchCount();
       Swal.fire({
         icon: "success",
         toast: true,
