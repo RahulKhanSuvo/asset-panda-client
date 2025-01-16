@@ -1,10 +1,12 @@
+import { Elements } from "@stripe/react-stripe-js";
+const stripePromise = loadStripe("pk_test_6pRNASCoBOKtIshFeQd4XMUh");
 const PurchaseModal = ({ isOpen, setIsModalOpen, title, description }) => {
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
         {/* Modal Title */}
-
+        <Elements></Elements>
         {/* Modal Actions */}
         <div className="mt-6 flex justify-center space-x-4">
           <button

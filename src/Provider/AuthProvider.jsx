@@ -11,12 +11,14 @@ import {
 } from "firebase/auth";
 import auth from "../firebase/firebase.config";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
+import usePayment from "../Hooks/usePayment";
 
 const AuthProvider = ({ children }) => {
   const axiosPublic = useAxiosPublic();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const googleProvider = new GoogleAuthProvider();
+
   // create an user
   const userSignUp = (email, password) => {
     setLoading(true);
@@ -55,22 +57,6 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
       setLoading(false);
       console.log("current use=>", currentUser);
-      // if (currentUser) {
-      //   // get token
-      //   try {
-      //     const userInfo = { email: currentUser.email };
-      //     const { data } = await axiosPublic.post("/jwt", userInfo);
-      //     if (data.token) {
-      //       localStorage.setItem("access-token", data.token);
-      //     }
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
-      // } else {
-      //   // todo remove token
-      //   localStorage.removeItem("access-token");
-      // }
-      // setLoading(false);
     });
     return () => {
       unsubscribe();
