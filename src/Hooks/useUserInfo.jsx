@@ -7,7 +7,7 @@ const useUserInfo = () => {
   const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
   const { data: userInfo = [], isLoading } = useQuery({
-    queryKey: ["employeeCount", user?.email],
+    queryKey: ["employeeInfo", user?.email],
     queryFn: async () => {
       const { data } = await axiosPublic(`/users/${user?.email}`);
       return data;

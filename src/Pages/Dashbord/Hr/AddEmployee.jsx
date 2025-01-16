@@ -6,20 +6,23 @@ import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useEmployeeCount from "../../../Hooks/useEmployeeCount";
 import useUserInfo from "../../../Hooks/useUserInfo";
-
+import useTeam from "../../../Hooks/useTeam";
+import Swal from "sweetalert2";
 const AddEmployee = () => {
   const axiosSecure = useAxiosSecure();
   const { userInfo } = useUserInfo();
-
   const { user } = useAuth();
+  const { team, refetch: refetchTeam } = useTeam();
+  console.log("team", team);
   const {
     employeeCount,
     isLoading: isCountLoading,
     refetch,
   } = useEmployeeCount();
+  console.log(employeeCount);
   const navigate = useNavigate();
   const [selectedEmployees, setSelectedEmployees] = useState([]);
-  console.log(selectedEmployees);
+
   // Fetch free employees
   const {
     data: employees = [],
@@ -51,8 +54,7 @@ const AddEmployee = () => {
         : [...prev, employeeId]
     );
   };
-  console.log("empl", employees);
-  console.log(userInfo);
+
   const addTeamData = {
     companyName: userInfo.companyName,
     companyLogo: userInfo.companyLogo,
@@ -60,8 +62,18 @@ const AddEmployee = () => {
   };
   // Add selected members to the team
   const handleAddToTeam = async (employeeData) => {
-    console.log(employeeData);
+    if (team.length >= employeeCount?.members) {
+      Swal.fire({
+        toast: true,
+        icon: "error",
+        title: "Limit Exceeded",
+        text: "Adding this member exceeds your team limit. Increase your limit.",
+      });
+      return;
+    }
+
     try {
+      // Add employee to the team
       const { data } = await axiosSecure.post("/addTeam", {
         ...addTeamData,
         memberId: employeeData._id,
@@ -70,10 +82,26 @@ const AddEmployee = () => {
         memberEmail: employeeData.email,
         memberImage: employeeData.image,
       });
-      console.log(data);
       employeeRefetch();
+      refetchTeam();
+
+      // Success alert
+      Swal.fire({
+        icon: "success",
+        toast: true,
+        title: "Success",
+        text: `${employeeData.name} has been added to the team.`,
+      });
     } catch (error) {
       console.log(error);
+
+      // Error alert
+      Swal.fire({
+        icon: "error",
+        toast: true,
+        title: "Error",
+        text: "Failed to add the member. Please try again later.",
+      });
     }
   };
 
@@ -93,10 +121,10 @@ const AddEmployee = () => {
         <div className="p-4 border rounded-md bg-gray-50 mb-8">
           <h2 className="text-xl font-semibold mb-2">Package Information</h2>
           <p>
-            <strong>Current Team Members:</strong> {employeeCount?.members || 0}
+            <strong>Current Team Members:</strong> {team.length}
           </p>
           <p>
-            <strong>Package Limit:</strong> {employeeCount?.limit || 0}
+            <strong>Team Limit:</strong> {employeeCount?.members || 0}
           </p>
           <button
             onClick={handleIncreaseLimit}
