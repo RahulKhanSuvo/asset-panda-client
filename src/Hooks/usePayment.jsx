@@ -5,9 +5,6 @@ import useAxiosSecure from "./useAxiosSecure";
 const usePayment = () => {
   const axiosSecure = useAxiosSecure();
   const { user, loading } = useAuth();
-
-  console.log("User email:", user?.email);
-
   const {
     data: paymentStatus = [],
     isLoading,
