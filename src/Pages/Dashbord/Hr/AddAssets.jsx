@@ -10,7 +10,7 @@ const AddAssets = () => {
     const form = e.target;
     const name = form.name.value;
     const productType = form.productType.value;
-    const quantity = form.quantity.value;
+    const quantity = parseInt(form.quantity.value);
     const photo = form.photo.files[0];
     const productData = {
       name,
@@ -70,8 +70,8 @@ const AddAssets = () => {
               name="productType"
               id=""
             >
-              <option value="returnable ">Returnable </option>
-              <option value="non-returnable "> Non-returnable </option>
+              <option value="returnable">Returnable </option>
+              <option value="non-returnable"> Non-returnable </option>
             </select>
           </div>
           <label className="block text-sm font-medium text-gray-700 mb-1">

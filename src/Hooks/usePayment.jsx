@@ -11,14 +11,11 @@ const usePayment = () => {
     refetch,
   } = useQuery({
     queryKey: ["payment", user?.email],
+    enabled: !!user?.email,
     queryFn: async () => {
-      if (!user?.email) {
-        throw new Error("User email is undefined");
-      }
       const { data } = await axiosSecure(`/payment/status/${user.email}`);
       return data;
     },
-    enabled: !!user?.email,
   });
 
   return [paymentStatus, isLoading, refetch];
