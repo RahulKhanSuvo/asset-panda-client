@@ -19,7 +19,6 @@ const AddEmployee = () => {
     isLoading: isCountLoading,
     refetch,
   } = useEmployeeCount();
-  console.log(employeeCount);
   const navigate = useNavigate();
   const [selectedEmployees, setSelectedEmployees] = useState([]);
 

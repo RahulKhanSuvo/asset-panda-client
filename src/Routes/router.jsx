@@ -9,6 +9,7 @@ import EmployeeHome from "../Pages/Dashbord/Employee/EmployeeHome";
 import HrHome from "../Pages/Dashbord/Hr/HrHome";
 import AddEmployee from "../Pages/Dashbord/Hr/AddEmployee";
 import Package from "../Components/Package";
+import MyEmployeeList from "../Pages/Dashbord/Hr/MyEmployeeList";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
         path: "/hrHome",
         element: <HrHome></HrHome>,
+      },
+      {
+        path: "/hr/myEmployee",
+        element: <MyEmployeeList></MyEmployeeList>,
       },
       {
         path: "/hr/addEmployee",
