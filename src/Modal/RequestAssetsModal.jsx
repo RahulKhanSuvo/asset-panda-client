@@ -52,7 +52,7 @@ const RequestAssetsModal = ({ isOpen, setIsOpen, asset }) => {
           </label>
           <textarea
             id="notes"
-            onClick={(e) => setNotes(e.target.value)}
+            onChange={(e) => setNotes(e.target.value)}
             rows="4"
             className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="Add your notes here..."
