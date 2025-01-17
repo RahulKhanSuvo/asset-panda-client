@@ -38,23 +38,6 @@ const AssetsRequest = () => {
     enabled: !!userDetails?.hrEmail,
   });
 
-  if (isLoading) {
-    return (
-      <Container>
-        <div className="flex justify-center items-center">
-          <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500"></div>
-        </div>
-      </Container>
-    );
-  }
-
-  if (isError) {
-    return (
-      <Container>
-        <p className="text-center text-red-500">Failed to fetch assets.</p>
-      </Container>
-    );
-  }
   const handelRequest = (asset) => {
     setSelectedAsset(asset);
     setIsModalOpen(true);

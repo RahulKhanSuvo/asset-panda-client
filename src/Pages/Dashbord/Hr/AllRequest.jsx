@@ -10,13 +10,12 @@ const AllRequest = () => {
   const axiosSecure = useAxiosSecure();
   const [search, setSearch] = useState("");
 
-  // Fetch all requests
   const {
     data: requests,
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["allRequest", search, user?.email],
+    queryKey: ["allRequestOne", search, user?.email],
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/hr/allRequest/${user?.email}`, {
         params: {
@@ -27,24 +26,6 @@ const AllRequest = () => {
     },
     enabled: !!user?.email,
   });
-
-  // Loading state
-  if (isLoading) {
-    return (
-      <Container>
-        <p className="text-center text-blue-500">Loading requests...</p>
-      </Container>
-    );
-  }
-
-  // Error state
-  if (isError) {
-    return (
-      <Container>
-        <p className="text-center text-red-500">Failed to load requests.</p>
-      </Container>
-    );
-  }
 
   return (
     <Container>
