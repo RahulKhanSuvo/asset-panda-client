@@ -1,11 +1,36 @@
-const RequestAssetsModal = ({ isOpen, setIsOpen, asset }) => {
-  if (!isOpen) return null;
-  console.log(asset);
-  const handleRequest = () => {
-    console.log("Request submitted");
-    setIsOpen(false);
-  };
+import { useState } from "react";
+import useAuth from "../Hooks/useAuth";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
+import showToast from "../Components/ShowToast";
 
+const RequestAssetsModal = ({ isOpen, setIsOpen, asset }) => {
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  console.log(asset);
+  const [notes, setNotes] = useState("");
+
+  const handleRequest = async () => {
+    try {
+      const { data } = await axiosSecure.post("/assetRequest", {
+        assetId: asset?._id,
+        assetName: asset?.name,
+        assetType: asset?.productType,
+        hrEmail: asset?.hrEmail,
+        reqEmail: user?.email,
+        reqName: user.displayName,
+        notes: notes,
+        status: "pending",
+        requestDate: new Date().toISOString(),
+      });
+      console.log(data);
+      showToast("Request Sent Successfully");
+      setIsOpen(false);
+    } catch (error) {
+      console.log(error);
+      showToast(`${error.message}`, "error");
+    }
+  };
+  if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
       <div className="bg-white w-full max-w-md p-6 rounded-md shadow-lg">
@@ -27,6 +52,7 @@ const RequestAssetsModal = ({ isOpen, setIsOpen, asset }) => {
           </label>
           <textarea
             id="notes"
+            onClick={(e) => setNotes(e.target.value)}
             rows="4"
             className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="Add your notes here..."
