@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { IoIosCloseCircle } from "react-icons/io";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
-import { imageUpload } from "../API/Utilits";
 import useAuth from "../Hooks/useAuth";
-import { useState } from "react";
+
 import showToast from "../Components/ShowToast";
 
 const AssetsUpdateModal = ({ isOpen, setIsModalOpen, updateId, refetch }) => {

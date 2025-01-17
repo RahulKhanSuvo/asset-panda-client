@@ -1,27 +1,28 @@
-import { imageUpload } from "../../../API/Utilits";
+import { useState } from "react";
 import showToast from "../../../Components/ShowToast";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { ImSpinner3 } from "react-icons/im";
 const AddAssets = () => {
   const { user } = useAuth();
+  const [addLoading, setAddLoading] = useState(false);
   const axiosSecure = useAxiosSecure();
   const handleAddAsset = async (e) => {
     e.preventDefault();
+    setAddLoading(true);
     const form = e.target;
     const name = form.name.value;
     const productType = form.productType.value;
     const quantity = parseInt(form.quantity.value);
-    const photo = form.photo.files[0];
     const productData = {
       name,
       productType,
       quantity,
     };
     try {
-      const photoUrl = await imageUpload(photo);
       const { data } = await axiosSecure.post("/addedAsset", {
         ...productData,
-        image: photoUrl,
+
         hrEmail: user?.email,
       });
       console.log(data);
@@ -30,6 +31,8 @@ const AddAssets = () => {
     } catch (error) {
       console.log(error);
       showToast("please try again", "error");
+    } finally {
+      setAddLoading(false);
     }
   };
 
@@ -73,15 +76,6 @@ const AddAssets = () => {
               <option value="non-returnable"> Non-returnable </option>
             </select>
           </div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Profile Photo
-          </label>
-          <input
-            type="file"
-            name="photo"
-            accept="image/*"
-            className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-indigo-500 focus:border-indigo-500"
-          />
           <div>
             <label
               htmlFor="productQuantity"
@@ -103,7 +97,7 @@ const AddAssets = () => {
             type="submit"
             className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
           >
-            Add
+            {!addLoading ? "Add" : <ImSpinner3 className="animate-spin" />}
           </button>
         </form>
       </div>

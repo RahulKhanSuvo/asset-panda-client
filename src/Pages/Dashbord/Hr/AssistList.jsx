@@ -50,10 +50,8 @@ const AssistList = () => {
   return (
     <Container>
       <div className="rounded-lg bg-[#DAE1F3] p-6">
-        {/* Search Section */}
         <div className="flex justify-between items-center">
           {" "}
-          {/* Filter Section */}
           <div className="flex flex-wrap gap-4 mb-4">
             {/* Stock Status Filter */}
             <div>
