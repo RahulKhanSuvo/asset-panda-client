@@ -3,9 +3,12 @@ import { FaUserCircle } from "react-icons/fa";
 import useAuth from "../../../Hooks/useAuth";
 import usePayment from "../../../Hooks/usePayment";
 import Container from "../../../Components/Container";
-
+import logoFav from "../../../assets/Logo/AssetPandaLogoSVG.svg";
+import useUserStatus from "../../../Hooks/useUserStatus";
 const NavBar = () => {
   const [paymentStatus, isLoading, refetch] = usePayment();
+  const { userInfo } = useUserStatus();
+  console.log(userInfo);
   const { user, logOut } = useAuth();
   console.log(paymentStatus.role);
   const employeeLinks = (
@@ -30,8 +33,8 @@ const NavBar = () => {
     </>
   );
   const handleLogout = () => {
-    refetch();
     logOut();
+    refetch();
   };
   const guestLinks = (
     <>
@@ -44,27 +47,35 @@ const NavBar = () => {
   return (
     <nav className="bg-[#262E40]">
       <Container>
-        <div className="flex justify-between items-center py-4 sticky top-0  z-10 text-white shadow-md">
+        <div className="flex justify-between items-center py-4 top-0  z-10 text-white shadow-md">
           {/* Logo */}
           <div>
-            <img
-              className="w-24"
-              src={
-                paymentStatus.role === "employee"
-                  ? user?.companyLogo
-                  : "/default-logo.svg"
-              }
-              alt="Logo"
-            />
+            {user?.email ? (
+              <>
+                {userInfo?.role === "hr" || userInfo?.role === "employee" ? (
+                  <img src={userInfo?.companyLogo} alt="Company Logo" />
+                ) : (
+                  <img className="w-24" src={logoFav} alt="Default Logo" />
+                )}
+              </>
+            ) : (
+              <img className="w-24" src={logoFav} alt="Default Logo" />
+            )}
           </div>
 
           {/* Navigation Links */}
           <div className="flex gap-6">
-            {paymentStatus.role === "hr"
-              ? hrLinks
-              : paymentStatus.role === "employee"
-              ? employeeLinks
-              : guestLinks}
+            {user?.email ? (
+              <>
+                {paymentStatus?.role === "hr"
+                  ? hrLinks
+                  : paymentStatus?.role === "employee"
+                  ? employeeLinks
+                  : null}
+              </>
+            ) : (
+              <>{guestLinks}</>
+            )}
           </div>
 
           {/* User Profile and Authentication */}

@@ -10,11 +10,12 @@ const LoginPage = () => {
         console.log(result.user);
         try {
           const { data } = await axiosPublic.post(
-            `/employees/${result.user.email}`,
+            `/employees/${result?.user?.email}`,
             {
-              name: result.user.displayName,
-              email: result.user.email,
+              name: result?.user?.displayName,
+              email: result?.user?.email,
               date_of_birth: null,
+              photo: result?.user?.photoURL,
             }
           );
           console.log(data);

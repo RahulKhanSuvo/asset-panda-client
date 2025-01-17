@@ -35,7 +35,7 @@ const AddEmployee = () => {
     },
     enabled: !!user?.email,
   });
-
+  console.log(employees);
   if (isLoading || isCountLoading) {
     return <div>Loading...</div>;
   }
