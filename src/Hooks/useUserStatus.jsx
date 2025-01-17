@@ -4,7 +4,6 @@ import useAxiosPublic from "./useAxiosPublic";
 
 const useUserStatus = () => {
   const { user } = useAuth();
-  console.log(user);
   const axiosPublic = useAxiosPublic();
   const {
     data: userDetails,

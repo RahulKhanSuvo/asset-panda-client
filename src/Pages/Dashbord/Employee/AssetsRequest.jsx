@@ -3,13 +3,15 @@ import Container from "../../../Components/Container";
 import { useQuery } from "@tanstack/react-query";
 import useUserStatus from "../../../Hooks/useUserStatus";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import RequestAssetsModal from "../../../Modal/RequestAssetsModal";
 
 const AssetsRequest = () => {
   const { userDetails } = useUserStatus();
   const axiosSecure = useAxiosSecure();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
-
+  const [selectedAsset, setSelectedAsset] = useState(null);
   const {
     data: assets,
     isLoading,
@@ -53,6 +55,10 @@ const AssetsRequest = () => {
       </Container>
     );
   }
+  const handelRequest = (asset) => {
+    setSelectedAsset(asset);
+    setIsModalOpen(true);
+  };
   console.log(assets);
   return (
     <Container>
@@ -107,7 +113,11 @@ const AssetsRequest = () => {
                   <td>{asset.productType}</td>
                   <td>{asset.quantity > 0 ? "Available" : "Out of stock"}</td>
                   <td>
-                    <button disabled={asset?.quantity <= 0} className="btn">
+                    <button
+                      onClick={() => handelRequest(asset)}
+                      disabled={asset?.quantity <= 0}
+                      className="btn"
+                    >
                       Request
                     </button>
                   </td>
@@ -122,6 +132,11 @@ const AssetsRequest = () => {
             )}
           </tbody>
         </table>
+        <RequestAssetsModal
+          setIsOpen={setIsModalOpen}
+          isOpen={isModalOpen}
+          asset={selectedAsset}
+        ></RequestAssetsModal>
       </div>
     </Container>
   );
