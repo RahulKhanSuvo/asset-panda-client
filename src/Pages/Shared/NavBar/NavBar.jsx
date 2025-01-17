@@ -8,9 +8,8 @@ import useUserStatus from "../../../Hooks/useUserStatus";
 const NavBar = () => {
   const [paymentStatus, isLoading, refetch] = usePayment();
   const { userDetails } = useUserStatus();
-  console.log(userDetails);
   const { user, logOut } = useAuth();
-  console.log(paymentStatus.role);
+
   const employeeLinks = (
     <>
       <NavLink to={"/employeeHome"}>Home</NavLink>

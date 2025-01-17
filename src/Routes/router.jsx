@@ -15,6 +15,9 @@ import AssistList from "../Pages/Dashbord/Hr/AssistList";
 import MyTeam from "../Pages/Dashbord/Employee/MyTeam";
 import AssetsRequest from "../Pages/Dashbord/Employee/AssetsRequest";
 import AllRequest from "../Pages/Dashbord/Hr/AllRequest";
+import MyAssets from "../Pages/Dashbord/Employee/MyAssets";
+import PrivateRouter from "./PrivateRouter";
+import EmployeeRoute from "./EmployeeRoute";
 
 export const router = createBrowserRouter([
   {
@@ -40,49 +43,110 @@ export const router = createBrowserRouter([
       },
       {
         path: "/payment",
-        element: <Payment></Payment>,
+        element: (
+          <PrivateRouter>
+            <Payment></Payment>
+          </PrivateRouter>
+        ),
       },
       // employee routes
       {
         path: "/employee/requestAsset",
-        element: <AssetsRequest></AssetsRequest>,
+        element: (
+          <PrivateRouter>
+            <EmployeeRoute>
+              <AssetsRequest></AssetsRequest>
+            </EmployeeRoute>
+          </PrivateRouter>
+        ),
       },
       {
         path: "/employeeHome",
-        element: <EmployeeHome></EmployeeHome>,
+        element: (
+          <PrivateRouter>
+            <EmployeeRoute>
+              <EmployeeHome></EmployeeHome>
+            </EmployeeRoute>
+          </PrivateRouter>
+        ),
       },
       {
         path: "/employee/myTeam",
-        element: <MyTeam></MyTeam>,
+        element: (
+          <PrivateRouter>
+            <EmployeeRoute>
+              <MyTeam></MyTeam>
+            </EmployeeRoute>
+          </PrivateRouter>
+        ),
+      },
+      {
+        path: "/employee/myAssets",
+        element: (
+          <PrivateRouter>
+            <EmployeeRoute>
+              <MyAssets></MyAssets>
+            </EmployeeRoute>
+          </PrivateRouter>
+        ),
       },
       // hr routes
       {
         path: "/hrHome",
-        element: <HrHome></HrHome>,
+        element: (
+          <PrivateRouter>
+            <HrHome></HrHome>
+          </PrivateRouter>
+        ),
       },
       {
         path: "/hr/myEmployee",
-        element: <MyEmployeeList></MyEmployeeList>,
+        element: (
+          <PrivateRouter>
+            <MyEmployeeList></MyEmployeeList>
+          </PrivateRouter>
+        ),
       },
       {
         path: "/hr/addEmployee",
-        element: <AddEmployee></AddEmployee>,
+        element: (
+          <PrivateRouter>
+            <AddEmployee></AddEmployee>
+          </PrivateRouter>
+        ),
       },
       {
         path: "/hr/addAssets",
-        element: <AddAssets></AddAssets>,
+        element: (
+          <PrivateRouter>
+            <AddAssets></AddAssets>
+          </PrivateRouter>
+        ),
       },
       {
         path: "/packages",
-        element: <Package></Package>,
+        element: (
+          <PrivateRouter>
+            <Package></Package>
+          </PrivateRouter>
+        ),
       },
       {
         path: "/hr/assets",
-        element: <AssistList></AssistList>,
+        element: (
+          <PrivateRouter>
+            <AssistList></AssistList>
+          </PrivateRouter>
+        ),
       },
       {
         path: "/hr/allRequests",
-        element: <AllRequest></AllRequest>,
+        element: (
+          <PrivateRouter>
+            {" "}
+            <AllRequest></AllRequest>
+          </PrivateRouter>
+        ),
       },
     ],
   },
