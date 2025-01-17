@@ -17,7 +17,6 @@ const AddAssets = () => {
       productType,
       quantity,
     };
-    console.log(productData);
     try {
       const photoUrl = await imageUpload(photo);
       const { data } = await axiosSecure.post("/addedAsset", {

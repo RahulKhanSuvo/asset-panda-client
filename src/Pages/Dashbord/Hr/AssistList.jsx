@@ -2,17 +2,20 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Container from "../../../Components/Container";
+import { FaRegEdit } from "react-icons/fa";
 import { useState } from "react";
 import { format } from "date-fns";
 import { FiTrash2 } from "react-icons/fi";
 import showToast from "../../../Components/ShowToast";
+import AssetsUpdateModal from "../../../Modal/AssetsUpdateModal";
 const AssistList = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState("default");
+  const [updateId, setUpdateId] = useState("");
   const { data: assets = [], refetch } = useQuery({
     queryKey: ["assetsList", user?.email, searchQuery, filterStatus, sortOrder],
     enabled: !!user?.email,
@@ -37,6 +40,12 @@ const AssistList = () => {
       console.log(error);
       showToast(`${error.message}`, "error");
     }
+  };
+
+  // handel edit
+  const handleEdit = async (id) => {
+    setUpdateId(id);
+    setIsModalOpen(true);
   };
   return (
     <Container>
@@ -118,6 +127,12 @@ const AssistList = () => {
                     </td>
                     <td>
                       <button
+                        onClick={() => handleEdit(asset._id)}
+                        className="text-[#6474E2] mr-4"
+                      >
+                        <FaRegEdit size={20} />
+                      </button>
+                      <button
                         onClick={() => handleDelete(asset._id)}
                         className=" text-[#F05206]"
                       >
@@ -130,6 +145,12 @@ const AssistList = () => {
             </table>
           </div>
         </div>
+        <AssetsUpdateModal
+          refetch={refetch}
+          isOpen={isModalOpen}
+          updateId={updateId}
+          setIsModalOpen={setIsModalOpen}
+        ></AssetsUpdateModal>
       </div>
     </Container>
   );
