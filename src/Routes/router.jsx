@@ -14,6 +14,7 @@ import AddAssets from "../Pages/Dashbord/Hr/AddAssets";
 import AssistList from "../Pages/Dashbord/Hr/AssistList";
 import MyTeam from "../Pages/Dashbord/Employee/MyTeam";
 import AssetsRequest from "../Pages/Dashbord/Employee/AssetsRequest";
+import AllRequest from "../Pages/Dashbord/Hr/AllRequest";
 
 export const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ export const router = createBrowserRouter([
       {
         path: "/hr/assets",
         element: <AssistList></AssistList>,
+      },
+      {
+        path: "/hr/allRequests",
+        element: <AllRequest></AllRequest>,
       },
     ],
   },
