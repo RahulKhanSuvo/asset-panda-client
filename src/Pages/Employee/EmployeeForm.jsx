@@ -21,7 +21,7 @@ const EmployeeForm = () => {
               name: result.user.displayName,
               email: result.user.email,
               date_of_birth: null,
-              photo: result.user.photoURL || null,
+              image: result.user.photoURL || null,
             }
           );
           console.log(data);

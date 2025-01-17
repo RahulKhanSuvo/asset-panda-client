@@ -12,6 +12,8 @@ import Package from "../Components/Package";
 import MyEmployeeList from "../Pages/Dashbord/Hr/MyEmployeeList";
 import AddAssets from "../Pages/Dashbord/Hr/AddAssets";
 import AssistList from "../Pages/Dashbord/Hr/AssistList";
+import MyTeam from "../Pages/Dashbord/Employee/MyTeam";
+import AssetsRequest from "../Pages/Dashbord/Employee/AssetsRequest";
 
 export const router = createBrowserRouter([
   {
@@ -41,8 +43,16 @@ export const router = createBrowserRouter([
       },
       // employee routes
       {
+        path: "/employee/requestAsset",
+        element: <AssetsRequest></AssetsRequest>,
+      },
+      {
         path: "/employeeHome",
         element: <EmployeeHome></EmployeeHome>,
+      },
+      {
+        path: "/employee/myTeam",
+        element: <MyTeam></MyTeam>,
       },
       // hr routes
       {

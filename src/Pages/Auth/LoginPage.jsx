@@ -15,7 +15,7 @@ const LoginPage = () => {
               name: result?.user?.displayName,
               email: result?.user?.email,
               date_of_birth: null,
-              photo: result?.user?.photoURL,
+              image: result?.user?.photoURL,
             }
           );
           console.log(data);

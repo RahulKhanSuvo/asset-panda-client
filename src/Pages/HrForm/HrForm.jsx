@@ -17,6 +17,7 @@ const HrForm = () => {
     const dateOfBirth = form.dateOfBirth.value;
     const packageOption = parseInt(form.package.value);
     const companyLogo = form.companyLogo.files[0];
+    const profilePhoto = form.photo.files[0];
     console.log({
       fullName,
       companyName,
@@ -26,10 +27,11 @@ const HrForm = () => {
       companyLogo,
     });
     const logoUrl = await imageUpload(companyLogo);
+    const profileUrl = await imageUpload(profilePhoto);
     userSignUp(email, password)
       .then((result) => {
         console.log(result);
-        updateUserProfile({ displayName: fullName, photoURL: null })
+        updateUserProfile({ displayName: fullName, photoURL: profileUrl })
           .then(async () => {
             try {
               const { data } = await axiosPublic.post(`/hr/${email}`, {
@@ -151,7 +153,17 @@ const HrForm = () => {
               required
             />
           </div>
-
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Profile Photo
+            </label>
+            <input
+              type="file"
+              name="photo"
+              accept="image/*"
+              className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-[#F80136]"
+            />
+          </div>
           {/* Date of Birth */}
           <div>
             <label

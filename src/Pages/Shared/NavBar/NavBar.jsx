@@ -7,8 +7,8 @@ import logoFav from "../../../assets/Logo/AssetPandaLogoSVG.svg";
 import useUserStatus from "../../../Hooks/useUserStatus";
 const NavBar = () => {
   const [paymentStatus, isLoading, refetch] = usePayment();
-  const { userInfo } = useUserStatus();
-  console.log(userInfo);
+  const { userDetails } = useUserStatus();
+  console.log(userDetails);
   const { user, logOut } = useAuth();
   console.log(paymentStatus.role);
   const employeeLinks = (
@@ -52,8 +52,13 @@ const NavBar = () => {
           <div>
             {user?.email ? (
               <>
-                {userInfo?.role === "hr" || userInfo?.role === "employee" ? (
-                  <img src={userInfo?.companyLogo} alt="Company Logo" />
+                {userDetails?.role === "hr" ||
+                userDetails?.role === "employee" ? (
+                  <img
+                    className="size-12"
+                    src={userDetails?.companyLogo}
+                    alt="Company Logo"
+                  />
                 ) : (
                   <img className="w-24" src={logoFav} alt="Default Logo" />
                 )}
