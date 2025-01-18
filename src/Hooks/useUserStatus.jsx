@@ -9,15 +9,15 @@ const useUserStatus = () => {
     data: userDetails,
     isLoading,
     isError,
+    refetch,
   } = useQuery({
     queryKey: ["userStatus", user?.email],
     queryFn: async () => {
       const { data } = await axiosPublic(`/userStatus/${user?.email}`);
       return data;
     },
-    enabled: !!user?.email,
   });
-  return { userDetails, isLoading, isError };
+  return { userDetails, isLoading, isError, refetch };
 };
 
 export default useUserStatus;

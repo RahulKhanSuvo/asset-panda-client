@@ -5,12 +5,13 @@ import { useNavigate } from "react-router-dom";
 import usePayment from "../Hooks/usePayment";
 import useAuth from "../Hooks/useAuth";
 import Swal from "sweetalert2";
+import useUserStatus from "../Hooks/useUserStatus";
 const CheckoutForm = () => {
   const { user } = useAuth();
+  const { refetch } = useUserStatus();
   const [paymentStatus, isLoading] = usePayment();
   const [clientSecret, setClientSecret] = useState("");
   const navigate = useNavigate();
-
   const [error, setError] = useState("");
   const axiosSecure = useAxiosSecure();
   const stripe = useStripe();
@@ -76,7 +77,7 @@ const CheckoutForm = () => {
           paymentId: paymentIntent.id,
         };
         try {
-          axiosSecure.post("/paymentDone", payment);
+          await axiosSecure.post("/paymentDone", payment);
           Swal.fire({
             toast: true,
             position: "top-end",
@@ -85,6 +86,7 @@ const CheckoutForm = () => {
             showConfirmButton: false,
             timer: 3000,
           });
+          refetch();
           navigate("/hrHome");
         } catch (error) {
           const errorMessage =
@@ -102,31 +104,45 @@ const CheckoutForm = () => {
     }
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <CardElement
-        options={{
-          style: {
-            base: {
-              fontSize: "16px",
-              color: "#424770",
-              "::placeholder": {
-                color: "#aab7c4",
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg"
+    >
+      <div className="mb-4">
+        <CardElement
+          options={{
+            style: {
+              base: {
+                fontSize: "16px",
+                color: "#424770",
+                "::placeholder": {
+                  color: "#aab7c4",
+                },
+              },
+              invalid: {
+                color: "#9e2146",
               },
             },
-            invalid: {
-              color: "#9e2146",
-            },
-          },
-        }}
-      />
+          }}
+          className="p-3 border rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500"
+        />
+      </div>
       <button
-        className="bg-red-500"
+        className={`w-full py-3 text-white font-semibold rounded-md transition-all ${
+          !stripe || !clientSecret
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-indigo-600 hover:bg-indigo-700"
+        }`}
         type="submit"
         disabled={!stripe || !clientSecret}
       >
         Pay
       </button>
-      <p className="text-red-600">{error}</p>
+      {error && (
+        <p className="mt-3 text-center text-sm text-red-600 font-medium">
+          {error}
+        </p>
+      )}
     </form>
   );
 };

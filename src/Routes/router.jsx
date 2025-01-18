@@ -18,6 +18,7 @@ import AllRequest from "../Pages/Dashbord/Hr/AllRequest";
 import MyAssets from "../Pages/Dashbord/Employee/MyAssets";
 import PrivateRouter from "./PrivateRouter";
 import EmployeeRoute from "./EmployeeRoute";
+import HrRouter from "./HrRouter";
 
 export const router = createBrowserRouter([
   {
@@ -95,7 +96,9 @@ export const router = createBrowserRouter([
         path: "/hrHome",
         element: (
           <PrivateRouter>
-            <HrHome></HrHome>
+            <HrRouter>
+              <HrHome></HrHome>
+            </HrRouter>
           </PrivateRouter>
         ),
       },
@@ -103,7 +106,9 @@ export const router = createBrowserRouter([
         path: "/hr/myEmployee",
         element: (
           <PrivateRouter>
-            <MyEmployeeList></MyEmployeeList>
+            <HrRouter>
+              <MyEmployeeList></MyEmployeeList>
+            </HrRouter>
           </PrivateRouter>
         ),
       },
@@ -111,7 +116,9 @@ export const router = createBrowserRouter([
         path: "/hr/addEmployee",
         element: (
           <PrivateRouter>
-            <AddEmployee></AddEmployee>
+            <HrRouter>
+              <AddEmployee></AddEmployee>
+            </HrRouter>
           </PrivateRouter>
         ),
       },
@@ -119,7 +126,9 @@ export const router = createBrowserRouter([
         path: "/hr/addAssets",
         element: (
           <PrivateRouter>
-            <AddAssets></AddAssets>
+            <HrRouter>
+              <AddAssets></AddAssets>
+            </HrRouter>
           </PrivateRouter>
         ),
       },
@@ -127,7 +136,9 @@ export const router = createBrowserRouter([
         path: "/packages",
         element: (
           <PrivateRouter>
-            <Package></Package>
+            <HrRouter>
+              <Package></Package>
+            </HrRouter>
           </PrivateRouter>
         ),
       },
@@ -135,7 +146,9 @@ export const router = createBrowserRouter([
         path: "/hr/assets",
         element: (
           <PrivateRouter>
-            <AssistList></AssistList>
+            <HrRouter>
+              <AssistList></AssistList>
+            </HrRouter>
           </PrivateRouter>
         ),
       },
@@ -143,8 +156,9 @@ export const router = createBrowserRouter([
         path: "/hr/allRequests",
         element: (
           <PrivateRouter>
-            {" "}
-            <AllRequest></AllRequest>
+            <HrRouter>
+              <AllRequest></AllRequest>
+            </HrRouter>
           </PrivateRouter>
         ),
       },
