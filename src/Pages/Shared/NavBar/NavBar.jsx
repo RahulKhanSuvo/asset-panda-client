@@ -1,15 +1,12 @@
 import { Link, NavLink } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import useAuth from "../../../Hooks/useAuth";
-import usePayment from "../../../Hooks/usePayment";
 import Container from "../../../Components/Container";
 import logoFav from "../../../assets/Logo/AssetPandaLogoSVG.svg";
 import useUserStatus from "../../../Hooks/useUserStatus";
 const NavBar = () => {
-  const [paymentStatus, isLoading, refetch] = usePayment();
   const { userDetails } = useUserStatus();
   const { user, logOut } = useAuth();
-
   const employeeLinks = (
     <>
       <NavLink to={"/employeeHome"}>Home</NavLink>
@@ -33,7 +30,6 @@ const NavBar = () => {
   );
   const handleLogout = () => {
     logOut();
-    refetch();
   };
   const guestLinks = (
     <>
@@ -49,7 +45,7 @@ const NavBar = () => {
         <div className="flex justify-between items-center py-4 top-0  z-10 text-white shadow-md">
           {/* Logo */}
           <div>
-            {user?.email ? (
+            {user?.email && userDetails?.companyLogo ? (
               <>
                 {userDetails?.role === "hr" ||
                 userDetails?.role === "employee" ? (
@@ -71,9 +67,9 @@ const NavBar = () => {
           <div className="flex gap-6">
             {user?.email ? (
               <>
-                {paymentStatus?.role === "hr"
+                {userDetails?.role === "hr"
                   ? hrLinks
-                  : paymentStatus?.role === "employee"
+                  : userDetails?.role === "employee"
                   ? employeeLinks
                   : null}
               </>
