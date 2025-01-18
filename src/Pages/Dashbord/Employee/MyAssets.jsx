@@ -16,7 +16,7 @@ const MyAssets = () => {
   const [statusFilter, setStatusFilter] = useState("");
   console.log(userDetails);
   const { data: assets = [] } = useQuery({
-    queryKey: ["myAssets", user?.email],
+    queryKey: ["myAssets", user?.email, searchQuery, statusFilter],
     queryFn: async () => {
       const { data } = await axiosSecure(
         `/employee/assetsList/${user?.email}`,
@@ -56,8 +56,8 @@ const MyAssets = () => {
             >
               <option value="all">Filter</option>
               <optgroup label="Stock Status">
-                <option value="available">Available</option>
-                <option value="out-of-stock">Out of Stock</option>
+                <option value="approved">Approved</option>
+                <option value="pending">Pending</option>
               </optgroup>
               <optgroup label="Asset Type">
                 <option value="returnable">Returnable</option>
