@@ -72,7 +72,7 @@ const PayForm = ({ price }) => {
           price: price,
         };
         try {
-          axiosSecure.patch("/paymentStatus/update", payment);
+          await axiosSecure.patch("/paymentStatus/update", payment);
           Swal.fire({
             toast: true,
             position: "top-end",

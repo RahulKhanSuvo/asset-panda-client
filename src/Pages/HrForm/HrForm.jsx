@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { imageUpload } from "../../API/Utilits";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import showToast from "../../Components/ShowToast";
 
 const HrForm = () => {
   const { userSignUp, updateUserProfile } = useAuth();
@@ -34,7 +35,7 @@ const HrForm = () => {
         updateUserProfile({ displayName: fullName, photoURL: profileUrl })
           .then(async () => {
             try {
-              const { data } = await axiosPublic.post(`/hr/${email}`, {
+              await axiosPublic.post(`/hr/${email}`, {
                 fullName,
                 email,
                 companyName,
@@ -42,14 +43,14 @@ const HrForm = () => {
                 packageOption,
                 companyLogo: logoUrl,
               });
-              console.log(data);
+              showToast("Successfully joined as HR Manager!");
               navigate("/payment");
             } catch (error) {
               console.log(error);
             }
           })
           .catch((error) => {
-            console.log("error from update", error);
+            showToast("Please try again", "error");
           });
       })
       .catch((error) => {
@@ -161,6 +162,7 @@ const HrForm = () => {
               type="file"
               name="photo"
               accept="image/*"
+              required
               className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-[#F80136]"
             />
           </div>

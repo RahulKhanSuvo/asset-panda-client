@@ -2,16 +2,13 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { useNavigate } from "react-router-dom";
-import usePayment from "../Hooks/usePayment";
 import useAuth from "../Hooks/useAuth";
 import Swal from "sweetalert2";
-import useUserStatus from "../Hooks/useUserStatus";
-const CheckoutForm = () => {
+const CheckoutForm = ({ price, refetch }) => {
   const { user } = useAuth();
-  const { refetch } = useUserStatus();
-  const [paymentStatus, isLoading] = usePayment();
   const [clientSecret, setClientSecret] = useState("");
   const navigate = useNavigate();
+
   const [error, setError] = useState("");
   const axiosSecure = useAxiosSecure();
   const stripe = useStripe();
@@ -21,7 +18,7 @@ const CheckoutForm = () => {
     const fetchPaymentIntent = async () => {
       try {
         const { data } = await axiosSecure.post("/create-payment-intent", {
-          price: paymentStatus?.packageOption,
+          price: price,
         });
         setClientSecret(data.clientSecret);
       } catch (err) {
@@ -29,10 +26,10 @@ const CheckoutForm = () => {
       }
     };
 
-    if (paymentStatus?.packageOption > 0) {
+    if (price > 0) {
       fetchPaymentIntent();
     }
-  }, [axiosSecure, paymentStatus?.packageOption]);
+  }, [axiosSecure, price]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!stripe || !elements) {
@@ -71,7 +68,7 @@ const CheckoutForm = () => {
       if (paymentIntent.status === "succeeded") {
         const payment = {
           email: user?.email,
-          price: paymentStatus?.packageOption,
+          price: price,
           date: new Date(),
           paymentStatus: "done",
           paymentId: paymentIntent.id,
@@ -86,9 +83,8 @@ const CheckoutForm = () => {
             showConfirmButton: false,
             timer: 3000,
           });
-          refetch();
-          navigate("/hrHome");
         } catch (error) {
+          console.log(error);
           const errorMessage =
             error.response?.data?.message || "An unexpected error occurred.";
           Swal.fire({
@@ -99,50 +95,48 @@ const CheckoutForm = () => {
             showConfirmButton: false,
             timer: 3000,
           });
+        } finally {
+          refetch();
+          navigate("/hrHome");
         }
       }
     }
   };
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg"
-    >
-      <div className="mb-4">
-        <CardElement
-          options={{
-            style: {
-              base: {
-                fontSize: "16px",
-                color: "#424770",
-                "::placeholder": {
-                  color: "#aab7c4",
+    <form onSubmit={handleSubmit}>
+      <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-md mx-auto">
+        <h2 className="text-xl font-bold mb-4 text-gray-700">
+          Payment Details
+        </h2>
+        <div className="w-full border p-4 rounded-lg bg-white shadow-sm">
+          <CardElement
+            options={{
+              style: {
+                base: {
+                  fontSize: "16px",
+                  color: "#424770",
+                  fontFamily: "Arial, sans-serif",
+                  "::placeholder": {
+                    color: "#aab7c4",
+                  },
+                },
+                invalid: {
+                  color: "#9e2146",
                 },
               },
-              invalid: {
-                color: "#9e2146",
-              },
-            },
-          }}
-          className="p-3 border rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500"
-        />
+            }}
+            className="bg-gray-50 border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+          />
+        </div>
+        <button
+          className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          type="submit"
+          disabled={!stripe || !clientSecret}
+        >
+          Pay
+        </button>
       </div>
-      <button
-        className={`w-full py-3 text-white font-semibold rounded-md transition-all ${
-          !stripe || !clientSecret
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-indigo-600 hover:bg-indigo-700"
-        }`}
-        type="submit"
-        disabled={!stripe || !clientSecret}
-      >
-        Pay
-      </button>
-      {error && (
-        <p className="mt-3 text-center text-sm text-red-600 font-medium">
-          {error}
-        </p>
-      )}
+      <p className="text-red-600 text-center">{error}</p>
     </form>
   );
 };

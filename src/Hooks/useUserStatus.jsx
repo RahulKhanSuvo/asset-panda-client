@@ -11,12 +11,13 @@ const useUserStatus = () => {
     isError,
     refetch,
   } = useQuery({
-    queryKey: ["userStatus", user?.email],
+    queryKey: ["userStatusOn", user?.email],
     queryFn: async () => {
       const { data } = await axiosPublic(`/userStatus/${user?.email}`);
       return data;
     },
   });
+
   return { userDetails, isLoading, isError, refetch };
 };
 

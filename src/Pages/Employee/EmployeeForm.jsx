@@ -4,6 +4,7 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { imageUpload } from "../../API/Utilits";
 import usePayment from "../../Hooks/usePayment";
 import { useNavigate } from "react-router-dom";
+import showToast from "../../Components/ShowToast";
 
 const EmployeeForm = () => {
   const [paymentStatus, isLoading, refetch] = usePayment();
@@ -13,18 +14,14 @@ const EmployeeForm = () => {
   const handleSocialLogin = () => {
     googleLogin()
       .then(async (result) => {
-        console.log(result.user);
         try {
-          const { data } = await axiosPublic.post(
-            `/employees/${result.user.email}`,
-            {
-              name: result.user.displayName,
-              email: result.user.email,
-              date_of_birth: null,
-              image: result.user.photoURL || null,
-            }
-          );
-          console.log(data);
+          await axiosPublic.post(`/employees/${result.user.email}`, {
+            name: result.user.displayName,
+            email: result.user.email,
+            date_of_birth: null,
+            image: result.user.photoURL || null,
+          });
+          showToast("account create successful");
           refetch();
           navigate("/employeeHome");
         } catch (error) {
@@ -131,6 +128,7 @@ const EmployeeForm = () => {
           </label>
           <input
             type="file"
+            required
             name="photo"
             accept="image/*"
             className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-[#F80136]"

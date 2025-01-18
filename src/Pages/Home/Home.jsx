@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import useUserStatus from "../../Hooks/useUserStatus";
@@ -10,22 +11,25 @@ const Home = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const { userDetails, isLoading } = useUserStatus();
-  if (isLoading || loading) {
-    return <LoadingSpinner></LoadingSpinner>;
-  }
-  if (user) {
-    if (userDetails?.role === "hr") {
-      return navigate("/hrHome");
-    } else if (userDetails?.role === "employee") {
-      return navigate("/employeeHome");
+  useEffect(() => {
+    if (!loading && !isLoading && user) {
+      if (userDetails?.role === "hr") {
+        navigate("/hrHome");
+      } else if (userDetails?.role === "employee") {
+        navigate("/employeeHome");
+      }
     }
+  }, [loading, isLoading, user, userDetails, navigate]);
+
+  if (loading || isLoading) {
+    return <LoadingSpinner />;
   }
 
   return (
     <div className="lg:container mx-auto">
-      <Banner></Banner>
-      <About></About>
-      <Packages></Packages>
+      <Banner />
+      <About />
+      <Packages />
     </div>
   );
 };

@@ -1,30 +1,33 @@
+import { useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useUserStatus from "../../Hooks/useUserStatus";
+import showToast from "../../Components/ShowToast";
 
 const LoginPage = () => {
   const { userSignIn, googleLogin } = useAuth();
+  const { refetch } = useUserStatus();
   const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
   const handleSocialLogin = () => {
     googleLogin()
       .then(async (result) => {
-        console.log(result.user);
         try {
-          const { data } = await axiosPublic.post(
-            `/employees/${result?.user?.email}`,
-            {
-              name: result?.user?.displayName,
-              email: result?.user?.email,
-              date_of_birth: null,
-              image: result?.user?.photoURL,
-            }
-          );
-          console.log(data);
+          await axiosPublic.post(`/employees/${result?.user?.email}`, {
+            name: result?.user?.displayName,
+            email: result?.user?.email,
+            date_of_birth: null,
+            image: result?.user?.photoURL,
+          });
+          navigate("/");
+          refetch();
+          showToast("login successful");
         } catch (error) {
-          console.log(error);
+          showToast("please try again", "error");
         }
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        showToast("please try again", "error");
       });
   };
   const handelLogin = (e) => {
@@ -34,11 +37,13 @@ const LoginPage = () => {
     const password = form.password.value;
     console.log(email);
     userSignIn(email, password)
-      .then((result) => {
-        console.log(result);
+      .then(() => {
+        refetch();
+        showToast("login successful");
+        navigate("/");
       })
       .catch((error) => {
-        console.log(error);
+        showToast("please try again", "error");
       });
   };
   return (

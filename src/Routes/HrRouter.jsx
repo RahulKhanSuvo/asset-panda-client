@@ -1,7 +1,6 @@
 import { Navigate } from "react-router-dom";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import useUserStatus from "../Hooks/useUserStatus";
-import Payment from "../Pages/Payment/Payment";
 
 const HrRouter = ({ children }) => {
   const { userDetails, isLoading } = useUserStatus();
