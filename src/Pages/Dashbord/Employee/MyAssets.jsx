@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import useUserStatus from "../../../Hooks/useUserStatus";
 import PrintableAsset from "../../../Components/PrintableAsset";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import showToast from "../../../Components/ShowToast";
 const MyAssets = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -15,7 +16,7 @@ const MyAssets = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   console.log(userDetails);
-  const { data: assets = [] } = useQuery({
+  const { data: assets = [], refetch } = useQuery({
     queryKey: ["myAssets", user?.email, searchQuery, statusFilter],
     queryFn: async () => {
       const { data } = await axiosSecure(
@@ -32,6 +33,16 @@ const MyAssets = () => {
   });
   const handelCancel = async (id) => {};
   console.log(assets);
+  const handelReturn = async (id) => {
+    try {
+      await axiosSecure.patch(`/employee/returnAsset/${id}`);
+      showToast("Asset Returned Successfully");
+      refetch();
+    } catch (error) {
+      console.log(error);
+      showToast(`${error.message}`, "error");
+    }
+  };
   return (
     <Container>
       <div className="p-4">
@@ -111,12 +122,19 @@ const MyAssets = () => {
                       >
                         Cancel
                       </button>
-                      {asset.status === "approved" &&
-                        asset.assetType === "returnable" && (
-                          <>
-                            <button className="btn btn-sm">Return</button>
-                          </>
-                        )}
+                      {(asset.status === "approved" &&
+                        asset.assetType === "returnable") ||
+                      asset.status === "returned" ? (
+                        <>
+                          <button
+                            disabled={asset.status === "returned"}
+                            onClick={() => handelReturn(asset._id)}
+                            className="btn btn-sm"
+                          >
+                            Return
+                          </button>
+                        </>
+                      ) : null}
                       {asset.status === "approved" && (
                         <PDFDownloadLink
                           document={
