@@ -111,6 +111,12 @@ const MyAssets = () => {
                       >
                         Cancel
                       </button>
+                      {asset.status === "approved" &&
+                        asset.assetType === "returnable" && (
+                          <>
+                            <button className="btn btn-sm">Return</button>
+                          </>
+                        )}
                       {asset.status === "approved" && (
                         <PDFDownloadLink
                           document={
