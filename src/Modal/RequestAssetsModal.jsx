@@ -20,7 +20,7 @@ const RequestAssetsModal = ({ isOpen, setIsOpen, asset }) => {
         reqName: user.displayName,
         notes: notes,
         status: "pending",
-        requestDate: new Date().toISOString(),
+        requestDate: Date.now(),
       });
       console.log(data);
       showToast("Request Sent Successfully");

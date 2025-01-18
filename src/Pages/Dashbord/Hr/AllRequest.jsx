@@ -4,6 +4,7 @@ import useAuth from "../../../Hooks/useAuth";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import showToast from "../../../Components/ShowToast";
 
 const AllRequest = () => {
   const { user } = useAuth();
@@ -14,6 +15,7 @@ const AllRequest = () => {
     data: requests,
     isLoading,
     isError,
+    refetch,
   } = useQuery({
     queryKey: ["allRequestOne", search, user?.email],
     queryFn: async () => {
@@ -26,7 +28,17 @@ const AllRequest = () => {
     },
     enabled: !!user?.email,
   });
-
+  //
+  const handleApprove = async (id) => {
+    try {
+      await axiosSecure.patch(`/hr/approveRequest/${id}`);
+      showToast("Request Approved Successfully");
+      refetch();
+    } catch (error) {
+      console.log(error);
+      showToast(`${error.message}`, "error");
+    }
+  };
   return (
     <Container>
       {/* Search Bar */}
@@ -78,10 +90,17 @@ const AllRequest = () => {
                       </td>
                       <td className="px-4 py-2 border">{request.status}</td>
                       <td className="px-4 py-2 border flex space-x-2 justify-center">
-                        <button className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">
+                        <button
+                          disabled={request.status === "approved"}
+                          onClick={() => handleApprove(request._id)}
+                          className="px-3 py-1 btn bg-green-500 text-white rounded hover:bg-green-600"
+                        >
                           Approve
                         </button>
-                        <button className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+                        <button
+                          disabled={request.status === "approved"}
+                          className="px-3 py-1 bg-red-500 text-white btn rounded hover:bg-red-600"
+                        >
                           Reject
                         </button>
                       </td>
@@ -102,7 +121,7 @@ const AllRequest = () => {
         {/* Card view for small screens */}
         <div className="md:hidden">
           {requests?.length > 0 ? (
-            requests.map((request, index) => (
+            requests.map((request) => (
               <div
                 key={request._id}
                 className="bg-white p-4 shadow-md rounded-md mb-4"
@@ -118,7 +137,10 @@ const AllRequest = () => {
                 <p className="text-sm">Status: {request.status}</p>
                 <p className="text-sm mt-2">Notes: {request.notes || "N/A"}</p>
                 <div className="mt-4 flex space-x-2 justify-end">
-                  <button className="px-4 py-2 bg-green-500 text-white rounded-md">
+                  <button
+                    onClick={() => handleApprove(request._id)}
+                    className="px-4 py-2 bg-green-500 text-white rounded-md"
+                  >
                     Approve
                   </button>
                   <button className="px-4 py-2 bg-red-500 text-white rounded-md">

@@ -1,70 +1,118 @@
-import React, { useState } from "react";
-
+import { useState } from "react";
+import { FaSearch } from "react-icons/fa";
+import Container from "../../../Components/Container";
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../../Hooks/useAuth";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { format } from "date-fns";
 const MyAssets = () => {
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const [searchQuery, setSearchQuery] = useState("");
-  const [availabilityFilter, setAvailabilityFilter] = useState(""); // "available" or "out-of-stock"
-  const [assetTypeFilter, setAssetTypeFilter] = useState(""); // "returnable" or "non-returnable"
+  const [statusFilter, setStatusFilter] = useState("");
 
-  const handleSearch = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleAvailabilityFilter = (event) => {
-    setAvailabilityFilter(event.target.value);
-  };
-
-  const handleAssetTypeFilter = (event) => {
-    setAssetTypeFilter(event.target.value);
-  };
-
+  const { data: assets = [] } = useQuery({
+    queryKey: ["myAssets", user?.email],
+    queryFn: async () => {
+      const { data } = await axiosSecure(
+        `/employee/assetsList/${user?.email}`,
+        {
+          params: {
+            search: searchQuery,
+            filter: statusFilter,
+          },
+        }
+      );
+      return data;
+    },
+  });
+  const handelCancel = async (id) => {};
+  console.log(assets);
   return (
-    <div className="p-4">
-      {/* Search Section */}
-      <div className="mb-4">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={handleSearch}
-          placeholder="Search items by name"
-          className="w-full p-2 border border-gray-300 rounded"
-        />
-      </div>
+    <Container>
+      <div className="p-4">
+        {/* Search Section */}
+        <div className="flex max-w-xl mx-auto items-center border border-gray-300 rounded-md shadow-sm p-2 mb-4">
+          <FaSearch className="text-gray-500 mr-2" />
+          <input
+            type="text"
+            placeholder="Search by name..."
+            className="flex-1 outline-none"
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
 
-      {/* Filter Section */}
-      <div className="flex gap-4 mb-4">
-        {/* Availability Filter */}
-        <select
-          value={availabilityFilter}
-          onChange={handleAvailabilityFilter}
-          className="p-2 border border-gray-300 rounded"
-        >
-          <option value="">Filter by Availability</option>
-          <option value="available">Available</option>
-          <option value="out-of-stock">Out of Stock</option>
-        </select>
+        {/* Filter Section */}
+        <div>
+          <div>
+            <select
+              onChange={(e) => setStatusFilter(e.target.value)}
+              id="stockStatus"
+              className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            >
+              <option value="all">Filter</option>
+              <optgroup label="Stock Status">
+                <option value="available">Available</option>
+                <option value="out-of-stock">Out of Stock</option>
+              </optgroup>
+              <optgroup label="Asset Type">
+                <option value="returnable">Returnable</option>
+                <option value="non-returnable">Non-Returnable</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
 
-        {/* Asset Type Filter */}
-        <select
-          value={assetTypeFilter}
-          onChange={handleAssetTypeFilter}
-          className="p-2 border border-gray-300 rounded"
-        >
-          <option value="">Filter by Asset Type</option>
-          <option value="returnable">Returnable</option>
-          <option value="non-returnable">Non-Returnable</option>
-        </select>
+        {/* Display Filtered Items */}
+        <div className="overflow-x-auto">
+          {assets.length > 0 ? (
+            <table className="table-auto w-full border-collapse border border-gray-200">
+              <thead>
+                <tr>
+                  <th className="border border-gray-200 p-2">Name</th>
+                  <th className="border border-gray-200 p-2">Type</th>
+                  <th className="border border-gray-200 p-2">Request Date</th>
+                  <th className="border border-gray-200 p-2">Approval Date</th>
+                  <th className="border border-gray-200 p-2">Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {assets.map((asset, index) => (
+                  <tr key={index}>
+                    <td className="border border-gray-200 p-2">
+                      {asset.assetName}
+                    </td>
+                    <td className="border border-gray-200 p-2">
+                      {asset.assetType}
+                    </td>
+                    <td className="border border-gray-200 p-2">
+                      {format(new Date(asset.requestDate), "dd/MM/yyyy")}
+                    </td>
+                    <td className="border border-gray-200 p-2">
+                      {asset?.approvalDate}
+                    </td>
+                    <td className="border border-gray-200 p-2">
+                      {asset.status}
+                    </td>
+                    <td className="border border-gray-200 p-2">
+                      <button
+                        onClick={() => handelCancel(asset._id)}
+                        className="btn btn-sm"
+                      >
+                        Cancel
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="text-center text-gray-500">No assets found.</p>
+          )}
+        </div>
       </div>
-
-      {/* Assets List */}
-      <div>
-        <p>
-          Showing results for <strong>"{searchQuery}"</strong>{" "}
-          {availabilityFilter && `| Availability: ${availabilityFilter}`}{" "}
-          {assetTypeFilter && `| Asset Type: ${assetTypeFilter}`}
-        </p>
-        {/* Render filtered assets here */}
-      </div>
-    </div>
+    </Container>
   );
 };
 
