@@ -40,7 +40,7 @@ const NavBar = () => {
   );
 
   return (
-    <nav className="bg-white border">
+    <nav className="backdrop-blur-lg bg-white bg-opacity-65 border">
       <Container>
         <div className="flex justify-between items-center py-4 top-0  z-10 text-black ">
           {/* Logo */}

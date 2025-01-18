@@ -4,6 +4,10 @@ import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { MdCalendarMonth, MdOutlinePendingActions } from "react-icons/md";
+import { Calendar } from "react-date-range";
+import "react-date-range/dist/styles.css"; // Main style file
+import "react-date-range/dist/theme/default.css"; // Default theme
+
 const EmployeeHome = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -172,6 +176,9 @@ const EmployeeHome = () => {
           </div>
         </section>
       </div>
+      <section className=" mt-6  w-fit bg-clip-border rounded-xl bg-white text-gray-700 shadow-md ">
+        <Calendar color="#4cc718" />
+      </section>
     </Container>
   );
 };

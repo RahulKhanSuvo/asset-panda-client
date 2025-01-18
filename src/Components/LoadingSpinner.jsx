@@ -9,6 +9,7 @@ const LoadingSpinner = ({ smallHeight }) => {
       fixed 
       inset-0
       flex-col 
+      z-50
       justify-center 
       items-center `}
     >
