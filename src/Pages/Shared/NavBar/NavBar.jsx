@@ -40,9 +40,9 @@ const NavBar = () => {
   );
 
   return (
-    <nav className="bg-[#262E40]">
+    <nav className="bg-white border">
       <Container>
-        <div className="flex justify-between items-center py-4 top-0  z-10 text-white shadow-md">
+        <div className="flex justify-between items-center py-4 top-0  z-10 text-black ">
           {/* Logo */}
           <div>
             {user?.email && userDetails?.companyLogo ? (
@@ -101,7 +101,7 @@ const NavBar = () => {
               </div>
             ) : (
               <Link to={"/login"}>
-                <button className="px-4 py-2 bg-blue-500 text-white rounded">
+                <button className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded">
                   Login
                 </button>
               </Link>

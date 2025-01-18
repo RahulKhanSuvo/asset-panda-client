@@ -4,9 +4,11 @@ import NavBar from "../Pages/Shared/NavBar/NavBar";
 const Main = () => {
   return (
     <>
-      <div>
+      <div className="bg-[#F5F4F7]">
         <NavBar></NavBar>
-        <Outlet></Outlet>
+        <div className="min-h-[calc(100vh-80px)]">
+          <Outlet></Outlet>
+        </div>
       </div>
     </>
   );
