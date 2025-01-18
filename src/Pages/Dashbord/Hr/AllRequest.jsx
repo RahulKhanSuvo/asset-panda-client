@@ -39,6 +39,16 @@ const AllRequest = () => {
       showToast(`${error.message}`, "error");
     }
   };
+  const handleReject = async (id) => {
+    try {
+      await axiosSecure.patch(`/hr/rejectRequest/${id}`);
+      showToast("Request Rejected Successfully");
+      refetch();
+    } catch (error) {
+      console.log(error);
+      showToast(`${error.message}`, "error");
+    }
+  };
   return (
     <Container>
       {/* Search Bar */}
@@ -99,6 +109,7 @@ const AllRequest = () => {
                         </button>
                         <button
                           disabled={request.status === "approved"}
+                          onClick={() => handleReject(request._id)}
                           className="px-3 py-1 bg-red-500 text-white btn rounded hover:bg-red-600"
                         >
                           Reject
@@ -143,7 +154,10 @@ const AllRequest = () => {
                   >
                     Approve
                   </button>
-                  <button className="px-4 py-2 bg-red-500 text-white rounded-md">
+                  <button
+                    onClick={() => handleReject(request._id)}
+                    className="px-4 py-2 bg-red-500 text-white rounded-md"
+                  >
                     Reject
                   </button>
                 </div>
