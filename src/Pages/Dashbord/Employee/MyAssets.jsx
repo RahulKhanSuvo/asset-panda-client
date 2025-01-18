@@ -33,9 +33,11 @@ const MyAssets = () => {
   });
   const handelCancel = async (id) => {};
   console.log(assets);
-  const handelReturn = async (id) => {
+  const handelReturn = async (asset) => {
     try {
-      await axiosSecure.patch(`/employee/returnAsset/${id}`);
+      await axiosSecure.patch(`/employee/returnAsset/${asset._id}`, {
+        assetId: asset.assetId,
+      });
       showToast("Asset Returned Successfully");
       refetch();
     } catch (error) {
@@ -128,7 +130,7 @@ const MyAssets = () => {
                         <>
                           <button
                             disabled={asset.status === "returned"}
-                            onClick={() => handelReturn(asset._id)}
+                            onClick={() => handelReturn(asset)}
                             className="btn btn-sm"
                           >
                             Return
