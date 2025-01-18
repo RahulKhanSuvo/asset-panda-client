@@ -101,14 +101,20 @@ const AllRequest = () => {
                       <td className="px-4 py-2 border">{request.status}</td>
                       <td className="px-4 py-2 border flex space-x-2 justify-center">
                         <button
-                          disabled={request.status === "approved"}
+                          disabled={
+                            request.status === "approved" ||
+                            request.status === "rejected"
+                          }
                           onClick={() => handleApprove(request._id)}
                           className="px-3 py-1 btn bg-green-500 text-white rounded hover:bg-green-600"
                         >
                           Approve
                         </button>
                         <button
-                          disabled={request.status === "approved"}
+                          disabled={
+                            request.status === "approved" ||
+                            request.status === "rejected"
+                          }
                           onClick={() => handleReject(request._id)}
                           className="px-3 py-1 bg-red-500 text-white btn rounded hover:bg-red-600"
                         >

@@ -5,12 +5,16 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { format } from "date-fns";
+import useUserStatus from "../../../Hooks/useUserStatus";
+import PrintableAsset from "../../../Components/PrintableAsset";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 const MyAssets = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const { userDetails } = useUserStatus();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
-
+  console.log(userDetails);
   const { data: assets = [] } = useQuery({
     queryKey: ["myAssets", user?.email],
     queryFn: async () => {
@@ -90,18 +94,42 @@ const MyAssets = () => {
                       {format(new Date(asset.requestDate), "dd/MM/yyyy")}
                     </td>
                     <td className="border border-gray-200 p-2">
-                      {asset?.approvalDate}
+                      {asset?.approvalDate &&
+                        format(new Date(asset.approvalDate), "dd/MM/yyyy")}
                     </td>
                     <td className="border border-gray-200 p-2">
                       {asset.status}
                     </td>
                     <td className="border border-gray-200 p-2">
                       <button
+                        disabled={
+                          asset.status === "approved" ||
+                          asset.status === "rejected"
+                        }
                         onClick={() => handelCancel(asset._id)}
                         className="btn btn-sm"
                       >
                         Cancel
                       </button>
+                      {asset.status === "approved" && (
+                        <PDFDownloadLink
+                          document={
+                            <PrintableAsset
+                              asset={asset}
+                              companyInfo={userDetails}
+                            />
+                          }
+                          fileName={`${asset.assetName}_Details.pdf`}
+                        >
+                          {({ loading }) =>
+                            loading ? (
+                              "Loading..."
+                            ) : (
+                              <button className="btn btn-sm">Print</button>
+                            )
+                          }
+                        </PDFDownloadLink>
+                      )}
                     </td>
                   </tr>
                 ))}
