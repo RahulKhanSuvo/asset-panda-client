@@ -77,7 +77,6 @@ const NavBar = () => {
               <>{guestLinks}</>
             )}
           </div>
-
           {/* User Profile and Authentication */}
           <div>
             {user ? (

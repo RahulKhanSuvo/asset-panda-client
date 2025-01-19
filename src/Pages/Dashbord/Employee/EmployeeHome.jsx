@@ -11,34 +11,6 @@ import "react-date-range/dist/theme/default.css"; // Default theme
 const EmployeeHome = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-
-  // useEffect(() => {
-  //   const fetchRequests = async () => {
-  //     try {
-  //       setIsLoading(true);
-
-  //       // Fetch pending requests
-  //       const { data: pending } = await axiosPublic.get(
-  //         `/requests/${user?.email}?status=pending`
-  //       );
-  //       setPendingRequests(pending);
-
-  //       // Fetch requests made in the current month
-  //       const currentMonth = new Date().getMonth();
-  //       const { data: monthly } = await axiosPublic.get(
-  //         `/requests/${user?.email}?month=${currentMonth}`
-  //       );
-  //       setMonthlyRequests(monthly);
-  //     } catch (error) {
-  //       console.error("Error fetching requests:", error);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   fetchRequests();
-  // }, [user, axiosPublic]);
-  // for pending request
   const { data: pendingRq = [], isLoading } = useQuery({
     queryKey: ["pendingRq", user?.email],
     queryFn: async () => {
