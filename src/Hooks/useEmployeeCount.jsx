@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "./useAuth";
-import useAxiosPublic from "./useAxiosPublic";
+import useAxiosSecure from "./useAxiosSecure";
 
 const useEmployeeCount = () => {
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const {
     data: employeeCount,
@@ -12,7 +12,7 @@ const useEmployeeCount = () => {
   } = useQuery({
     queryKey: ["employeeCount", user?.email],
     queryFn: async () => {
-      const { data } = await axiosPublic(`/employeeCount/${user?.email}`);
+      const { data } = await axiosSecure(`/employeeCount/${user?.email}`);
       return data;
     },
   });

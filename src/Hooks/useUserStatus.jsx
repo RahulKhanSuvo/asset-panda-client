@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "./useAuth";
-import useAxiosPublic from "./useAxiosPublic";
+import useAxiosSecure from "./useAxiosSecure";
 
 const useUserStatus = () => {
   const { user } = useAuth();
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const {
     data: userDetails,
     isLoading,
@@ -13,7 +13,7 @@ const useUserStatus = () => {
   } = useQuery({
     queryKey: ["userStatusOn", user?.email],
     queryFn: async () => {
-      const { data } = await axiosPublic(`/userStatus/${user?.email}`);
+      const { data } = await axiosSecure(`/userStatus/${user?.email}`);
       return data;
     },
   });
