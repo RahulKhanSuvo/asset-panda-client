@@ -1,5 +1,4 @@
-import PropTypes from "prop-types";
-import { MoonLoader, ScaleLoader } from "react-spinners";
+import { MoonLoader, PulseLoader, ScaleLoader } from "react-spinners";
 
 const LoadingSpinner = ({ smallHeight }) => {
   return (
@@ -13,13 +12,9 @@ const LoadingSpinner = ({ smallHeight }) => {
       justify-center 
       items-center `}
     >
-      <MoonLoader size={50} color=" #7266EE" />
+      {smallHeight ? <PulseLoader></PulseLoader> : <ScaleLoader></ScaleLoader>}
     </div>
   );
-};
-
-LoadingSpinner.propTypes = {
-  smallHeight: PropTypes.bool,
 };
 
 export default LoadingSpinner;

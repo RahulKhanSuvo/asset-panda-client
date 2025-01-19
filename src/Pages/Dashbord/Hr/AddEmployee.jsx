@@ -8,6 +8,7 @@ import useEmployeeCount from "../../../Hooks/useEmployeeCount";
 import useUserInfo from "../../../Hooks/useUserInfo";
 import useTeam from "../../../Hooks/useTeam";
 import Swal from "sweetalert2";
+import LoadingSpinner from "../../../Components/LoadingSpinner";
 const AddEmployee = () => {
   const axiosSecure = useAxiosSecure();
   const { userInfo } = useUserInfo();
@@ -35,9 +36,8 @@ const AddEmployee = () => {
     },
     enabled: !!user?.email,
   });
-  console.log(employees);
   if (isLoading || isCountLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner smallHeight></LoadingSpinner>;
   }
 
   if (error) {
@@ -52,7 +52,6 @@ const AddEmployee = () => {
         : [...prev, employeeId]
     );
   };
-
   const addTeamData = {
     companyName: userInfo.companyName,
     companyLogo: userInfo.companyLogo,
@@ -101,8 +100,53 @@ const AddEmployee = () => {
       });
     }
   };
+  const handelAddSelectedToTeam = async () => {
+    if (selectedEmployees.length === 0) {
+      Swal.fire({
+        toast: true,
+        icon: "error",
+        title: "No Employees Selected",
+        text: "Please select at least one employee to add to the team.",
+      });
+      return;
+    }
 
-  // Handle increasing package limit
+    try {
+      const selectedEmployeeData = employees
+        .filter((employee) => selectedEmployees.includes(employee._id))
+        .map((employee) => ({
+          ...addTeamData,
+          memberId: employee._id,
+          memberName: employee.name,
+          memberRole: employee.role,
+          memberEmail: employee.email,
+          memberImage: employee.image,
+        }));
+      console.log(selectedEmployeeData);
+
+      await axiosSecure.post("/addSelectedTeam", selectedEmployeeData);
+      employeeRefetch();
+      refetchTeam();
+      refetchCount();
+      setSelectedEmployees([]);
+      Swal.fire({
+        icon: "success",
+        toast: true,
+        title: "Success",
+        text: "Selected employees have been added to the team.",
+      });
+    } catch (error) {
+      console.error(error);
+
+      Swal.fire({
+        icon: "error",
+        toast: true,
+        title: "Error",
+        text: "Failed to add the selected employees. Please try again later.",
+      });
+    }
+  };
+
   const handleIncreaseLimit = () => {
     navigate("/packages");
   };
@@ -169,15 +213,14 @@ const AddEmployee = () => {
           )}
         </div>
 
-        {/* Add Selected Members Button */}
-        {/* {selectedEmployees.length > 0 && (
+        {selectedEmployees.length > 0 && (
           <button
-            onClick={handleAddToTeam}
+            onClick={handelAddSelectedToTeam}
             className="mt-6 w-full py-2 bg-[#F80136] text-white rounded-md font-semibold hover:bg-red-700 transition-colors"
           >
             Add Selected Members to the Team
           </button>
-        )} */}
+        )}
       </div>
     </Container>
   );
