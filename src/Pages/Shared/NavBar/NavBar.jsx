@@ -13,7 +13,7 @@ const NavBar = () => {
       <NavLink to={"/employee/myAssets"}>My Assets</NavLink>
       <NavLink to={"/employee/myTeam"}>My Team</NavLink>
       <NavLink to={"/employee/requestAsset"}>Request for an Asset</NavLink>
-      <NavLink to={"/employee/profile"}>Profile</NavLink>
+      <NavLink to={"/profile"}>Profile</NavLink>
     </>
   );
 
@@ -25,7 +25,7 @@ const NavBar = () => {
       <NavLink to={"/hr/allRequests"}>All Requests</NavLink>
       <NavLink to={"/hr/myEmployee"}>My Employee List</NavLink>
       <NavLink to={"/hr/addEmployee"}>Add an Employee</NavLink>
-      <NavLink to={"/hr/profile"}>Profile</NavLink>
+      <NavLink to={"/profile"}>Profile</NavLink>
     </>
   );
   const handleLogout = () => {

@@ -19,6 +19,7 @@ import MyAssets from "../Pages/Dashbord/Employee/MyAssets";
 import PrivateRouter from "./PrivateRouter";
 import EmployeeRoute from "./EmployeeRoute";
 import HrRouter from "./HrRouter";
+import Profile from "../Pages/Shared/Profile/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage></LoginPage>,
+      },
+      {
+        path: "/profile",
+        element: <Profile></Profile>,
       },
       {
         path: "/payment",
