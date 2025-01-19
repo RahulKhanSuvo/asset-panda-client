@@ -5,8 +5,10 @@ import PendingRequests from "./HrHomeCom/PendingRequests";
 const HrHome = () => {
   return (
     <Container>
-      <PendingRequests></PendingRequests>
-      <HrTopRequested></HrTopRequested>
+      <div className="flex gap-6">
+        <PendingRequests></PendingRequests>
+        <HrTopRequested></HrTopRequested>
+      </div>
     </Container>
   );
 };

@@ -15,7 +15,7 @@ const PendingRequests = () => {
 
   return (
     <div className="mt-8">
-      <div className=" overflow-x-auto bg-white border shadow-md rounded-md w-full">
+      <div className=" h-[400px] overflow-x-auto bg-white border shadow-md rounded-md w-full">
         <table className="table table-zebra">
           {/* head */}
           <thead>
