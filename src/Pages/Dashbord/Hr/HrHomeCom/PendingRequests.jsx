@@ -5,25 +5,23 @@ import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 const PendingRequests = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const { data: pendingRq = [] } = useQuery({
+  const { data: pendingRq = [], isLoading } = useQuery({
     queryKey: ["pendingRequests", user?.email],
     queryFn: async () => {
       const { data } = await axiosSecure(`/hr/requestedAssets/${user?.email}`);
       return data;
     },
   });
-
+  if (isLoading) return;
   return (
-    <div className="mt-8">
-      <div className=" h-[400px] overflow-x-auto bg-white border shadow-md rounded-md w-full">
+    <div className=" w-full">
+      <div className=" md:h-[400px] overflow-x-auto bg-white border shadow-md rounded-md ">
         <table className="table table-zebra">
           {/* head */}
           <thead>
-            <th>
-              <tr>
-                <h2>Pending Requests</h2>
-              </tr>
-            </th>
+            <tr>
+              <th>Pending Requests</th>
+            </tr>
             <tr>
               <th>Name</th>
               <th>Type</th>

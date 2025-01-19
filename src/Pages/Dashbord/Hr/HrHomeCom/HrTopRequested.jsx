@@ -5,7 +5,7 @@ import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 const HrTopRequested = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const { data: topRq } = useQuery({
+  const { data: topRq, isLoading } = useQuery({
     queryKey: ["topRequests", user?.email],
     queryFn: async () => {
       const { data } = await axiosSecure(`/hr/mostRequested/${user?.email}`);
@@ -13,19 +13,18 @@ const HrTopRequested = () => {
     },
   });
   console.log(topRq);
+  if (isLoading) return;
   return (
     <>
       {" "}
-      <div className="mt-8">
-        <div className=" h-[400px] overflow-x-auto  bg-white border shadow-md rounded-md w-full">
+      <div className="w-full">
+        <div className="w-full h-[400px]   bg-white border shadow-md rounded-md">
           <table className="table table-zebra">
             {/* head */}
             <thead>
-              <th>
-                <tr>
-                  <h2>Pending Requests</h2>
-                </tr>
-              </th>
+              <tr>
+                <th>Top Most Requests</th>
+              </tr>
               <tr>
                 <th>Name</th>
                 <th>Type</th>
@@ -34,7 +33,7 @@ const HrTopRequested = () => {
             </thead>
             <tbody>
               {topRq.map((item) => (
-                <tr key={item._id}>
+                <tr key={item.name}>
                   <td>{item.name}</td>
                   <td>{item.assetType}</td>
                   <td>{item.count}</td>
