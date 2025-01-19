@@ -46,6 +46,9 @@ const AddEmployee = () => {
 
   // Handle checkbox selection
   const handleCheckboxChange = (employeeId) => {
+    if (selectedEmployees.length >= employeeCount?.members) {
+      return;
+    }
     setSelectedEmployees((prev) =>
       prev.includes(employeeId)
         ? prev.filter((id) => id !== employeeId)
@@ -59,7 +62,7 @@ const AddEmployee = () => {
   };
   // Add selected members to the team
   const handleAddToTeam = async (employeeData) => {
-    if (employeeCount?.members <= 0) {
+    if (team.length >= employeeCount?.members) {
       Swal.fire({
         toast: true,
         icon: "error",
@@ -101,12 +104,12 @@ const AddEmployee = () => {
     }
   };
   const handelAddSelectedToTeam = async () => {
-    if (selectedEmployees.length === 0) {
+    if (team.length >= employeeCount?.members) {
       Swal.fire({
         toast: true,
         icon: "error",
-        title: "No Employees Selected",
-        text: "Please select at least one employee to add to the team.",
+        title: "Limit Exceeded",
+        text: "Adding this member exceeds your team limit. Increase your limit.",
       });
       return;
     }
