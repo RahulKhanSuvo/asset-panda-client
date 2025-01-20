@@ -7,18 +7,19 @@ import LimitedAssets from "./HrHomeCom/LimitedAssets";
 import PendingRequests from "./HrHomeCom/PendingRequests";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import LoadingSpinner from "../../../Components/LoadingSpinner";
 
 const HrHome = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const { data: activity = {} } = useQuery({
+  const { data: activity = {}, isLoading } = useQuery({
     queryKey: ["activity", user?.email],
     queryFn: async () => {
       const { data } = await axiosSecure(`/hr/activity/${user?.email}`);
       return data;
     },
   });
-  console.log(activity);
+  if (isLoading) return <LoadingSpinner smallHeight></LoadingSpinner>;
   return (
     <Container>
       <Activity activity={activity}></Activity>

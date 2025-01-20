@@ -9,7 +9,7 @@ const Activity = ({ activity }) => {
   const { totalRequests, totalApproved, totalRejected, totalReturned } =
     activity;
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 pt-8 bg-gray-100">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-8 bg-gray-100">
       {/* Total Requests */}
       <div className="border-b-2 p-4 hover:border-[#7367F0] border-[#e0defc] bg-white rounded-md shadow-md">
         <div className="flex items-center gap-2">
