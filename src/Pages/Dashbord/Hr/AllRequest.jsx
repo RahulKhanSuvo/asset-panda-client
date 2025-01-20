@@ -10,9 +10,11 @@ const AllRequest = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const {
-    data: requests,
+    data: requests = [],
     isLoading,
     isError,
     refetch,
@@ -28,7 +30,15 @@ const AllRequest = () => {
     },
     enabled: !!user?.email,
   });
-  //
+
+  const totalPages = Math.ceil(requests.length / itemsPerPage);
+
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
   const handleApprove = async (id) => {
     try {
       await axiosSecure.patch(`/hr/approveRequest/${id}`);
@@ -39,6 +49,7 @@ const AllRequest = () => {
       showToast(`${error.message}`, "error");
     }
   };
+
   const handleReject = async (id) => {
     try {
       await axiosSecure.patch(`/hr/rejectRequest/${id}`);
@@ -49,6 +60,13 @@ const AllRequest = () => {
       showToast(`${error.message}`, "error");
     }
   };
+
+  // Calculate the requests for the current page
+  const paginatedRequests = requests.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <Container>
       {/* Search Bar */}
@@ -58,11 +76,12 @@ const AllRequest = () => {
           type="text"
           placeholder="Search by name, email, or asset..."
           className="flex-1 outline-none"
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setCurrentPage(1);
+          }}
         />
       </div>
-
-      {/* Requests Display */}
       <div className="mt-4">
         {/* Table view for large screens */}
         <div className="hidden md:block">
@@ -82,11 +101,11 @@ const AllRequest = () => {
                 </tr>
               </thead>
               <tbody>
-                {requests?.length > 0 ? (
-                  requests.map((request, index) => (
+                {paginatedRequests?.length > 0 ? (
+                  paginatedRequests.map((request, index) => (
                     <tr key={request._id}>
                       <td className="px-4 py-2 border text-center">
-                        {index + 1}
+                        {(currentPage - 1) * itemsPerPage + index + 1}
                       </td>
                       <td className="px-4 py-2 border">{request.assetName}</td>
                       <td className="px-4 py-2 border">{request.assetType}</td>
@@ -137,8 +156,8 @@ const AllRequest = () => {
 
         {/* Card view for small screens */}
         <div className="md:hidden">
-          {requests?.length > 0 ? (
-            requests.map((request) => (
+          {paginatedRequests?.length > 0 ? (
+            paginatedRequests.map((request) => (
               <div
                 key={request._id}
                 className="bg-white p-4 shadow-md rounded-md mb-4"
@@ -155,12 +174,20 @@ const AllRequest = () => {
                 <p className="text-sm mt-2">Notes: {request.notes || "N/A"}</p>
                 <div className="mt-4 flex space-x-2 justify-end">
                   <button
+                    disabled={
+                      request.status === "approved" ||
+                      request.status === "rejected"
+                    }
                     onClick={() => handleApprove(request._id)}
                     className="px-4 py-2 bg-green-500 text-white rounded-md"
                   >
                     Approve
                   </button>
                   <button
+                    disabled={
+                      request.status === "approved" ||
+                      request.status === "rejected"
+                    }
                     onClick={() => handleReject(request._id)}
                     className="px-4 py-2 bg-red-500 text-white rounded-md"
                   >
@@ -172,6 +199,25 @@ const AllRequest = () => {
           ) : (
             <div className="text-center text-gray-500">No requests found.</div>
           )}
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 bg-blue-500 text-white rounded-l-md"
+          >
+            Previous
+          </button>
+          <span className="px-4 py-2 text-center">{`Page ${currentPage} of ${totalPages}`}</span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 bg-blue-500 text-white rounded-r-md"
+          >
+            Next
+          </button>
         </div>
       </div>
     </Container>

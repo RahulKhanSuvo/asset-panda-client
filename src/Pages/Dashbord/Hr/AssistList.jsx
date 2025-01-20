@@ -8,6 +8,8 @@ import { format } from "date-fns";
 import { FiTrash2 } from "react-icons/fi";
 import showToast from "../../../Components/ShowToast";
 import AssetsUpdateModal from "../../../Modal/AssetsUpdateModal";
+import Swal from "sweetalert2";
+
 const AssistList = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -16,6 +18,9 @@ const AssistList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState("default");
   const [updateId, setUpdateId] = useState("");
+  const [currentPage, setCurrentPage] = useState(1); // State to track the current page
+  const itemsPerPage = 10; // Number of items per page
+
   const { data: assets = [], refetch } = useQuery({
     queryKey: ["assetsList", user?.email, searchQuery, filterStatus, sortOrder],
     enabled: !!user?.email,
@@ -30,29 +35,55 @@ const AssistList = () => {
       return data;
     },
   });
-  // delete
-  const handleDelete = async (id) => {
-    try {
-      await axiosSecure.delete(`/deleteAsset/${id}`);
-      showToast("Delete Successfully");
-      refetch();
-    } catch (error) {
-      console.log(error);
-      showToast(`${error.message}`, "error");
-    }
+
+  // Pagination Logic
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
-  // handel edit
+  const handleDelete = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axiosSecure.delete(`/deleteAsset/${id}`);
+          showToast("Delete Successfully");
+          refetch();
+        } catch (error) {
+          console.log(error);
+          showToast(`${error.message}`, "error");
+        }
+      }
+    });
+  };
+
+  // Handle edit
   const handleEdit = async (id) => {
     setUpdateId(id);
     setIsModalOpen(true);
   };
+
+  // Calculate the assets to be displayed on the current page
+  const paginatedAssets = assets.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const totalPages = Math.ceil(assets.length / itemsPerPage);
+
   return (
     <Container>
-      <div className="rounded-lg bg-[#DAE1F3] p-6">
-        <div className="flex justify-between items-center">
+      <div className="rounded-lg border-t bg-white mt-8">
+        <div className="flex justify-between rounded-ss-xl border-x px-4 py-3 border-b items-center">
           {" "}
-          <div className="flex flex-wrap gap-4 mb-4">
+          <div className="flex flex-wrap gap-4 ">
             {/* Stock Status Filter */}
             <div>
               <select
@@ -61,22 +92,18 @@ const AssistList = () => {
                 className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
               >
                 <option value="all">Filter</option>
-
                 <optgroup label="Stock Status">
                   <option value="available">Available</option>
                   <option value="out-of-stock">Out of Stock</option>
                 </optgroup>
-
                 <optgroup label="Asset Type">
                   <option value="returnable">Returnable</option>
                   <option value="non-returnable">Non-Returnable</option>
                 </optgroup>
               </select>
             </div>
-
-            {/* Asset Type Filter */}
           </div>
-          <div className="mb-4">
+          <div className="">
             <input
               onChange={(e) => setSearchQuery(e.target.value)}
               type="text"
@@ -85,7 +112,7 @@ const AssistList = () => {
             />
           </div>
           {/* Sorting Section */}
-          <div className="mb-4">
+          <div className="">
             <select
               id="sortQuantity"
               onChange={(e) => setSortOrder(e.target.value)}
@@ -98,12 +125,12 @@ const AssistList = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-md p-4 shadow-md">
+        <div className="bg-white rounded-md shadow-md">
           <div className="overflow-x-auto">
             <table className="table">
               {/* head */}
               <thead>
-                <tr className="bg-base-200">
+                <tr>
                   <th></th>
                   <th>Name</th>
                   <th>Type</th>
@@ -113,9 +140,9 @@ const AssistList = () => {
                 </tr>
               </thead>
               <tbody>
-                {assets.map((asset, index) => (
-                  <tr key={asset._id} className="">
-                    <th>{index + 1}</th>
+                {paginatedAssets.map((asset, index) => (
+                  <tr key={asset._id} className="hover">
+                    <th>{(currentPage - 1) * itemsPerPage + index + 1}</th>
                     <td>{asset.name}</td>
                     <td>{asset.productType}</td>
                     <td>{asset.quantity}</td>
@@ -143,6 +170,26 @@ const AssistList = () => {
             </table>
           </div>
         </div>
+
+        {/* Pagination Controls */}
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 bg-blue-500 text-white rounded-l-md"
+          >
+            Previous
+          </button>
+          <span className="px-4 py-2 text-center">{`Page ${currentPage} of ${totalPages}`}</span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 bg-blue-500 text-white rounded-r-md"
+          >
+            Next
+          </button>
+        </div>
+
         <AssetsUpdateModal
           refetch={refetch}
           isOpen={isModalOpen}
