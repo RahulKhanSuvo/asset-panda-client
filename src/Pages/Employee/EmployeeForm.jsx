@@ -68,7 +68,7 @@ const EmployeeForm = () => {
 
   return (
     <Container>
-      <section className="flex mt-10  min-h-[calc(100vh-70px)">
+      <section className="flex pt-10  min-h-[calc(100vh-70px)">
         <div className=" w-3/5 bg-no-repeat bg-bottom hidden lg:block">
           <img className=" w-[500px] mx-auto " src={ill} alt="" />
         </div>

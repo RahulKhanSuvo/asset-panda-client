@@ -1,6 +1,5 @@
 import Container from "../../Components/Container";
 import aboutImage from "../../assets/Banner/MagnifyBarcode.png";
-
 const About = () => {
   return (
     <div>

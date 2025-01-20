@@ -4,6 +4,8 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import useUserStatus from "../../Hooks/useUserStatus";
 import showToast from "../../Components/ShowToast";
 import logo from "../../assets/Logo/AssetPandaLogoSVG.svg";
+import sp1 from "../../assets/Logo/svg_ (1).svg";
+import sp2 from "../../assets/Logo/svg__ (1).svg";
 import { FcGoogle } from "react-icons/fc";
 const LoginPage = () => {
   const { userSignIn, googleLogin } = useAuth();
@@ -48,72 +50,88 @@ const LoginPage = () => {
       });
   };
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-80px)] bg-gray-100">
-      <div className="w-full border shadow-md max-w-[420px] p-8 space-y-4 bg-white rounded-md ">
-        <div className="">
-          <img className="w-28 object-cover mx-auto" src={logo} alt="" />
-        </div>
-        <h2 className="text-2xl font-medium text-gray-700">
-          Welcome to AssetPanda 👋
-        </h2>
-        <p>Please sign-in to your account and start manage your assets</p>
-        {/* Email/Password Form */}
-        <form onSubmit={handelLogin} className="space-y-4">
+    <div className=" min-h-[calc(100vh-80px)] flex items-center justify-center bg-gray-50">
+      <div className="relative">
+        <img
+          className="absolute -top-16 -left-6 "
+          src={sp2}
+          alt="Decorative Shape"
+        />
+
+        {/* Login Form */}
+        <div className="relative z-10 w-full max-w-xl border shadow-md p-8 space-y-4 bg-white rounded-md">
           <div>
-            <label
-              htmlFor="email"
-              className="block mb-1 text-sm font-medium text-gray-600"
+            <img className="w-28 object-cover mx-auto" src={logo} alt="Logo" />
+          </div>
+          <h2 className="text-2xl font-medium text-gray-700">
+            Welcome to AssetPanda 👋
+          </h2>
+          <p>Please sign-in to your account and start managing your assets</p>
+
+          {/* Email/Password Form */}
+          <form onSubmit={handelLogin} className="space-y-4">
+            <div>
+              <label
+                htmlFor="email"
+                className="block mb-1 text-sm font-medium text-gray-600"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                required
+                name="email"
+                id="email"
+                className="w-full px-4 py-[6px] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] sh focus:shadow-md focus:shadow-[#685DD8]"
+                placeholder="Enter your email"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="password"
+                className="block mb-1 text-sm font-medium text-gray-600"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                required
+                name="password"
+                id="password"
+                className="w-full px-4 py-[6px] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] sh focus:shadow-md focus:shadow-[#685DD8]"
+                placeholder="Enter your password"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full px-4 py-[6px] text-white bg-[#7367F0] rounded-lg hover:bg-[#685DD8] focus:outline-none focus:ring-2 "
             >
-              Email
-            </label>
-            <input
-              type="email"
-              required
-              name="email"
-              id="email"
-              className="w-full px-4 py-[6px] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] sh focus:shadow-md focus:shadow-[#685DD8]"
-              placeholder="Enter your email"
-            />
+              Login
+            </button>
+          </form>
+
+          <div className="flex items-center justify-between space-x-2">
+            <hr className="flex-1 border-gray-300" />
+            <span className="text-sm font-medium text-gray-600">OR</span>
+            <hr className="flex-1 border-gray-300" />
           </div>
 
-          <div>
-            <label
-              htmlFor="password"
-              className="block mb-1 text-sm font-medium text-gray-600"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              required
-              name="password"
-              id="password"
-              className="w-full px-4 py-[6px] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] sh focus:shadow-md focus:shadow-[#685DD8]"
-              placeholder="Enter your password"
-            />
-          </div>
-
+          {/* Google Login Button */}
           <button
-            type="submit"
-            className="w-full px-4 py-[6px] text-white bg-[#7367F0] rounded-lg hover:bg-[#685DD8] focus:outline-none focus:ring-2 "
+            onClick={handleSocialLogin}
+            className="w-full flex justify-center items-center bg-[#EFF2F7] p-[6px] rounded-full"
           >
-            Login
+            <FcGoogle size={25} />
           </button>
-        </form>
-
-        <div className="flex items-center justify-between space-x-2">
-          <hr className="flex-1 border-gray-300" />
-          <span className="text-sm font-medium text-gray-600">OR</span>
-          <hr className="flex-1 border-gray-300" />
         </div>
 
-        {/* Google Login Button */}
-        <button
-          onClick={handleSocialLogin}
-          className="w-full flex justify-center items-center bg-[#EFF2F7] p-[6px] rounded-full"
-        >
-          <FcGoogle size={25} />
-        </button>
+        <img
+          className="absolute -bottom-10 -right-10"
+          src={sp1}
+          alt="Decorative Shape"
+        />
       </div>
     </div>
   );

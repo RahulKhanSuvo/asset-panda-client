@@ -3,7 +3,8 @@ import { imageUpload } from "../../API/Utilits";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import showToast from "../../Components/ShowToast";
-
+import Container from "../../Components/Container";
+import hrIll from "../../assets/shapes/hrlogin.png";
 const HrForm = () => {
   const { userSignUp, updateUserProfile } = useAuth();
   const axiosPublic = useAxiosPublic();
@@ -59,159 +60,177 @@ const HrForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-md">
-        <h2 className="mb-6 text-2xl font-bold text-center text-gray-700">
-          Join as HR Manager
-        </h2>
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          {/* Full Name */}
-          <div>
-            <label
-              htmlFor="fullName"
-              className="block mb-1 text-sm font-medium text-gray-600"
+    <Container>
+      <section className="flex pt-6 items-center">
+        <div className="px-24 hidden lg:block">
+          <img src={hrIll} alt="" />
+        </div>
+        <div className="mx-auto  bg-gray-100">
+          <div className="p-10  bg-white rounded-lg shadow-md">
+            <h2 className="mb-4 text-3xl font-bold ">Account Information</h2>
+            <p className="mb-3">Enter Your Account Details </p>
+            <form
+              className=" grid grid-cols-1 md:grid-cols-2 gap-6"
+              onSubmit={handleSubmit}
             >
-              Full Name
-            </label>
-            <input
-              type="text"
-              id="fullName"
-              name="fullName"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your full name"
-              required
-            />
-          </div>
+              {/* Full Name */}
+              <div>
+                <label
+                  htmlFor="fullName"
+                  className="block mb-2 text-sm font-medium text-gray-600"
+                >
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7367F0]"
+                  placeholder="Enter your full name"
+                  required
+                />
+              </div>
 
-          {/* Company Name */}
-          <div>
-            <label
-              htmlFor="companyName"
-              className="block mb-1 text-sm font-medium text-gray-600"
-            >
-              Company Name
-            </label>
-            <input
-              type="text"
-              id="companyName"
-              name="companyName"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your company name"
-              required
-            />
-          </div>
+              {/* Company Name */}
+              <div>
+                <label
+                  htmlFor="companyName"
+                  className="block mb-2 text-sm font-medium text-gray-600"
+                >
+                  Company Name
+                </label>
+                <input
+                  type="text"
+                  id="companyName"
+                  name="companyName"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7367F0]"
+                  placeholder="Enter your company name"
+                  required
+                />
+              </div>
 
-          {/* Company Logo */}
-          <div>
-            <label
-              htmlFor="companyLogo"
-              className="block mb-1 text-sm font-medium text-gray-600"
-            >
-              Company Logo
-            </label>
-            <input
-              type="file"
-              id="companyLogo"
-              name="companyLogo"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none"
-              accept="image/*"
-              required
-            />
-          </div>
+              {/* Company Logo */}
+              <div>
+                <label
+                  htmlFor="companyLogo"
+                  className="block mb-2 text-sm font-medium text-gray-600"
+                >
+                  Company Logo
+                </label>
+                <input
+                  type="file"
+                  id="companyLogo"
+                  name="companyLogo"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7367F0]"
+                  accept="image/*"
+                  required
+                />
+              </div>
 
-          {/* Email */}
-          <div>
-            <label
-              htmlFor="email"
-              className="block mb-1 text-sm font-medium text-gray-600"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your email"
-              required
-            />
-          </div>
+              {/* Email */}
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block mb-2 text-sm font-medium text-gray-600"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7367F0]"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
 
-          {/* Password */}
-          <div>
-            <label
-              htmlFor="password"
-              className="block mb-1 text-sm font-medium text-gray-600"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your password"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Profile Photo
-            </label>
-            <input
-              type="file"
-              name="photo"
-              accept="image/*"
-              required
-              className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-[#F80136]"
-            />
-          </div>
-          {/* Date of Birth */}
-          <div>
-            <label
-              htmlFor="dateOfBirth"
-              className="block mb-1 text-sm font-medium text-gray-600"
-            >
-              Date of Birth
-            </label>
-            <input
-              type="date"
-              id="dateOfBirth"
-              name="dateOfBirth"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
+              {/* Password */}
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block mb-2 text-sm font-medium text-gray-600"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7367F0]"
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
 
-          {/* Select Package */}
-          <div>
-            <label
-              htmlFor="package"
-              className="block mb-1 text-sm font-medium text-gray-600"
-            >
-              Select a Package
-            </label>
-            <select
-              id="package"
-              name="package"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="5">5 Members - $5</option>
-              <option value="8">10 Members - $8</option>
-              <option value="15">20 Members - $15</option>
-            </select>
-          </div>
+              {/* Profile Photo */}
+              <div>
+                <label
+                  htmlFor="photo"
+                  className="block mb-2 text-sm font-medium text-gray-600"
+                >
+                  Profile Photo
+                </label>
+                <input
+                  type="file"
+                  id="photo"
+                  name="photo"
+                  accept="image/*"
+                  required
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7367F0]"
+                />
+              </div>
 
-          {/* Signup Button */}
-          <button
-            type="submit"
-            className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Signup
-          </button>
-        </form>
-      </div>
-    </div>
+              {/* Date of Birth */}
+              <div>
+                <label
+                  htmlFor="dateOfBirth"
+                  className="block mb-2 text-sm font-medium text-gray-600"
+                >
+                  Date of Birth
+                </label>
+                <input
+                  type="date"
+                  id="dateOfBirth"
+                  name="dateOfBirth"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7367F0]"
+                  required
+                />
+              </div>
+
+              {/* Select Package */}
+              <div>
+                <label
+                  htmlFor="package"
+                  className="block mb-2 text-sm font-medium text-gray-600"
+                >
+                  Select a Package
+                </label>
+                <select
+                  id="package"
+                  name="package"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7367F0]"
+                >
+                  <option value="5">5 Members - $5</option>
+                  <option value="8">10 Members - $8</option>
+                  <option value="15">20 Members - $15</option>
+                </select>
+              </div>
+
+              {/* Signup Button */}
+              <div className=" md:col-span-2">
+                <button
+                  type="submit"
+                  className="w-full px-4 py-2 text-white bg-[#7367F0] rounded-lg hover:bg-[#5d54c8] focus:outline-none focus:ring-2 focus:ring-[#7367F0]"
+                >
+                  Signup
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </Container>
   );
 };
 
