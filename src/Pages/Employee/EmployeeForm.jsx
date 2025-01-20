@@ -23,7 +23,7 @@ const EmployeeForm = () => {
           });
           showToast("account create successful");
           refetch();
-          navigate("/employeeHome");
+          navigate("/");
         } catch (error) {
           console.log(error);
         }
@@ -58,7 +58,7 @@ const EmployeeForm = () => {
       });
       console.log("Employee created:", data);
       refetch();
-      navigate("/employeeHome");
+      navigate("/");
     } catch (error) {
       console.error("Error creating employee:", error);
     }

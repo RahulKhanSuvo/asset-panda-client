@@ -7,6 +7,8 @@ import { MdCalendarMonth, MdOutlinePendingActions } from "react-icons/md";
 import { Calendar } from "react-date-range";
 import "react-date-range/dist/styles.css"; // Main style file
 import "react-date-range/dist/theme/default.css"; // Default theme
+import CalendarSection from "../../../Components/CalendarSection";
+import { Link } from "react-router-dom";
 
 const EmployeeHome = () => {
   const { user } = useAuth();
@@ -56,24 +58,24 @@ const EmployeeHome = () => {
       </div>
       <div>
         <section className="flex justify-between flex-col lg:flex-row mt-6 gap-6">
-          <div className="bg-white border  shadow-md rounded-md w-full">
-            <div className="overflow-x-auto w-full">
-              <table className="table">
+          <div className="bg-white  border    shadow-md rounded-md w-full">
+            <div className="flex justify-between items-center py-6 px-4 border-b">
+              <p className=" text-lg text-black font-bold">Pending Requests</p>
+              <Link to={"/employee/myAssets"}>
+                {" "}
+                <button className="text-[#005cbb]">View all</button>
+              </Link>
+            </div>
+            <div className="overflow-auto w-full h-[530px]">
+              <table className="table overflow-auto ">
                 {/* head */}
                 <thead className="">
-                  <tr>
-                    <th colSpan="3">
-                      <p className="py-2 pl- text-lg text-black">
-                        Pending Requests
-                      </p>
-                    </th>
-                  </tr>
                   <tr className="uppercase text-[#444050]">
                     <th>#</th>
                     <th>Name</th>
                     <th>Type</th>
                     <th>Date</th>
-                    <th>Date</th>
+                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -102,23 +104,23 @@ const EmployeeHome = () => {
             </div>
           </div>
           <div className="bg-white border  w-full shadow-md rounded-md">
-            <div className="overflow-x-auto">
+            <div className="flex justify-between items-center py-6 px-4 border-b">
+              <p className=" text-lg text-black font-bold">Monthly Requests</p>
+              <Link to={"/employee/myAssets"}>
+                {" "}
+                <button className="text-[#005cbb]">View all</button>
+              </Link>
+            </div>
+            <div className="h-[530px]  overflow-auto">
               <table className="table">
                 {/* head */}
                 <thead className="">
-                  <tr>
-                    <th colSpan="3">
-                      <p className="py-2 pl- text-lg text-black">
-                        Monthly Requests
-                      </p>
-                    </th>
-                  </tr>
                   <tr className=" uppercase text-[#444050]">
                     <th>#</th>
                     <th>Name</th>
                     <th>Type</th>
                     <th>Date</th>
-                    <th>Date</th>
+                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -148,9 +150,10 @@ const EmployeeHome = () => {
           </div>
         </section>
       </div>
-      <section className=" mt-6  w-fit bg-clip-border rounded-xl bg-white text-gray-700 shadow-md ">
-        <Calendar color="#4cc718" />
-      </section>
+
+      <div className=" pb-10">
+        <CalendarSection></CalendarSection>
+      </div>
     </Container>
   );
 };
