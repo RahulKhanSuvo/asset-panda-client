@@ -53,7 +53,7 @@ const LoginPage = () => {
     <div className=" min-h-[calc(100vh-80px)] flex items-center justify-center bg-gray-50">
       <div className="relative">
         <img
-          className="absolute -top-16 -left-6 "
+          className="absolute -top-16 -left-8 "
           src={sp2}
           alt="Decorative Shape"
         />
@@ -128,7 +128,7 @@ const LoginPage = () => {
         </div>
 
         <img
-          className="absolute -bottom-10 -right-10"
+          className="absolute -bottom-14 -right-14"
           src={sp1}
           alt="Decorative Shape"
         />

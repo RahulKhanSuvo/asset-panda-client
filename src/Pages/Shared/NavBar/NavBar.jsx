@@ -1,4 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
+import { IoLogOutOutline } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
 import useAuth from "../../../Hooks/useAuth";
 import { HiOutlineLogin } from "react-icons/hi";
@@ -34,9 +35,36 @@ const NavBar = () => {
   };
   const guestLinks = (
     <>
-      <NavLink to={"/"}>Home</NavLink>
-      <NavLink to={"/signUp/employee"}>Join as Employee</NavLink>
-      <NavLink to={"/signUp/hr"}>Join as HR Manager</NavLink>
+      <NavLink
+        className={({ isActive }) =>
+          isActive
+            ? "text-[#7367F0]  underline"
+            : "text-gray-700 hover:text-[#7367F0]"
+        }
+        to={"/"}
+      >
+        Home
+      </NavLink>
+      <NavLink
+        className={({ isActive }) =>
+          isActive
+            ? "text-[#7367F0] underline"
+            : "text-gray-700 hover:text-[#7367F0]"
+        }
+        to={"/signUp/employee"}
+      >
+        Join as Employee
+      </NavLink>
+      <NavLink
+        className={({ isActive }) =>
+          isActive
+            ? "text-[#7367F0]  underline"
+            : "text-gray-700 hover:text-[#7367F0]"
+        }
+        to={"/signUp/hr"}
+      >
+        Join as HR Manager
+      </NavLink>
     </>
   );
 
@@ -94,14 +122,14 @@ const NavBar = () => {
                 <p className="ml-2">{user?.displayName}</p>
                 <button
                   onClick={handleLogout}
-                  className="ml-4 px-4 py-2 bg-red-500 text-white rounded"
+                  className="px-4 flex items-center gap-1 py-1 shadow-sm shadow-[#FF4C51] bg-[#FF4C51] hover:bg-[#E64449] text-white rounded"
                 >
-                  Logout
+                  <IoLogOutOutline /> Logout
                 </button>
               </div>
             ) : (
               <Link to={"/login"}>
-                <button className="px-4 flex items-center gap-1 py-2 shadow-sm shadow-[#7367F0] bg-[#7367F0] hover:bg-[#685DD8] text-white rounded">
+                <button className="px-4 flex items-center gap-1 py-1 shadow-sm shadow-[#7367F0] bg-[#7367F0] hover:bg-[#685DD8] text-white rounded">
                   <HiOutlineLogin /> Login
                 </button>
               </Link>
