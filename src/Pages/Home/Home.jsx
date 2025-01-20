@@ -26,11 +26,11 @@ const Home = () => {
   }
 
   return (
-    <div className="lg:container mx-auto">
+    <>
       <Banner />
       <About />
       <Packages />
-    </div>
+    </>
   );
 };
 
