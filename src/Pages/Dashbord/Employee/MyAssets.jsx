@@ -58,12 +58,35 @@ const MyAssets = () => {
     setCurrentPage(page);
   };
 
-  const handelCancel = async (id) => {};
+  const handelCancel = async (asset) => {
+    try {
+      const response = await axiosSecure.patch(
+        `/employee/assetsCancel/${asset._id}`,
+        {
+          assetId: asset.assetId,
+        }
+      );
+      if (response.status === 200) {
+        showToast("Asset cancelled successfully"); // Updated message
+        refetch(); // Refresh data after cancellation
+      } else {
+        showToast("Failed to cancel the asset", "error");
+      }
+    } catch (error) {
+      console.error(error);
+      showToast(`${error.response?.data?.message || error.message}`, "error");
+    }
+  };
+
   const handelReturn = async (asset) => {
     try {
-      await axiosSecure.patch(`/employee/returnAsset/${asset._id}`, {
-        assetId: asset.assetId,
-      });
+      const { data } = await axiosSecure.patch(
+        `/employee/returnAsset/${asset._id}`,
+        {
+          assetId: asset.assetId,
+        }
+      );
+      console.log(data);
       showToast("Asset Returned Successfully");
       refetch();
     } catch (error) {
@@ -141,13 +164,13 @@ const MyAssets = () => {
                       <td className="border border-gray-200 p-2">
                         {asset.status}
                       </td>
-                      <td className="border border-gray-200 p-2">
+                      <td className="border border-gray-200 text-center space-x-5 p-2">
                         <button
                           disabled={
                             asset.status === "approved" ||
                             asset.status === "rejected"
                           }
-                          onClick={() => handelCancel(asset._id)}
+                          onClick={() => handelCancel(asset)}
                           className="btn btn-sm"
                         >
                           Cancel

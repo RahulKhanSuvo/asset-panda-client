@@ -1,6 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import useAuth from "../../../Hooks/useAuth";
+import { HiOutlineLogin } from "react-icons/hi";
 import Container from "../../../Components/Container";
 import logoFav from "../../../assets/Logo/AssetPandaLogoSVG.svg";
 import useUserStatus from "../../../Hooks/useUserStatus";
@@ -100,8 +101,8 @@ const NavBar = () => {
               </div>
             ) : (
               <Link to={"/login"}>
-                <button className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded">
-                  Login
+                <button className="px-4 flex items-center gap-1 py-2 shadow-sm shadow-[#7367F0] bg-[#7367F0] hover:bg-[#685DD8] text-white rounded">
+                  <HiOutlineLogin /> Login
                 </button>
               </Link>
             )}

@@ -3,21 +3,26 @@ import { Navigation, Autoplay, A11y } from "swiper/modules";
 import "swiper/swiper-bundle.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import hr from "../../assets/Banner/hr.jpg";
+import employee from "../../assets/Banner/employee.jpg";
 
 const Banner = () => {
   const navigate = useNavigate();
   const slides = [
     {
-      image: "https://via.placeholder.com/1600x600", // Replace with your image URL
-      title: "Join as HR Manager",
-      buttonText: "Get Started as HR",
-      buttonAction: () => navigate("/hr"), // Redirect to HR Manager page
+      image: hr,
+      title: "Manage Employees & Assets as HR Manager",
+      subtitle:
+        "Take control of your workforce and asset management in one place.",
+      buttonText: "Get Started as HR Manager",
+      buttonAction: () => navigate("/signUp/hr"),
     },
     {
-      image: "https://via.placeholder.com/1600x600", // Replace with your image URL
-      title: "Join as an Employee",
+      image: employee,
+      title: "Utilize Company Assets as Employee",
+      subtitle: "Access, request, and manage your assigned assets efficiently.",
       buttonText: "Get Started as Employee",
-      buttonAction: () => navigate("/employee"), // Redirect to Employee page
+      buttonAction: () => navigate("/signUp/employee"),
     },
   ];
 
@@ -50,9 +55,11 @@ const Banner = () => {
                 <h1 className="text-2xl sm:text-4xl font-bold mb-4">
                   {slide.title}
                 </h1>
+                <p className="text-sm sm:text-lg mb-6">{slide.subtitle}</p>{" "}
+                {/* Subtitle */}
                 <button
                   onClick={slide.buttonAction}
-                  className="bg-[#F80136] text-white px-6 py-3 rounded-full text-lg hover:bg-white hover:text-[#F80136] transition-all duration-300"
+                  className="bg-[#7367F0] text-white shadow-sm shadow-[#7367F0] px-6 py-3 rounded-sm text-lg  hover:bg-[#685DD8] transition-all duration-300"
                 >
                   {slide.buttonText}
                 </button>
@@ -63,10 +70,10 @@ const Banner = () => {
       </Swiper>
 
       {/* Custom Navigation Buttons */}
-      <div className="custom-prev hidden md:flex absolute left-4 top-1/2 transform -translate-y-1/2 bg-[#F80136] text-white p-2 rounded-full cursor-pointer z-10">
+      <div className="custom-prev hidden md:flex absolute left-4 top-1/2 transform -translate-y-1/2 hover:text-[#817ad6]  text-white p-2 rounded-full cursor-pointer z-10">
         <FaChevronLeft size={24} />
       </div>
-      <div className="custom-next hidden md:flex absolute right-4 top-1/2 transform -translate-y-1/2 bg-[#F80136] text-white p-2 rounded-full cursor-pointer z-10">
+      <div className="custom-next hidden md:flex absolute right-4 top-1/2 transform -translate-y-1/2 hover:text-[#817ad6] text-white p-2 rounded-full cursor-pointer z-10">
         <FaChevronRight size={24} />
       </div>
     </div>
