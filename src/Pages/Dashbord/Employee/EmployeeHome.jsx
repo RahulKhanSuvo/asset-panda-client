@@ -4,11 +4,11 @@ import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { MdCalendarMonth, MdOutlinePendingActions } from "react-icons/md";
-import { Calendar } from "react-date-range";
 import "react-date-range/dist/styles.css"; // Main style file
 import "react-date-range/dist/theme/default.css"; // Default theme
 import CalendarSection from "../../../Components/CalendarSection";
 import { Link } from "react-router-dom";
+import LoadingSpinner from "../../../Components/LoadingSpinner";
 
 const EmployeeHome = () => {
   const { user } = useAuth();
@@ -30,7 +30,8 @@ const EmployeeHome = () => {
   });
   console.log(monthlyRequests);
 
-  if (isLoading || mLoading) return <div>Loading...</div>;
+  if (isLoading || mLoading)
+    return <LoadingSpinner smallHeight></LoadingSpinner>;
 
   return (
     <Container>
@@ -67,10 +68,10 @@ const EmployeeHome = () => {
               </Link>
             </div>
             <div className="overflow-auto w-full h-[530px]">
-              <table className="table overflow-auto ">
+              <table className="table">
                 {/* head */}
                 <thead className="">
-                  <tr className="uppercase text-[#444050]">
+                  <tr className="uppercase text-base text-[#444050]">
                     <th>#</th>
                     <th>Name</th>
                     <th>Type</th>
@@ -78,7 +79,7 @@ const EmployeeHome = () => {
                     <th>Status</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-base">
                   {/* row 1 */}
                   {pendingRq.map((rq, index) => (
                     <tr key={rq._id}>
@@ -115,7 +116,7 @@ const EmployeeHome = () => {
               <table className="table">
                 {/* head */}
                 <thead className="">
-                  <tr className=" uppercase text-[#444050]">
+                  <tr className=" uppercase text-base text-[#444050]">
                     <th>#</th>
                     <th>Name</th>
                     <th>Type</th>
@@ -123,7 +124,7 @@ const EmployeeHome = () => {
                     <th>Status</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-base">
                   {/* row 1 */}
                   {monthlyRequests.map((rq, index) => (
                     <tr key={rq._id}>

@@ -2,7 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import Container from "../../../Components/Container";
 import useUserStatus from "../../../Hooks/useUserStatus";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-
+import LoadingSpinner from "../../../Components/LoadingSpinner";
+import { MdRememberMe } from "react-icons/md";
 const MyTeam = () => {
   const { userDetails } = useUserStatus();
   const axiosSecure = useAxiosSecure();
@@ -22,11 +23,7 @@ const MyTeam = () => {
   });
   console.log(members);
   if (isLoading) {
-    return (
-      <Container>
-        <p>Loading...</p>
-      </Container>
-    );
+    return <LoadingSpinner smallHeight></LoadingSpinner>;
   }
 
   if (error) {
@@ -47,11 +44,11 @@ const MyTeam = () => {
 
   return (
     <Container>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto bg-white mt-8 rounded-md shadow-md">
         <table className="table">
           {/* Table Header */}
           <thead>
-            <tr>
+            <tr className="text-base">
               <th>#</th>
               <th>Image</th>
               <th>Name</th>
@@ -62,13 +59,25 @@ const MyTeam = () => {
           <tbody>
             {members.map((member, index) => (
               <tr key={member._id}>
-                <th>{index + 1}</th>
-                <th>
+                <td>{index + 1}</td>
+                <td>
                   <img className="size-10" src={member?.memberImage} alt="" />
-                </th>
-                <th>{member?.memberName}</th>
-                <th>{member.memberEmail}</th>
-                <th>{member?.memberRole}</th>
+                </td>
+                <td>{member?.memberName}</td>
+                <td>{member.memberEmail}</td>
+                <td>
+                  {member?.memberRole === "employee" ? (
+                    <>
+                      {" "}
+                      <p className="flex items-center">
+                        <MdRememberMe />
+                        employee
+                      </p>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>

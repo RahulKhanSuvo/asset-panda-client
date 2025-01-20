@@ -221,7 +221,7 @@ const HrForm = () => {
               <div className=" md:col-span-2">
                 <button
                   type="submit"
-                  className="w-full px-4 py-2 text-white bg-[#7367F0] rounded-lg hover:bg-[#5d54c8] focus:outline-none focus:ring-2 focus:ring-[#7367F0]"
+                  className="w-full px-4 py-2 text-white bg-[#7367F0] rounded-lg shadow-sm shadow-[#5D54C8] hover:bg-[#5d54c8] focus:outline-none focus:ring-2 focus:ring-[#7367F0]"
                 >
                   Signup
                 </button>

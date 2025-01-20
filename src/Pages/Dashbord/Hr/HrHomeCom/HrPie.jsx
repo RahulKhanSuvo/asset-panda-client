@@ -4,14 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../../Hooks/useAuth";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
-// Register required Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const HrPie = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-
-  // Fetch data using react-query
   const {
     data: chartData,
     isLoading,
@@ -37,10 +34,7 @@ const HrPie = () => {
       {
         label: "Item Distribution",
         data: [chartData.returnable, chartData.nonReturnable],
-        backgroundColor: [
-          "rgba(255, 129, 50, 1)", // Red for Returnable
-          "rgba(54, 162, 235, 0.7)", // Blue for Non-Returnable
-        ],
+        backgroundColor: ["rgba(255, 129, 50, 1)", "rgba(54, 162, 235, 0.7)"],
         borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
         borderWidth: 1,
       },

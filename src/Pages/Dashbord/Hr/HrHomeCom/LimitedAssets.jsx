@@ -12,33 +12,34 @@ const LimitedAssets = () => {
       return data;
     },
   });
-  console.log(limited);
   if (isLoading) return;
   return (
     <div className="w-full">
-      <div className="w-full h-[400px]   bg-white border shadow-md rounded-md">
-        <table className="table table-zebra">
-          {/* head */}
-          <thead>
-            <tr>
-              <th>Top Most Requests</th>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Total Request</th>
-            </tr>
-          </thead>
-          <tbody>
-            {limited.map((item) => (
-              <tr key={item.name}>
-                <td>{item.name}</td>
-                <td>{item.productType}</td>
-                <td>{item.quantity}</td>
+      <div className="w-full bg-white border shadow-md rounded-md overflow-auto">
+        <div className="px-4 py-4 border-b">
+          <p className="text-lg font-medium">Limited Stock</p>
+        </div>
+        <div className="overflow-auto h-[415px]">
+          <table className="table">
+            {/* head */}
+            <thead className="text-base uppercase">
+              <tr>
+                <th>Assets</th>
+                <th>Type</th>
+                <th className="text-center">Quantity</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="text-base">
+              {limited.map((item) => (
+                <tr key={item.name}>
+                  <td>{item.name}</td>
+                  <td className="capitalize">{item.productType}</td>
+                  <td className="text-center">{item.quantity}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

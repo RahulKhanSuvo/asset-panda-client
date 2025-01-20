@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import Container from "../../../Components/Container";
+import { ImSpinner2 } from "react-icons/im";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
@@ -213,7 +214,12 @@ const MyAssets = () => {
                           >
                             {({ loading }) =>
                               loading ? (
-                                "Loading..."
+                                <button
+                                  className="btn btn-sm bg-[#3498DB] hover:bg-[#2980B9] text-white"
+                                  disabled
+                                >
+                                  <ImSpinner2 className="animate-spin" />
+                                </button>
                               ) : (
                                 <button className="btn btn-sm bg-[#3498DB] hover:bg-[#2980B9] text-white">
                                   <FaPrint />

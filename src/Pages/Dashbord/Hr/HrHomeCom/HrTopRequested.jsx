@@ -12,31 +12,33 @@ const HrTopRequested = () => {
       return data;
     },
   });
-  console.log(topRq);
+
   if (isLoading) return;
   return (
     <>
       {" "}
       <div className="w-full">
-        <div className="w-full h-[400px]   bg-white border shadow-md rounded-md">
-          <table className="table table-zebra">
+        <div className="w-full  bg-white border shadow-md rounded-md">
+          <div className="px-4 border-b py-4 text-lg font-medium">
+            <h3>Top Most Requests</h3>
+          </div>
+          <table className="table text-base md:h-[415px]">
             {/* head */}
             <thead>
-              <tr>
-                <th>Top Most Requests</th>
-              </tr>
-              <tr>
-                <th>Name</th>
+              <tr className="text-base uppercase">
+                <th>#</th>
+                <th>Assets</th>
                 <th>Type</th>
-                <th>Total Request</th>
+                <th className="text-center">Total Request</th>
               </tr>
             </thead>
             <tbody>
-              {topRq.map((item) => (
+              {topRq.map((item, index) => (
                 <tr key={item.name}>
+                  <td>{index + 1}</td>
                   <td>{item.name}</td>
-                  <td>{item.assetType}</td>
-                  <td>{item.count}</td>
+                  <td className="capitalize">{item.assetType}</td>
+                  <td className="text-center">{item.count}</td>
                 </tr>
               ))}
             </tbody>
