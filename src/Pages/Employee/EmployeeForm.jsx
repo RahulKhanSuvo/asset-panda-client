@@ -5,7 +5,9 @@ import { imageUpload } from "../../API/Utilits";
 import usePayment from "../../Hooks/usePayment";
 import { useNavigate } from "react-router-dom";
 import showToast from "../../Components/ShowToast";
-
+import ill from "../../assets/shapes/auth-register-illustration-light.png";
+import illBg from "../../assets/shapes/bg-shape-image-light.png";
+import Container from "../../Components/Container";
 const EmployeeForm = () => {
   const [paymentStatus, isLoading, refetch] = usePayment();
   const { userSignUp, updateUserProfile, googleLogin } = useAuth();
@@ -65,94 +67,106 @@ const EmployeeForm = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
-      <h2 className="text-2xl font-bold text-center mb-6 text-[#F80136]">
-        Join as an Employee
-      </h2>
-      {/* Form Section */}
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-4"
-        encType="multipart/form-data"
-      >
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Full Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter your full name"
-            className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-[#F80136]"
-            required
-          />
+    <Container>
+      <section className="flex mt-10  min-h-[calc(100vh-70px)">
+        <div className=" w-3/5 bg-no-repeat bg-bottom hidden lg:block">
+          <img className=" w-[500px] mx-auto " src={ill} alt="" />
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Email
-          </label>
-          <input
-            type="email"
-            name="email"
-            placeholder="Enter your email"
-            className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-[#F80136]"
-            required
-          />
+        <div className=" lg:w-2/5 w-full md:px-16 mx-auto p-6 mb-4 rounded-lg">
+          <h2 className="text-2xl font-bold mb-4">
+            Your Journey Begins Here 🚀
+          </h2>
+          <p className="mb-4">
+            Sign up now and become an essential part of your company's success.
+            Manage tasks, access resources, and grow with your team!
+          </p>
+
+          {/* Form Section */}
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-4"
+            encType="multipart/form-data"
+          >
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Full Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                placeholder="Enter your full name"
+                className="w-full px-4 py-[6px] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] sh focus:shadow-md focus:shadow-[#685DD8]"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                className="w-full px-4 py-[6px] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] sh focus:shadow-md focus:shadow-[#685DD8]"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                className="w-full px-4 py-[6px] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] sh focus:shadow-md focus:shadow-[#685DD8]"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Date of Birth
+              </label>
+              <input
+                type="date"
+                name="date"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] sh focus:shadow-md focus:shadow-[#685DD8]"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Profile Photo
+              </label>
+              <input
+                type="file"
+                required
+                name="photo"
+                accept="image/*"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] sh focus:shadow-md focus:shadow-[#685DD8]"
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full py-2 bg-[#7367F0] text-white rounded-md font-semibold shadow-md hover:bg-[#685DD8] transition-colors duration-300"
+            >
+              Sign Up
+            </button>
+          </form>
+          {/* Social Login Section */}
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">Or sign up with</p>
+            <button
+              onClick={handleSocialLogin}
+              className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-md flex items-center justify-center gap-2 mx-auto hover:bg-blue-700 transition-colors duration-300"
+            >
+              <FaGoogle />
+              Continue with Google
+            </button>
+          </div>
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter your password"
-            className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-[#F80136]"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Date of Birth
-          </label>
-          <input
-            type="date"
-            name="date"
-            className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-[#F80136]"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Profile Photo
-          </label>
-          <input
-            type="file"
-            required
-            name="photo"
-            accept="image/*"
-            className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-[#F80136]"
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full py-2 bg-[#F80136] text-white rounded-md font-semibold hover:bg-red-700 transition-colors duration-300"
-        >
-          Sign Up
-        </button>
-      </form>
-      {/* Social Login Section */}
-      <div className="mt-6 text-center">
-        <p className="text-sm text-gray-600">Or sign up with</p>
-        <button
-          onClick={handleSocialLogin}
-          className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-md flex items-center justify-center gap-2 mx-auto hover:bg-blue-700 transition-colors duration-300"
-        >
-          <FaGoogle />
-          Continue with Google
-        </button>
-      </div>
-    </div>
+      </section>
+    </Container>
   );
 };
 

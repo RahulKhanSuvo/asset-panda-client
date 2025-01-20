@@ -16,9 +16,8 @@ const About = () => {
           </div>
           <div className="max-w-lg text-justify">
             <p className="text-lg leading-relaxed">
-              Welcome to{" "}
-              <span className="font-semibold">XYZ Asset Management System</span>
-              , a next-generation web application designed to help businesses
+              Welcome to <span className="font-semibold">AssetPanda </span>, a
+              next-generation web application designed to help businesses
               streamline their asset tracking and management processes. Our
               platform empowers HR managers to easily monitor and manage company
               assets, ensuring that resources are utilized efficiently and
