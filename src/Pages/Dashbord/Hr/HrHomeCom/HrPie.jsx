@@ -9,11 +9,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const HrPie = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const {
-    data: chartData,
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data: chartData, isLoading } = useQuery({
     queryKey: ["chartData", user?.email],
     queryFn: async () => {
       if (!user?.email) return { returnable: 0, nonReturnable: 0 };
@@ -24,10 +20,9 @@ const HrPie = () => {
   });
 
   if (isLoading) {
-    return;
+    return null; // Show spinner or placeholder if needed
   }
 
-  // Data for the Pie Chart
   const data = {
     labels: ["Returnable Items", "Non-Returnable Items"],
     datasets: [
@@ -41,9 +36,9 @@ const HrPie = () => {
     ],
   };
 
-  // Options for the Pie Chart
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
@@ -55,8 +50,10 @@ const HrPie = () => {
   };
 
   return (
-    <div className="w-full p-6  bg-white border shadow-md rounded-md mt-6">
-      <h2 className="text-center">Employee Request Summary</h2>
+    <div className="w-full p-6 h-[300px] md:h-[400px] lg:h-[420px] mt-6">
+      <h2 className="text-center font-semibold text-lg">
+        Employee Request Summary
+      </h2>
       <Pie data={data} options={options} />
     </div>
   );

@@ -22,7 +22,7 @@ const HrTopRequested = () => {
             <h3>Top Most Requests</h3>
           </div>
           {/* Add overflow-x-auto here */}
-          <div className="overflow-x-auto">
+          <div className="md:h-[415px] overflow-x-auto">
             <table className="table text-base w-full">
               {/* head */}
               <thead>
