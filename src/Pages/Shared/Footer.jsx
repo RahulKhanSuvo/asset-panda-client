@@ -1,7 +1,14 @@
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaLinkedinIn,
+  FaInstagram,
+} from "react-icons/fa";
+
 const Footer = () => {
   return (
     <footer className="bg-[#37334B] text-white py-8">
-      <div className="container mx-auto px-4 md:px-8">
+      <div className="lg:container md:mx-6 mx-4 lg:mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* About Section */}
           <div>
@@ -61,7 +68,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-white transition-colors"
               >
-                <i className="fab fa-facebook-f"></i>
+                <FaFacebookF size={20} />
               </a>
               <a
                 href="https://twitter.com"
@@ -69,7 +76,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-white transition-colors"
               >
-                <i className="fab fa-twitter"></i>
+                <FaTwitter size={20} />
               </a>
               <a
                 href="https://linkedin.com"
@@ -77,7 +84,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-white transition-colors"
               >
-                <i className="fab fa-linkedin-in"></i>
+                <FaLinkedinIn size={20} />
               </a>
               <a
                 href="https://instagram.com"
@@ -85,7 +92,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-white transition-colors"
               >
-                <i className="fab fa-instagram"></i>
+                <FaInstagram size={20} />
               </a>
             </div>
           </div>

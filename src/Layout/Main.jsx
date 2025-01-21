@@ -1,8 +1,11 @@
 import { Outlet } from "react-router-dom";
 import NavBar from "../Pages/Shared/NavBar/NavBar";
 import Footer from "../Pages/Shared/Footer";
+import useAuth from "../Hooks/useAuth";
+import UrFooter from "../Pages/Shared/Profile/UrFooter";
 
 const Main = () => {
+  const { user } = useAuth();
   return (
     <>
       <div className="bg-[#F5F4F7]">
@@ -13,7 +16,7 @@ const Main = () => {
           <Outlet></Outlet>
         </div>
       </div>
-      <Footer></Footer>
+      {user ? <UrFooter></UrFooter> : <Footer></Footer>}
     </>
   );
 };
