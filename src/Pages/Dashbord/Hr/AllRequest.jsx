@@ -70,72 +70,73 @@ const AllRequest = () => {
   return (
     <Container>
       {/* Search Bar */}
-      <div className="flex max-w-xl mx-auto mt-4 items-center border border-gray-300 rounded-md shadow-sm p-2">
-        <FaSearch className="text-gray-500 mr-2" />
-        <input
-          type="text"
-          placeholder="Search by name, email, or asset..."
-          className="flex-1 outline-none"
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setCurrentPage(1);
-          }}
-        />
-      </div>
-      <div className="mt-4">
+
+      <div className="mt-8 rounded-md shadow-md bg-white">
+        <div className="py-4 border-t border-b px-4 ">
+          <div className="flex max-w-sm mx-auto  items-center border border-gray-300 rounded-md shadow-sm p-2">
+            <FaSearch className="text-gray-500 mr-2" />
+            <input
+              type="text"
+              placeholder="Search by name, email, or asset..."
+              className="flex-1 outline-none"
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
+          </div>
+        </div>
         {/* Table view for large screens */}
         <div className="hidden md:block">
           <div className="overflow-x-auto">
-            <table className="table-auto w-full border border-gray-300">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="px-4 py-2 border">#</th>
-                  <th className="px-4 py-2 border">Asset Name</th>
-                  <th className="px-4 py-2 border">Asset Type</th>
-                  <th className="px-4 py-2 border">Requester Email</th>
-                  <th className="px-4 py-2 border">Requester Name</th>
-                  <th className="px-4 py-2 border">Request Date</th>
-                  <th className="px-4 py-2 border">Additional Note</th>
-                  <th className="px-4 py-2 border">Status</th>
-                  <th className="px-4 py-2 border">Actions</th>
+            <table className="table-auto w-full table  border-gray-300">
+              <thead className="">
+                <tr className="text-base uppercase">
+                  <th>#</th>
+                  <th>Asset Name</th>
+                  <th>Asset Type</th>
+                  <th>Requester Email</th>
+                  <th>Requester Name</th>
+                  <th>Request Date</th>
+                  <th>Additional Note</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {paginatedRequests?.length > 0 ? (
                   paginatedRequests.map((request, index) => (
                     <tr key={request._id}>
-                      <td className="px-4 py-2 border text-center">
-                        {(currentPage - 1) * itemsPerPage + index + 1}
-                      </td>
-                      <td className="px-4 py-2 border">{request.assetName}</td>
-                      <td className="px-4 py-2 border">{request.assetType}</td>
-                      <td className="px-4 py-2 border">{request.reqEmail}</td>
-                      <td className="px-4 py-2 border">{request.reqName}</td>
-                      <td className="px-4 py-2 border">
+                      <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
+                      <td className="capitalize">{request.assetName}</td>
+                      <td className="capitalize">{request.assetType}</td>
+                      <td>{request.reqEmail}</td>
+                      <td>{request.reqName}</td>
+                      <td>
                         {new Date(request.requestDate).toLocaleDateString()}
                       </td>
-                      <td className="px-4 py-2 border">
-                        {request.notes || "N/A"}
-                      </td>
-                      <td className="px-4 py-2 border">{request.status}</td>
-                      <td className="px-4 py-2 border flex space-x-2 justify-center">
+                      <td>{request.notes || "N/A"}</td>
+                      <td>{request.status}</td>
+                      <td className=" flex space-x-2 justify-center">
                         <button
                           disabled={
                             request.status === "approved" ||
-                            request.status === "rejected"
+                            request.status === "rejected" ||
+                            request.status === "returned"
                           }
                           onClick={() => handleApprove(request._id)}
-                          className="px-3 py-1 btn bg-green-500 text-white rounded hover:bg-green-600"
+                          className="btn btn-sm bg-green-500 text-white rounded hover:bg-green-600"
                         >
                           Approve
                         </button>
                         <button
                           disabled={
                             request.status === "approved" ||
-                            request.status === "rejected"
+                            request.status === "rejected" ||
+                            request.status === "returned"
                           }
                           onClick={() => handleReject(request._id)}
-                          className="px-3 py-1 bg-red-500 text-white btn rounded hover:bg-red-600"
+                          className=" btn btn-sm bg-red-500 text-white rounded hover:bg-red-600"
                         >
                           Reject
                         </button>
@@ -202,11 +203,11 @@ const AllRequest = () => {
         </div>
 
         {/* Pagination Controls */}
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-end px-4 items-center py-3 gap-2">
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-4 py-2 bg-blue-500 text-white rounded-l-md"
+            className="px-1 py-1 disabled:cursor-not-allowed  bg-gray-300 rounded hover:bg-gray-400"
           >
             Previous
           </button>
@@ -214,7 +215,7 @@ const AllRequest = () => {
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-blue-500 text-white rounded-r-md"
+            className="px-1 py-1 disabled:cursor-not-allowed  bg-gray-300 rounded hover:bg-gray-400"
           >
             Next
           </button>

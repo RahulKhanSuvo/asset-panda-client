@@ -58,10 +58,10 @@ const RequestAssetsModal = ({ isOpen, setIsOpen, asset }) => {
             placeholder="Add your notes here..."
           ></textarea>
         </div>
-        <div className="flex justify-end mt-4">
+        <div className="flex justify-center mt-4">
           <button
             onClick={handleRequest}
-            className="bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="bg-green-500 shadow-green-500 text-white px-4 py-2 rounded-md shadow hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             Request
           </button>

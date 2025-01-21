@@ -8,10 +8,15 @@ import RequestAssetsModal from "../../../Modal/RequestAssetsModal";
 const AssetsRequest = () => {
   const { userDetails } = useUserStatus();
   const axiosSecure = useAxiosSecure();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
   const [selectedAsset, setSelectedAsset] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
   const {
     data: assets,
     isLoading,
@@ -42,84 +47,157 @@ const AssetsRequest = () => {
     setSelectedAsset(asset);
     setIsModalOpen(true);
   };
-  console.log(assets);
+
+  // Pagination logic
+  const totalAssets = assets ? assets.length : 0;
+  const totalPages = Math.ceil(totalAssets / itemsPerPage);
+  const currentAssets = assets
+    ? assets.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+    : [];
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
+
+  const handlePrevious = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+
   return (
     <Container>
-      <div className="mt-6">
-        <div className="flex justify-between items-center">
-          <div className="mb-4">
-            <input
-              onChange={(e) => setSearchQuery(e.target.value)}
-              type="text"
-              placeholder="Search by name..."
-              className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-            />
-          </div>
-          <div>
-            <select
-              onChange={(e) => setFilterStatus(e.target.value)}
-              id="stockStatus"
-              className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-            >
-              <option value="all">Filter</option>
-              <optgroup label="Stock Status">
-                <option value="available">Available</option>
-                <option value="out-of-stock">Out of Stock</option>
-              </optgroup>
-              <optgroup label="Asset Type">
-                <option value="returnable">Returnable</option>
-                <option value="non-returnable">Non-Returnable</option>
-              </optgroup>
-            </select>
+      <div className="mt-6 shadow-md rounded-md bg-white">
+        <div className="">
+          <div className="flex px-4 py-2 border justify-between items-center">
+            <div className="">
+              <input
+                onChange={(e) => setSearchQuery(e.target.value)}
+                type="text"
+                placeholder="Search by name..."
+                className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+            <div>
+              <select
+                onChange={(e) => setFilterStatus(e.target.value)}
+                id="stockStatus"
+                className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              >
+                <option value="all">Filter</option>
+                <optgroup label="Stock Status">
+                  <option value="available">Available</option>
+                  <option value="out-of-stock">Out of Stock</option>
+                </optgroup>
+                <optgroup label="Asset Type">
+                  <option value="returnable">Returnable</option>
+                  <option value="non-returnable">Non-Returnable</option>
+                </optgroup>
+              </select>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="table">
-          {/* Table Head */}
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Asset Type</th>
-              <th>Availability</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* Table Body */}
-            {assets && assets.length > 0 ? (
-              assets.map((asset, index) => (
-                <tr key={asset._id}>
-                  <th>{index + 1}</th>
-                  <td>{asset.name}</td>
-                  <td>{asset.productType}</td>
-                  <td>{asset.quantity > 0 ? "Available" : "Out of stock"}</td>
-                  <td>
-                    <button
-                      onClick={() => handelRequest(asset)}
-                      disabled={asset?.quantity <= 0}
-                      className="btn"
-                    >
-                      Request
-                    </button>
+        <div className="overflow-x-auto">
+          <table className="table">
+            {/* Table Head */}
+            <thead>
+              <tr className="text-base uppercase">
+                <th>#</th>
+                <th>Name</th>
+                <th>Asset Type</th>
+                <th>Availability</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Table Body */}
+              {currentAssets && currentAssets.length > 0 ? (
+                currentAssets.map((asset, index) => (
+                  <tr key={asset._id} className="hover text-base">
+                    <th>{(currentPage - 1) * itemsPerPage + index + 1}</th>
+                    <td>{asset.name}</td>
+                    <td className="capitalize">{asset.productType}</td>
+                    <td>
+                      <span
+                        className={`text-[#2EC973] bg-[#DDF6E8] px-1 rounded-md ${
+                          asset.quantity === 0 ? "text-red-600 bg-red-400" : ""
+                        }`}
+                      >
+                        {asset.quantity > 0 ? "Available" : "Out of stock"}
+                      </span>
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => handelRequest(asset)}
+                        disabled={asset?.quantity <= 0}
+                        className="btn hover:bg-[#28A745] btn-sm text-white bg-[#34D399]"
+                      >
+                        Request
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="text-center">
+                    No assets found.
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="4" className="text-center">
-                  No assets found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-        <RequestAssetsModal
-          setIsOpen={setIsModalOpen}
-          isOpen={isModalOpen}
-          asset={selectedAsset}
-        ></RequestAssetsModal>
+              )}
+            </tbody>
+          </table>
+          <RequestAssetsModal
+            setIsOpen={setIsModalOpen}
+            isOpen={isModalOpen}
+            asset={selectedAsset}
+          ></RequestAssetsModal>
+        </div>
+
+        {/* Pagination */}
+        <div className="flex justify-center border py-4 space-x-2">
+          {/* Previous Button */}
+          <button
+            onClick={handlePrevious}
+            disabled={currentPage === 1}
+            className={`px-3 py-1 flex items-center gap-1 rounded ${
+              currentPage === 1
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-[#EFEEF0] hover:bg-[#E9E7FD]"
+            }`}
+          >
+            Previous
+          </button>
+
+          {/* Page Numbers */}
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => handlePageChange(i + 1)}
+              className={`px-3 py-1 rounded ${
+                currentPage === i + 1
+                  ? "bg-[#7367F0] text-white shadow-sm shadow-[#7367F0]"
+                  : "bg-[#EFEEF0] hover:bg-[#E9E7FD]"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+
+          {/* Next Button */}
+          <button
+            onClick={handleNext}
+            disabled={currentPage === totalPages}
+            className={`px-3 py-1 flex items-center gap-1 rounded ${
+              currentPage === totalPages
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-[#EFEEF0] hover:bg-[#E9E7FD]"
+            }`}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </Container>
   );

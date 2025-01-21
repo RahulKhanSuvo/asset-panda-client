@@ -133,15 +133,20 @@ const EmployeeHome = () => {
                       <td>{rq.assetType}</td>
                       <td>{format(new Date(rq?.requestDate), "yyyy-MM-dd")}</td>
                       <td>
-                        <p
-                          className={
-                            rq.status === "pending" &&
-                            "bg-[#FFE2E3] w-fit px-3 py-1 text-[#FF8487] rounded-md"
-                          }
+                        <span
+                          className={`${
+                            rq.status === "pending"
+                              ? "text-[#FF9F43] bg-[#FFF0E1]"
+                              : rq.status === "approved"
+                              ? "text-[#28C76F] bg-[#DDF6E8]"
+                              : rq.status === "cancel"
+                              ? "text-[#FF4C51] bg-[#FFE2E3]"
+                              : "text-[#db3434] bg-[#FFE2E3]"
+                          } px-2 rounded-md py-1 capitalize`}
                         >
                           {" "}
                           {rq.status}
-                        </p>
+                        </span>
                       </td>
                     </tr>
                   ))}

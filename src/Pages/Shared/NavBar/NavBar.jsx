@@ -1,113 +1,132 @@
+import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { IoLogOutOutline } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
-import useAuth from "../../../Hooks/useAuth";
 import { HiOutlineLogin } from "react-icons/hi";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import useAuth from "../../../Hooks/useAuth";
 import Container from "../../../Components/Container";
-import logoFav from "../../../assets/Logo/AssetPandaLogoSVG.svg";
 import useUserStatus from "../../../Hooks/useUserStatus";
+import logo2 from "../../../assets/Banner/Untitled_design__1_-removebg-preview.png";
+
 const NavBar = () => {
   const { userDetails } = useUserStatus();
   const { user, logOut } = useAuth();
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State for mobile menu toggle
+  const getLinkStyles = ({ isActive }) =>
+    isActive
+      ? "text-[#7367F0] font-semibold underline"
+      : "text-gray-700 hover:text-[#7367F0]";
+
+  const handleLogout = () => {
+    logOut();
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   const employeeLinks = (
     <>
-      <NavLink to={"/employeeHome"}>Home</NavLink>
-      <NavLink to={"/employee/myAssets"}>My Assets</NavLink>
-      <NavLink to={"/employee/myTeam"}>My Team</NavLink>
-      <NavLink to={"/employee/requestAsset"}>Request for an Asset</NavLink>
-      <NavLink to={"/profile"}>Profile</NavLink>
+      <NavLink className={getLinkStyles} to={"/employeeHome"}>
+        Home
+      </NavLink>
+      <NavLink className={getLinkStyles} to={"/employee/myAssets"}>
+        My Assets
+      </NavLink>
+      <NavLink className={getLinkStyles} to={"/employee/myTeam"}>
+        My Team
+      </NavLink>
+      <NavLink className={getLinkStyles} to={"/employee/requestAsset"}>
+        Request for an Asset
+      </NavLink>
+      <NavLink className={getLinkStyles} to={"/profile"}>
+        Profile
+      </NavLink>
     </>
   );
 
   const hrLinks = (
     <>
-      <NavLink to={"/hrHome"}>Home</NavLink>
-      <NavLink to={"/hr/assets"}>Asset List</NavLink>
-      <NavLink to={"/hr/addAssets"}>Add an Asset</NavLink>
-      <NavLink to={"/hr/allRequests"}>All Requests</NavLink>
-      <NavLink to={"/hr/myEmployee"}>My Employee List</NavLink>
-      <NavLink to={"/hr/addEmployee"}>Add an Employee</NavLink>
-      <NavLink to={"/profile"}>Profile</NavLink>
-    </>
-  );
-  const handleLogout = () => {
-    logOut();
-  };
-  const guestLinks = (
-    <>
-      <NavLink
-        className={({ isActive }) =>
-          isActive
-            ? "text-[#7367F0]  underline"
-            : "text-gray-700 hover:text-[#7367F0]"
-        }
-        to={"/"}
-      >
+      <NavLink className={getLinkStyles} to={"/hrHome"}>
         Home
       </NavLink>
-      <NavLink
-        className={({ isActive }) =>
-          isActive
-            ? "text-[#7367F0] underline"
-            : "text-gray-700 hover:text-[#7367F0]"
-        }
-        to={"/signUp/employee"}
-      >
+      <NavLink className={getLinkStyles} to={"/hr/assets"}>
+        Asset List
+      </NavLink>
+      <NavLink className={getLinkStyles} to={"/hr/addAssets"}>
+        Add an Asset
+      </NavLink>
+      <NavLink className={getLinkStyles} to={"/hr/allRequests"}>
+        All Requests
+      </NavLink>
+      <NavLink className={getLinkStyles} to={"/hr/myEmployee"}>
+        My Employee List
+      </NavLink>
+      <NavLink className={getLinkStyles} to={"/hr/addEmployee"}>
+        Add an Employee
+      </NavLink>
+      <NavLink className={getLinkStyles} to={"/profile"}>
+        Profile
+      </NavLink>
+    </>
+  );
+
+  const guestLinks = (
+    <>
+      <NavLink className={getLinkStyles} to={"/"}>
+        Home
+      </NavLink>
+      <NavLink className={getLinkStyles} to={"/signUp/employee"}>
         Join as Employee
       </NavLink>
-      <NavLink
-        className={({ isActive }) =>
-          isActive
-            ? "text-[#7367F0]  underline"
-            : "text-gray-700 hover:text-[#7367F0]"
-        }
-        to={"/signUp/hr"}
-      >
+      <NavLink className={getLinkStyles} to={"/signUp/hr"}>
         Join as HR Manager
       </NavLink>
     </>
   );
 
   return (
-    <nav className="backdrop-blur-lg bg-white bg-opacity-65 border">
+    <nav className="backdrop-blur-lg bg-white bg-opacity-65 border shadow-sm sticky top-0 z-50">
       <Container>
-        <div className="flex justify-between items-center py-4 top-0  z-10 text-black ">
+        <div className="flex justify-between items-center py-4">
+          {/* Mobile Menu Toggle */}
+          <div className="lg:hidden">
+            <button onClick={toggleMenu}>
+              {isMenuOpen ? (
+                <AiOutlineClose size={28} />
+              ) : (
+                <AiOutlineMenu size={28} />
+              )}
+            </button>
+          </div>
+
           {/* Logo */}
           <div>
             {user?.email && userDetails?.companyLogo ? (
-              <>
-                {userDetails?.role === "hr" ||
-                userDetails?.role === "employee" ? (
-                  <img
-                    className="size-12"
-                    src={userDetails?.companyLogo}
-                    alt="Company Logo"
-                  />
-                ) : (
-                  <img className="w-24" src={logoFav} alt="Default Logo" />
-                )}
-              </>
+              <img
+                className="w-20"
+                src={userDetails?.companyLogo}
+                alt="Company Logo"
+              />
             ) : (
-              <img className="w-24" src={logoFav} alt="Default Logo" />
+              <img className="w-24" src={logo2} alt="Default Logo" />
             )}
           </div>
 
           {/* Navigation Links */}
-          <div className="flex gap-6">
-            {user?.email ? (
-              <>
-                {userDetails?.role === "hr"
-                  ? hrLinks
-                  : userDetails?.role === "employee"
-                  ? employeeLinks
-                  : null}
-              </>
-            ) : (
-              <>{guestLinks}</>
-            )}
+          <div className="hidden lg:flex space-x-4">
+            {user?.email
+              ? userDetails?.role === "hr"
+                ? hrLinks
+                : userDetails?.role === "employee"
+                ? employeeLinks
+                : null
+              : guestLinks}
           </div>
+
           {/* User Profile and Authentication */}
-          <div>
+          <div className="flex gap-2 items-center">
             {user ? (
               <div className="flex gap-2 items-center">
                 {user?.photoURL ? (
@@ -136,6 +155,24 @@ const NavBar = () => {
             )}
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div
+            className={`fixed  flex flex-col left-0 h-fit rounded-md bg-white shadow-md rounded-r-md p-4 space-y-2 z-50 transform ${
+              isMenuOpen ? "translate-x-0" : "-translate-x-full"
+            } transition-transform duration-300`}
+          >
+            {user?.email
+              ? userDetails?.role === "hr"
+                ? hrLinks
+                : userDetails?.role === "employee"
+                ? employeeLinks
+                : null
+              : guestLinks}
+            <div></div>
+          </div>
+        )}
       </Container>
     </nav>
   );

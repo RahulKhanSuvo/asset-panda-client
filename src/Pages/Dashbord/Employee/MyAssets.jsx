@@ -101,8 +101,8 @@ const MyAssets = () => {
   return (
     <Container>
       <div className="bg-white rounded-md shadow-md mt-8">
-        <div className="flex border-t py-3 justify-between px-4">
-          <div className="flex items-center relative border-gray-300 rounded-md shadow-sm ">
+        <div className="flex  flex-col md:flex-row border-t py-3 justify-between px-4">
+          <div className="flex  items-center relative border-gray-300 rounded-md shadow-sm ">
             <FaSearch className="text-gray-500 absolute left-1" />
             <input
               type="text"
@@ -173,7 +173,7 @@ const MyAssets = () => {
                               ? "text-[#28C76F] bg-[#DDF6E8]"
                               : asset.status === "cancel"
                               ? "text-[#FF4C51] bg-[#FFE2E3]"
-                              : "text-[#3498DB] bg-[#D6F4F8]"
+                              : "text-[#db3434] bg-[#FFE2E3]"
                           } px-2 rounded-md py-1 capitalize`}
                         >
                           {" "}

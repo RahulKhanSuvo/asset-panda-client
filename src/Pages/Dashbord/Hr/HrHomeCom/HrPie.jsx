@@ -55,7 +55,7 @@ const HrPie = () => {
   };
 
   return (
-    <div className="w-[500px] p-6  bg-white border shadow-md rounded-md mt-6">
+    <div className="w-full p-6  bg-white border shadow-md rounded-md mt-6">
       <h2 className="text-center">Employee Request Summary</h2>
       <Pie data={data} options={options} />
     </div>

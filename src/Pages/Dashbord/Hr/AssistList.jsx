@@ -80,8 +80,8 @@ const AssistList = () => {
 
   return (
     <Container>
-      <div className="rounded-lg border-t bg-white mt-8">
-        <div className="flex justify-between rounded-ss-xl border-x px-4 py-3 border-b items-center">
+      <div className="rounded-lg border shadow-md bg-white mt-8">
+        <div className="flex justify-between  px-4 py-3 border-b items-center">
           {" "}
           <div className="flex flex-wrap gap-4 ">
             {/* Stock Status Filter */}
@@ -125,12 +125,12 @@ const AssistList = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-md shadow-md">
+        <div className="bg-white rounded-md ">
           <div className="overflow-x-auto">
             <table className="table">
               {/* head */}
               <thead>
-                <tr>
+                <tr className="text-base uppercase">
                   <th></th>
                   <th>Name</th>
                   <th>Type</th>
@@ -141,10 +141,10 @@ const AssistList = () => {
               </thead>
               <tbody>
                 {paginatedAssets.map((asset, index) => (
-                  <tr key={asset._id} className="hover">
+                  <tr key={asset._id} className="hover text-base">
                     <th>{(currentPage - 1) * itemsPerPage + index + 1}</th>
-                    <td>{asset.name}</td>
-                    <td>{asset.productType}</td>
+                    <td className="capitalize">{asset.name}</td>
+                    <td className="capitalize">{asset.productType}</td>
                     <td>{asset.quantity}</td>
                     <td>
                       {asset?.timestamp &&
@@ -172,11 +172,11 @@ const AssistList = () => {
         </div>
 
         {/* Pagination Controls */}
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-end border items-center px-4 py-2">
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-4 py-2 bg-blue-500 text-white rounded-l-md"
+            className="px-4 py-2 btn btn-sm bg-blue-500 text-white rounded-l-md"
           >
             Previous
           </button>
@@ -184,7 +184,7 @@ const AssistList = () => {
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-blue-500 text-white rounded-r-md"
+            className="px-4 py-2 btn btn-sm bg-blue-500 text-white rounded-r-md"
           >
             Next
           </button>

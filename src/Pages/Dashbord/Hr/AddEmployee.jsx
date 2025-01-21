@@ -9,6 +9,7 @@ import useUserInfo from "../../../Hooks/useUserInfo";
 import useTeam from "../../../Hooks/useTeam";
 import Swal from "sweetalert2";
 import LoadingSpinner from "../../../Components/LoadingSpinner";
+
 const AddEmployee = () => {
   const axiosSecure = useAxiosSecure();
   const { userInfo } = useUserInfo();
@@ -21,6 +22,8 @@ const AddEmployee = () => {
   } = useEmployeeCount();
   const navigate = useNavigate();
   const [selectedEmployees, setSelectedEmployees] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1); // Current page
+  const employeesPerPage = 5; // Number of employees per page
 
   // Fetch free employees
   const {
@@ -36,6 +39,7 @@ const AddEmployee = () => {
     },
     enabled: !!user?.email,
   });
+
   if (isLoading || isCountLoading) {
     return <LoadingSpinner smallHeight></LoadingSpinner>;
   }
@@ -43,6 +47,24 @@ const AddEmployee = () => {
   if (error) {
     return <div>Error fetching employees: {error.message}</div>;
   }
+
+  // Pagination logic
+  const indexOfLastEmployee = currentPage * employeesPerPage;
+  const indexOfFirstEmployee = indexOfLastEmployee - employeesPerPage;
+  const currentEmployees = employees.slice(
+    indexOfFirstEmployee,
+    indexOfLastEmployee
+  );
+
+  const totalPages = Math.ceil(employees.length / employeesPerPage);
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
 
   // Handle checkbox selection
   const handleCheckboxChange = (employeeId) => {
@@ -55,11 +77,13 @@ const AddEmployee = () => {
         : [...prev, employeeId]
     );
   };
+
   const addTeamData = {
     companyName: userInfo.companyName,
     companyLogo: userInfo.companyLogo,
     hrEmail: userInfo.email,
   };
+
   // Add selected members to the team
   const handleAddToTeam = async (employeeData) => {
     if (team.length >= employeeCount?.members) {
@@ -94,7 +118,6 @@ const AddEmployee = () => {
     } catch (error) {
       console.log(error);
 
-      // Error alert
       Swal.fire({
         icon: "error",
         toast: true,
@@ -103,7 +126,8 @@ const AddEmployee = () => {
       });
     }
   };
-  const handelAddSelectedToTeam = async () => {
+
+  const handleAddSelectedToTeam = async () => {
     if (team.length >= employeeCount?.members) {
       Swal.fire({
         toast: true,
@@ -125,7 +149,6 @@ const AddEmployee = () => {
           memberEmail: employee.email,
           memberImage: employee.image,
         }));
-      console.log(selectedEmployeeData);
 
       await axiosSecure.post("/addSelectedTeam", selectedEmployeeData);
       employeeRefetch();
@@ -156,23 +179,20 @@ const AddEmployee = () => {
 
   return (
     <Container>
-      <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
-        <h1 className="text-2xl font-bold text-center mb-6 text-[#F80136]">
-          Manage Employees
-        </h1>
-
+      <div className="mx-auto max-w-4xl bg-white border shadow-md mt-8">
         {/* Package Section */}
-        <div className="p-4 border rounded-md bg-gray-50 mb-8">
-          <h2 className="text-xl font-semibold mb-2">Package Information</h2>
-          <p>
-            <strong>Current Team Members:</strong> {team.length}
-          </p>
-          <p>
-            <strong>Team Limit:</strong> {employeeCount?.members || 0}
-          </p>
+        <div className="p-4 flex justify-between items-center border bg-gray-50 mb-8">
+          <div>
+            <p>
+              <strong>Current Team Members:</strong> {team.length}
+            </p>
+            <p>
+              <strong>Team Limit:</strong> {employeeCount?.members || 0}
+            </p>
+          </div>
           <button
             onClick={handleIncreaseLimit}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md shadow-md shadow-blue-500 hover:bg-blue-700 transition-colors"
           >
             Increase Limit
           </button>
@@ -180,15 +200,17 @@ const AddEmployee = () => {
 
         {/* Free Employee List Section */}
         <div>
-          <h2 className="text-xl font-semibold mb-4">Available Employees</h2>
-          {employees.length === 0 ? (
+          <h2 className="text-xl font-semibold mb-4 px-4">
+            Available Employees
+          </h2>
+          {currentEmployees.length === 0 ? (
             <p>No free employees available.</p>
           ) : (
             <div className="space-y-4">
-              {employees.map((employee) => (
+              {currentEmployees.map((employee) => (
                 <div
                   key={employee._id}
-                  className="flex items-center justify-between p-4 border rounded-md bg-gray-50"
+                  className="flex items-center justify-between p-4 border  bg-gray-50"
                 >
                   <div className="flex items-center gap-4">
                     <input
@@ -206,7 +228,7 @@ const AddEmployee = () => {
                   </div>
                   <button
                     onClick={() => handleAddToTeam(employee)}
-                    className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+                    className="px-4 py-2  bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
                   >
                     Add to Team
                   </button>
@@ -215,15 +237,44 @@ const AddEmployee = () => {
             </div>
           )}
         </div>
-
-        {selectedEmployees.length > 0 && (
+        <div className="text-center ">
+          {selectedEmployees.length > 0 && (
+            <button
+              onClick={handleAddSelectedToTeam}
+              className=" py-2 btn btn-sm bg-[#F80136] my-2 text-white rounded-md font-semibold hover:bg-red-700 transition-colors"
+            >
+              Add Selected Members to the Team
+            </button>
+          )}
+        </div>
+        {/* Pagination Controls */}
+        <div className="flex justify-end border items-center gap-2 px-4 py-4">
           <button
-            onClick={handelAddSelectedToTeam}
-            className="mt-6 w-full py-2 bg-[#F80136] text-white rounded-md font-semibold hover:bg-red-700 transition-colors"
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded-md ${
+              currentPage === 1
+                ? "bg-gray-300  btn-sm btn cursor-not-allowed"
+                : "bg-blue-600  btn-sm btn text-white hover:bg-blue-700"
+            }`}
           >
-            Add Selected Members to the Team
+            Previous
           </button>
-        )}
+          <p>
+            Page {currentPage} of {totalPages}
+          </p>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded-md ${
+              currentPage === totalPages
+                ? "bg-gray-300  btn-sm btn cursor-not-allowed"
+                : "bg-blue-600  btn-sm btn text-white hover:bg-blue-700"
+            }`}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </Container>
   );

@@ -52,7 +52,7 @@ const Packages = () => {
                   <span className="text-4xl font-bold text-[#7367F0]">
                     {pkg.price}
                   </span>{" "}
-                  /month
+                  /year
                 </p>
                 <p className="text-sm text-gray-600">
                   Up to {pkg.maxEmployees} employees
