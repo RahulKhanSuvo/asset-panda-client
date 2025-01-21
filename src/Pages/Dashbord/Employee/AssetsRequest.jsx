@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import useUserStatus from "../../../Hooks/useUserStatus";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import RequestAssetsModal from "../../../Modal/RequestAssetsModal";
+import { ImSpinner2 } from "react-icons/im";
 
 const AssetsRequest = () => {
   const { userDetails } = useUserStatus();
@@ -100,104 +101,120 @@ const AssetsRequest = () => {
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="table">
-            {/* Table Head */}
-            <thead>
-              <tr className="text-base uppercase">
-                <th>#</th>
-                <th>Name</th>
-                <th>Asset Type</th>
-                <th>Availability</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* Table Body */}
-              {currentAssets && currentAssets.length > 0 ? (
-                currentAssets.map((asset, index) => (
-                  <tr key={asset._id} className="hover text-base">
-                    <th>{(currentPage - 1) * itemsPerPage + index + 1}</th>
-                    <td>{asset.name}</td>
-                    <td className="capitalize">{asset.productType}</td>
-                    <td>
-                      <span
-                        className={`text-[#2EC973] bg-[#DDF6E8] px-1 rounded-md ${
-                          asset.quantity === 0 ? "text-red-600 bg-red-400" : ""
-                        }`}
-                      >
-                        {asset.quantity > 0 ? "Available" : "Out of stock"}
-                      </span>
-                    </td>
-                    <td>
-                      <button
-                        onClick={() => handelRequest(asset)}
-                        disabled={asset?.quantity <= 0}
-                        className="btn hover:bg-[#28A745] btn-sm text-white bg-[#34D399]"
-                      >
-                        Request
-                      </button>
-                    </td>
+          {isLoading ? (
+            <div className="flex justify-center items-center py-8">
+              <ImSpinner2 className="animate-spin text-indigo-500 text-4xl" />
+            </div>
+          ) : isError ? (
+            <div className="text-center text-red-500 py-8">
+              Error fetching assets. Please try again later.
+            </div>
+          ) : (
+            <>
+              <table className="table">
+                {/* Table Head */}
+                <thead>
+                  <tr className="text-base uppercase">
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Asset Type</th>
+                    <th>Availability</th>
+                    <th>Action</th>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="5" className="text-center">
-                    No assets found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-          <RequestAssetsModal
-            setIsOpen={setIsModalOpen}
-            isOpen={isModalOpen}
-            asset={selectedAsset}
-          ></RequestAssetsModal>
+                </thead>
+                <tbody>
+                  {/* Table Body */}
+                  {currentAssets && currentAssets.length > 0 ? (
+                    currentAssets.map((asset, index) => (
+                      <tr key={asset._id} className="hover text-base">
+                        <th>{(currentPage - 1) * itemsPerPage + index + 1}</th>
+                        <td>{asset.name}</td>
+                        <td className="capitalize">{asset.productType}</td>
+                        <td>
+                          <span
+                            className={`text-[#2EC973] bg-[#DDF6E8] px-1 rounded-md ${
+                              asset.quantity === 0
+                                ? "text-red-600 bg-red-400"
+                                : ""
+                            }`}
+                          >
+                            {asset.quantity > 0 ? "Available" : "Out of stock"}
+                          </span>
+                        </td>
+                        <td>
+                          <button
+                            onClick={() => handelRequest(asset)}
+                            disabled={asset?.quantity <= 0}
+                            className="btn hover:bg-[#28A745] btn-sm text-white bg-[#34D399]"
+                          >
+                            Request
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5" className="text-center">
+                        No assets found.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+              <RequestAssetsModal
+                setIsOpen={setIsModalOpen}
+                isOpen={isModalOpen}
+                asset={selectedAsset}
+              ></RequestAssetsModal>
+            </>
+          )}
         </div>
 
         {/* Pagination */}
-        <div className="flex justify-center border py-4 space-x-2">
-          {/* Previous Button */}
-          <button
-            onClick={handlePrevious}
-            disabled={currentPage === 1}
-            className={`px-3 py-1 flex items-center gap-1 rounded ${
-              currentPage === 1
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-[#EFEEF0] hover:bg-[#E9E7FD]"
-            }`}
-          >
-            Previous
-          </button>
-
-          {/* Page Numbers */}
-          {Array.from({ length: totalPages }, (_, i) => (
+        {!isLoading && (
+          <div className="flex justify-center border py-4 space-x-2">
+            {/* Previous Button */}
             <button
-              key={i}
-              onClick={() => handlePageChange(i + 1)}
-              className={`px-3 py-1 rounded ${
-                currentPage === i + 1
-                  ? "bg-[#7367F0] text-white shadow-sm shadow-[#7367F0]"
+              onClick={handlePrevious}
+              disabled={currentPage === 1}
+              className={`px-3 py-1 flex items-center gap-1 rounded ${
+                currentPage === 1
+                  ? "bg-gray-300 cursor-not-allowed"
                   : "bg-[#EFEEF0] hover:bg-[#E9E7FD]"
               }`}
             >
-              {i + 1}
+              Previous
             </button>
-          ))}
 
-          {/* Next Button */}
-          <button
-            onClick={handleNext}
-            disabled={currentPage === totalPages}
-            className={`px-3 py-1 flex items-center gap-1 rounded ${
-              currentPage === totalPages
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-[#EFEEF0] hover:bg-[#E9E7FD]"
-            }`}
-          >
-            Next
-          </button>
-        </div>
+            {/* Page Numbers */}
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i}
+                onClick={() => handlePageChange(i + 1)}
+                className={`px-3 py-1 rounded ${
+                  currentPage === i + 1
+                    ? "bg-[#7367F0] text-white shadow-sm shadow-[#7367F0]"
+                    : "bg-[#EFEEF0] hover:bg-[#E9E7FD]"
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+
+            {/* Next Button */}
+            <button
+              onClick={handleNext}
+              disabled={currentPage === totalPages}
+              className={`px-3 py-1 flex items-center gap-1 rounded ${
+                currentPage === totalPages
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-[#EFEEF0] hover:bg-[#E9E7FD]"
+              }`}
+            >
+              Next
+            </button>
+          </div>
+        )}
       </div>
     </Container>
   );

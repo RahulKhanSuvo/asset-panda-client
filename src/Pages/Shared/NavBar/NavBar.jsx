@@ -132,13 +132,13 @@ const NavBar = () => {
                 {user?.photoURL ? (
                   <img
                     src={user?.photoURL}
-                    alt="User Profile"
-                    className="w-10 h-10 rounded-full"
+                    alt="User  Profile"
+                    className="w-10 hidden md:block h-10 rounded-full"
                   />
                 ) : (
                   <FaUserCircle size={40} color="#555" />
                 )}
-                <p className="ml-2">{user?.displayName}</p>
+                <p className="ml-2 hidden md:block">{user?.displayName}</p>
                 <button
                   onClick={handleLogout}
                   className="px-4 flex items-center gap-1 py-1 shadow-sm shadow-[#FF4C51] bg-[#FF4C51] hover:bg-[#E64449] text-white rounded"
@@ -163,6 +163,18 @@ const NavBar = () => {
               isMenuOpen ? "translate-x-0" : "-translate-x-full"
             } transition-transform duration-300`}
           >
+            <div className="flex items-center">
+              {user?.photoURL ? (
+                <img
+                  src={user?.photoURL}
+                  alt="User Profile"
+                  className="w-10 h-10 rounded-full"
+                />
+              ) : (
+                <FaUserCircle size={40} color="#555" />
+              )}
+              <p className="ml-2">{user?.displayName}</p>
+            </div>
             {user?.email
               ? userDetails?.role === "hr"
                 ? hrLinks

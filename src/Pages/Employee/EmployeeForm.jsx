@@ -6,13 +6,18 @@ import usePayment from "../../Hooks/usePayment";
 import { useNavigate } from "react-router-dom";
 import showToast from "../../Components/ShowToast";
 import ill from "../../assets/shapes/auth-register-illustration-light.png";
-import illBg from "../../assets/shapes/bg-shape-image-light.png";
 import Container from "../../Components/Container";
+import { useState } from "react";
+
 const EmployeeForm = () => {
   const [paymentStatus, isLoading, refetch] = usePayment();
   const { userSignUp, updateUserProfile, googleLogin } = useAuth();
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
+
+  const [errors, setErrors] = useState({});
+  const [photoError, setPhotoError] = useState("");
+
   const handleSocialLogin = () => {
     googleLogin()
       .then(async (result) => {
@@ -23,7 +28,7 @@ const EmployeeForm = () => {
             date_of_birth: null,
             image: result.user.photoURL || null,
           });
-          showToast("account create successful");
+          showToast("Account created successfully");
           refetch();
           navigate("/");
         } catch (error) {
@@ -35,30 +40,70 @@ const EmployeeForm = () => {
       });
   };
 
+  const validateForm = (form) => {
+    const newErrors = {};
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const password = form.password.value.trim();
+    const date = form.date.value;
+
+    if (!name) newErrors.name = "Name is required.";
+    if (!email || !/\S+@\S+\.\S+/.test(email))
+      newErrors.email = "Valid email is required.";
+    if (!password || password.length < 6)
+      newErrors.password = "Password must be at least 6 characters long.";
+    if (!date) newErrors.date = "Date of Birth is required.";
+
+    return newErrors;
+  };
+
+  const validatePhoto = (photo) => {
+    const maxSize = 2 * 1024 * 1024; // 2MB
+    if (photo.size > maxSize) {
+      return "File size should be less than 2MB.";
+    }
+    if (!photo.type.startsWith("image/")) {
+      return "File must be an image.";
+    }
+    return "";
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
+
+    const newErrors = validateForm(form);
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) return;
+
+    const photo = form.photo.files[0];
+    const photoValidationError = validatePhoto(photo);
+
+    if (photoValidationError) {
+      setPhotoError(photoValidationError);
+      return;
+    }
+    setPhotoError("");
+
     const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
     const date = form.date.value;
-    const photo = form.photo.files[0];
 
     try {
       const logoUrl = await imageUpload(photo);
       const result = await userSignUp(email, password);
-      console.log(result);
 
       await updateUserProfile({ displayName: name, photoURL: logoUrl });
-      console.log("User profile updated");
 
-      const { data } = await axiosPublic.post(`/employees/${email}`, {
+      await axiosPublic.post(`/employees/${email}`, {
         name,
         email,
         date,
         image: logoUrl,
       });
-      console.log("Employee created:", data);
+      showToast("Account created successfully");
       refetch();
       navigate("/");
     } catch (error) {
@@ -68,11 +113,11 @@ const EmployeeForm = () => {
 
   return (
     <Container>
-      <section className="flex pt-10  min-h-[calc(100vh-70px)">
-        <div className=" w-3/5 bg-no-repeat bg-bottom hidden lg:block">
-          <img className=" w-[500px] mx-auto " src={ill} alt="" />
+      <section className="flex pt-10 min-h-[calc(100vh-70px)]">
+        <div className="w-3/5 bg-no-repeat bg-bottom hidden lg:block">
+          <img className="w-[500px] mx-auto" src={ill} alt="" />
         </div>
-        <div className=" lg:w-2/5 w-full md:px-16 mx-auto p-6 mb-4 rounded-lg">
+        <div className="lg:w-2/5 w-full md:px-16 mx-auto p-6 mb-4 rounded-lg">
           <h2 className="text-2xl font-bold mb-4">
             Your Journey Begins Here 🚀
           </h2>
@@ -82,11 +127,7 @@ const EmployeeForm = () => {
           </p>
 
           {/* Form Section */}
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-4"
-            encType="multipart/form-data"
-          >
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Full Name
@@ -95,10 +136,13 @@ const EmployeeForm = () => {
                 type="text"
                 name="name"
                 placeholder="Enter your full name"
-                className="w-full px-4 py-[6px] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] sh focus:shadow-md focus:shadow-[#685DD8]"
-                required
+                className="w-full px-4 py-[6px] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] shadow-md"
               />
+              {errors.name && (
+                <p className="text-red-600 text-sm">{errors.name}</p>
+              )}
             </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Email
@@ -107,10 +151,13 @@ const EmployeeForm = () => {
                 type="email"
                 name="email"
                 placeholder="Enter your email"
-                className="w-full px-4 py-[6px] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] sh focus:shadow-md focus:shadow-[#685DD8]"
-                required
+                className="w-full px-4 py-[6px] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] shadow-md"
               />
+              {errors.email && (
+                <p className="text-red-600 text-sm">{errors.email}</p>
+              )}
             </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Password
@@ -119,10 +166,13 @@ const EmployeeForm = () => {
                 type="password"
                 name="password"
                 placeholder="Enter your password"
-                className="w-full px-4 py-[6px] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] sh focus:shadow-md focus:shadow-[#685DD8]"
-                required
+                className="w-full px-4 py-[6px] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] shadow-md"
               />
+              {errors.password && (
+                <p className="text-red-600 text-sm">{errors.password}</p>
+              )}
             </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Date of Birth
@@ -130,22 +180,29 @@ const EmployeeForm = () => {
               <input
                 type="date"
                 name="date"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] sh focus:shadow-md focus:shadow-[#685DD8]"
-                required
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] shadow-md"
               />
+              {errors.date && (
+                <p className="text-red-600 text-sm">{errors.date}</p>
+              )}
             </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Profile Photo
               </label>
               <input
                 type="file"
-                required
                 name="photo"
                 accept="image/*"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] sh focus:shadow-md focus:shadow-[#685DD8]"
+                required
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] shadow-md"
               />
+              {photoError && (
+                <p className="text-red-600 text-sm">{photoError}</p>
+              )}
             </div>
+
             <button
               type="submit"
               className="w-full py-2 bg-[#7367F0] text-white rounded-md font-semibold shadow-md hover:bg-[#685DD8] transition-colors duration-300"
@@ -153,6 +210,7 @@ const EmployeeForm = () => {
               Sign Up
             </button>
           </form>
+
           {/* Social Login Section */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">Or sign up with</p>
