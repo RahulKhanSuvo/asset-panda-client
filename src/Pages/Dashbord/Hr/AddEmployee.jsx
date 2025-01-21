@@ -9,6 +9,7 @@ import useUserInfo from "../../../Hooks/useUserInfo";
 import useTeam from "../../../Hooks/useTeam";
 import Swal from "sweetalert2";
 import LoadingSpinner from "../../../Components/LoadingSpinner";
+import { Helmet } from "react-helmet-async";
 
 const AddEmployee = () => {
   const axiosSecure = useAxiosSecure();
@@ -179,6 +180,19 @@ const AddEmployee = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>Add Employee - AssetPanda</title>
+        <meta
+          name="description"
+          content="Add new employees to your team and manage their details on AssetPanda."
+        />
+        <meta
+          name="keywords"
+          content="Add Employee, Employee Management, AssetPanda, Manage Employees, Team Management"
+        />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
+
       <div className="mx-auto max-w-4xl bg-white border border-gray-300 shadow-sm rounded-md mt-8">
         {/* Package Section */}
         <div className="p-4 flex justify-between items-center bg-gray-50 border-b border-gray-300">

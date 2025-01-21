@@ -3,6 +3,7 @@ import showToast from "../../../Components/ShowToast";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { ImSpinner3 } from "react-icons/im";
+import { Helmet } from "react-helmet-async";
 const AddAssets = () => {
   const { user } = useAuth();
   const [addLoading, setAddLoading] = useState(false);
@@ -20,16 +21,15 @@ const AddAssets = () => {
       quantity,
     };
     try {
-      const { data } = await axiosSecure.post("/addedAsset", {
+      await axiosSecure.post("/addedAsset", {
         ...productData,
 
         hrEmail: user?.email,
       });
-      console.log(data);
+
       showToast("Asset added successfully!", "success");
       form.reset();
     } catch (error) {
-      console.log(error);
       showToast("please try again", "error");
     } finally {
       setAddLoading(false);
@@ -38,6 +38,19 @@ const AddAssets = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <Helmet>
+        <title>Add Assets - AssetPanda</title>
+        <meta
+          name="description"
+          content="Add new assets for your team and track them efficiently using AssetPanda."
+        />
+        <meta
+          name="keywords"
+          content="Add Assets, Asset Management, Add Asset, AssetPanda, Track Assets"
+        />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
+
       <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6">
         <h2 className="text-2xl font-bold text-gray-700 mb-6 text-center">
           Add New Asset

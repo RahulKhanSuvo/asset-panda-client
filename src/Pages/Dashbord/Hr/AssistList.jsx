@@ -10,6 +10,7 @@ import showToast from "../../../Components/ShowToast";
 import AssetsUpdateModal from "../../../Modal/AssetsUpdateModal";
 import Swal from "sweetalert2";
 import { ImSpinner2 } from "react-icons/im"; // Import spinner icon
+import { Helmet } from "react-helmet-async";
 
 const AssistList = () => {
   const { user } = useAuth();
@@ -62,7 +63,6 @@ const AssistList = () => {
           showToast("Delete Successfully");
           refetch();
         } catch (error) {
-          console.log(error);
           showToast(`${error.message}`, "error");
         }
       }
@@ -85,6 +85,19 @@ const AssistList = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>HR Assets - AssetPanda</title>
+        <meta
+          name="description"
+          content="Manage and track all assets assigned to employees in your team on AssetPanda."
+        />
+        <meta
+          name="keywords"
+          content="HR Assets, Asset Management, Employee Assets, AssetPanda"
+        />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
+
       <div className="rounded-lg border shadow-md bg-white mt-8">
         <div className="flex justify-between px-4 py-3 border-b items-center">
           <div className="flex flex-wrap gap-4">

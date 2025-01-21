@@ -6,6 +6,7 @@ import LoadingSpinner from "../../../Components/LoadingSpinner";
 import { MdRememberMe } from "react-icons/md";
 import { useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa"; // Importing icons
+import { Helmet } from "react-helmet-async";
 
 const MyTeam = () => {
   const { userDetails } = useUserStatus();
@@ -72,6 +73,18 @@ const MyTeam = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>My Team - AssetPanda</title>
+        <meta
+          name="description"
+          content="View and manage your team members on AssetPanda. Collaborate, assign tasks, and track performance with ease."
+        />
+        <meta
+          name="keywords"
+          content="AssetPanda, My Team, Team Management, Employee Collaboration, Team Performance"
+        />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
       <div className="shadow-md rounded-md bg-white">
         <div className="overflow-x-auto  mt-8 ">
           <table className="table">

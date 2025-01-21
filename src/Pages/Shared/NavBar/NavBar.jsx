@@ -102,17 +102,20 @@ const NavBar = () => {
           </div>
 
           {/* Logo */}
-          <div>
-            {user?.email && userDetails?.companyLogo ? (
-              <img
-                className="w-20"
-                src={userDetails?.companyLogo}
-                alt="Company Logo"
-              />
-            ) : (
-              <img className="w-24" src={logo2} alt="Default Logo" />
-            )}
-          </div>
+          <Link>
+            {" "}
+            <div>
+              {user?.email && userDetails?.companyLogo ? (
+                <img
+                  className="w-20"
+                  src={userDetails?.companyLogo}
+                  alt="Company Logo"
+                />
+              ) : (
+                <img className="w-24" src={logo2} alt="Default Logo" />
+              )}
+            </div>
+          </Link>
 
           {/* Navigation Links */}
           <div className="hidden lg:flex space-x-4">

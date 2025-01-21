@@ -8,6 +8,7 @@ import useTeam from "../../../Hooks/useTeam";
 import Swal from "sweetalert2";
 import { FiTrash2 } from "react-icons/fi";
 import { ImSpinner2 } from "react-icons/im";
+import { Helmet } from "react-helmet-async";
 
 const MyEmployeeList = () => {
   const { user, loading } = useAuth();
@@ -39,7 +40,7 @@ const MyEmployeeList = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const { data } = await axiosSecure.delete(
+          await axiosSecure.delete(
             `/memberDelete/${id}?hrEmail=${user?.email}`
           );
           Swal.fire({
@@ -47,7 +48,7 @@ const MyEmployeeList = () => {
             text: "Your file has been deleted.",
             icon: "success",
           });
-          console.log(data);
+
           countRefetch();
           refetch();
         } catch (error) {
@@ -76,6 +77,19 @@ const MyEmployeeList = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>My Employees - AssetPanda</title>
+        <meta
+          name="description"
+          content="View and manage all employees in your team on AssetPanda. Access employee details and roles."
+        />
+        <meta
+          name="keywords"
+          content="My Employees, Employee Management, Team Overview, AssetPanda"
+        />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
+
       <div className="mt-8 bg-white shadow-md rounded-md">
         <div className="flex justify-between items-center px-4 py-2">
           <h3>Members</h3>

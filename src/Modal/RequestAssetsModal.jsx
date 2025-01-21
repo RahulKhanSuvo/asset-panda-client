@@ -6,7 +6,7 @@ import showToast from "../Components/ShowToast";
 const RequestAssetsModal = ({ isOpen, setIsOpen, asset }) => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  console.log(asset);
+
   const [notes, setNotes] = useState("");
 
   const handleRequest = async () => {
@@ -22,11 +22,10 @@ const RequestAssetsModal = ({ isOpen, setIsOpen, asset }) => {
         status: "pending",
         requestDate: Date.now(),
       });
-      console.log(data);
+
       showToast("Request Sent Successfully");
       setIsOpen(false);
     } catch (error) {
-      console.log(error);
       showToast(`${error.message}`, "error");
     }
   };

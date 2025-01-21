@@ -9,6 +9,7 @@ import "react-date-range/dist/theme/default.css"; // Default theme
 import CalendarSection from "../../../Components/CalendarSection";
 import { Link } from "react-router-dom";
 import LoadingSpinner from "../../../Components/LoadingSpinner";
+import { Helmet } from "react-helmet-async";
 
 const EmployeeHome = () => {
   const { user } = useAuth();
@@ -28,13 +29,25 @@ const EmployeeHome = () => {
       return data;
     },
   });
-  console.log(monthlyRequests);
 
   if (isLoading || mLoading)
     return <LoadingSpinner smallHeight></LoadingSpinner>;
 
   return (
     <Container>
+      <Helmet>
+        <title>Employee Dashboard - AssetPanda</title>
+        <meta
+          name="description"
+          content="Welcome to your employee dashboard on AssetPanda. Manage your tasks, track your performance, and collaborate with your team."
+        />
+        <meta
+          name="keywords"
+          content="AssetPanda, Employee Dashboard, Team Management, Performance Tracking, Employee Tasks"
+        />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
+
       <div className="mt-8 flex flex-col md:flex-row gap-6">
         <div className=" w-full bg-gradient-to-r shadow-md from-[#664EC9] shadow-indigo-400 rounded-md text-white p-6 to-[#9783E9]">
           <h3 className="text-xl">Pending Requests</h3>

@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import showToast from "../../../Components/ShowToast";
 import { ImSpinner2 } from "react-icons/im";
+import { Helmet } from "react-helmet-async";
 
 const AllRequest = () => {
   const { user } = useAuth();
@@ -46,7 +47,6 @@ const AllRequest = () => {
       showToast("Request Approved Successfully");
       refetch();
     } catch (error) {
-      console.log(error);
       showToast(`${error.message}`, "error");
     }
   };
@@ -57,7 +57,6 @@ const AllRequest = () => {
       showToast("Request Rejected Successfully");
       refetch();
     } catch (error) {
-      console.log(error);
       showToast(`${error.message}`, "error");
     }
   };
@@ -70,6 +69,19 @@ const AllRequest = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>All Requests - AssetPanda</title>
+        <meta
+          name="description"
+          content="View all asset requests from employees and manage them efficiently on AssetPanda."
+        />
+        <meta
+          name="keywords"
+          content="Asset Requests, Manage Requests, All Requests, Employee Requests, AssetPanda"
+        />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
+
       {/* Search Bar */}
       <div className="mt-8 rounded-md shadow-md bg-white">
         <div className="py-4 border-t border-b px-4 ">

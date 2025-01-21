@@ -5,6 +5,7 @@ import useUserStatus from "../../../Hooks/useUserStatus";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import RequestAssetsModal from "../../../Modal/RequestAssetsModal";
 import { ImSpinner2 } from "react-icons/im";
+import { Helmet } from "react-helmet-async";
 
 const AssetsRequest = () => {
   const { userDetails } = useUserStatus();
@@ -70,6 +71,18 @@ const AssetsRequest = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>Request Asset - AssetPanda</title>
+        <meta
+          name="description"
+          content="Request an asset with AssetPanda. Fill out the necessary details and submit your request for asset allocation."
+        />
+        <meta
+          name="keywords"
+          content="Request Asset, Asset Allocation, AssetPanda, Request Form, Asset Management"
+        />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
       <div className="mt-6 shadow-md rounded-md bg-white">
         <div className="">
           <div className="flex px-4 flex-col gap-4 md:flex-row py-2 border justify-between items-center">

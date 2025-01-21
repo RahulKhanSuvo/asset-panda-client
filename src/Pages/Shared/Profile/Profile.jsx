@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import Container from "../../../Components/Container";
 import showToast from "../../../Components/ShowToast";
 import useAuth from "../../../Hooks/useAuth";
@@ -22,6 +23,18 @@ const Profile = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>Profile - AssetPanda</title>
+        <meta
+          name="description"
+          content="View and manage your personal profile on AssetPanda. Update your details and settings."
+        />
+        <meta
+          name="keywords"
+          content="Profile, User Profile, AssetPanda, Manage Profile, Personal Information"
+        />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
       <div className="mt-8 bg-white max-w-2xl mx-auto p-6 shadow-md rounded-lg">
         <div className="text-center">
           <img

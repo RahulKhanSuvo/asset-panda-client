@@ -45,7 +45,6 @@ const CheckoutForm = ({ price, refetch }) => {
     });
 
     if (error) {
-      console.log("[error]", error);
       setError(error.message);
     } else {
       console.log("[PaymentMethod]", paymentMethod);
@@ -84,7 +83,6 @@ const CheckoutForm = ({ price, refetch }) => {
             timer: 3000,
           });
         } catch (error) {
-          console.log(error);
           const errorMessage =
             error.response?.data?.message || "An unexpected error occurred.";
           Swal.fire({

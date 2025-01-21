@@ -9,7 +9,7 @@ import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import LoadingSpinner from "../../../Components/LoadingSpinner";
 import HRBarChart from "../../../Components/HRBarChart";
-
+import { Helmet } from "react-helmet-async";
 const HrHome = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -21,9 +21,23 @@ const HrHome = () => {
     },
   });
   if (isLoading) return <LoadingSpinner smallHeight></LoadingSpinner>;
-  console.log(activity);
+
   return (
     <Container>
+      <Helmet>
+        <title>HR Home - AssetPanda</title>
+        <meta
+          name="description"
+          content="Manage your team and assets effectively as an HR on AssetPanda. View employee performance and track asset requests."
+        />
+        <meta
+          name="keywords"
+          content="HR Home, HR Dashboard, Team Management, Asset Management, AssetPanda"
+        />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://www.assetpanda.com/hr-home" />
+      </Helmet>
+
       <Activity activity={activity}></Activity>
       <div className=" grid grid-cols-1    lg:grid-cols-3 mt-6 justify-between gap-6">
         <PendingRequests></PendingRequests>

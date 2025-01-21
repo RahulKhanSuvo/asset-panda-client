@@ -14,7 +14,7 @@ const EmployeeForm = () => {
   const [paymentStatus, isLoading, refetch] = usePayment();
   const [signLoading, setSignLoaing] = useState(false);
   const { userSignUp, updateUserProfile, googleLogin, loading } = useAuth();
-  console.log(loading);
+
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
 
