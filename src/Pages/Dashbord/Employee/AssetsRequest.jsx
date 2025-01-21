@@ -72,7 +72,7 @@ const AssetsRequest = () => {
     <Container>
       <div className="mt-6 shadow-md rounded-md bg-white">
         <div className="">
-          <div className="flex px-4 py-2 border justify-between items-center">
+          <div className="flex px-4 flex-col gap-4 md:flex-row py-2 border justify-between items-center">
             <div className="">
               <input
                 onChange={(e) => setSearchQuery(e.target.value)}
