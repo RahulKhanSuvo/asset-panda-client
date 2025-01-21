@@ -31,7 +31,4 @@ AssetPanda is a web-based platform designed to help manage assets within a compa
 - **Authentication**: JWT, Google OAuth
 - **Deployment**: Vercel (Frontend), Heroku (Backend)
 
-## Setup Instructions
-
-### Frontend
 
