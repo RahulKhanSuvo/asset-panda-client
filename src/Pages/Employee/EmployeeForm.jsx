@@ -8,10 +8,13 @@ import showToast from "../../Components/ShowToast";
 import ill from "../../assets/shapes/auth-register-illustration-light.png";
 import Container from "../../Components/Container";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 const EmployeeForm = () => {
   const [paymentStatus, isLoading, refetch] = usePayment();
-  const { userSignUp, updateUserProfile, googleLogin } = useAuth();
+  const [signLoading, setSignLoaing] = useState(false);
+  const { userSignUp, updateUserProfile, googleLogin, loading } = useAuth();
+  console.log(loading);
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
 
@@ -46,19 +49,21 @@ const EmployeeForm = () => {
     const email = form.email.value.trim();
     const password = form.password.value.trim();
     const date = form.date.value;
-
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
     if (!name) newErrors.name = "Name is required.";
     if (!email || !/\S+@\S+\.\S+/.test(email))
       newErrors.email = "Valid email is required.";
-    if (!password || password.length < 6)
-      newErrors.password = "Password must be at least 6 characters long.";
+    if (!password || !passwordRegex.test(password)) {
+      newErrors.password =
+        "Password must be at least 6 characters long and include at least one uppercase and one lowercase letter.";
+    }
     if (!date) newErrors.date = "Date of Birth is required.";
 
     return newErrors;
   };
 
   const validatePhoto = (photo) => {
-    const maxSize = 2 * 1024 * 1024; // 2MB
+    const maxSize = 2 * 1024 * 1024;
     if (photo.size > maxSize) {
       return "File size should be less than 2MB.";
     }
@@ -76,6 +81,7 @@ const EmployeeForm = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length > 0) return;
+    setSignLoaing(true);
 
     const photo = form.photo.files[0];
     const photoValidationError = validatePhoto(photo);
@@ -92,11 +98,9 @@ const EmployeeForm = () => {
     const date = form.date.value;
 
     try {
+      await userSignUp(email, password);
       const logoUrl = await imageUpload(photo);
-      const result = await userSignUp(email, password);
-
       await updateUserProfile({ displayName: name, photoURL: logoUrl });
-
       await axiosPublic.post(`/employees/${email}`, {
         name,
         email,
@@ -105,14 +109,28 @@ const EmployeeForm = () => {
       });
       showToast("Account created successfully");
       refetch();
+      setSignLoaing(false);
       navigate("/");
     } catch (error) {
+      showToast("please ty again", "error");
       console.error("Error creating employee:", error);
     }
   };
 
   return (
     <Container>
+      <Helmet>
+        <title>Join as Employee - AssetPanda</title>
+        <meta
+          name="description"
+          content="Join the AssetPanda team! Apply now to become an employee and start your career with us."
+        />
+        <meta
+          name="keywords"
+          content="AssetPanda, Employee, Join, Career, Apply"
+        />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
       <section className="flex pt-10 min-h-[calc(100vh-70px)]">
         <div className="w-3/5 bg-no-repeat bg-bottom hidden lg:block">
           <img className="w-[500px] mx-auto" src={ill} alt="" />
@@ -205,9 +223,12 @@ const EmployeeForm = () => {
 
             <button
               type="submit"
-              className="w-full py-2 bg-[#7367F0] text-white rounded-md font-semibold shadow-md hover:bg-[#685DD8] transition-colors duration-300"
+              disabled={signLoading}
+              className={`w-full py-2 text-white rounded-md font-semibold shadow-md transition-colors duration-300 ${
+                signLoading ? "bg-gray-400" : "bg-[#7367F0] hover:bg-[#685DD8]"
+              }`}
             >
-              Sign Up
+              {signLoading ? "Signing Up..." : "Sign Up"}
             </button>
           </form>
 

@@ -34,22 +34,13 @@ const AuthProvider = ({ children }) => {
   };
   // update an user
   const updateUserProfile = (updateDoc) => {
+    setLoading(true);
     return updateProfile(auth.currentUser, updateDoc);
   };
   // user logout
   const logOut = () => {
     setLoading(true);
     return signOut(auth);
-  };
-  const authInfo = {
-    name: "rahu",
-    userSignIn,
-    loading,
-    user,
-    userSignUp,
-    logOut,
-    googleLogin,
-    updateUserProfile,
   };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -70,6 +61,15 @@ const AuthProvider = ({ children }) => {
       unsubscribe();
     };
   }, [axiosPublic]);
+  const authInfo = {
+    userSignIn,
+    loading,
+    user,
+    userSignUp,
+    logOut,
+    googleLogin,
+    updateUserProfile,
+  };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );

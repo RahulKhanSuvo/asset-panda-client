@@ -7,6 +7,7 @@ import logo from "../../assets/Logo/AssetPandaLogoSVG.svg";
 import sp1 from "../../assets/Logo/svg_ (1).svg";
 import sp2 from "../../assets/Logo/svg__ (1).svg";
 import { FcGoogle } from "react-icons/fc";
+import { Helmet } from "react-helmet-async";
 const LoginPage = () => {
   const { userSignIn, googleLogin } = useAuth();
   const { refetch } = useUserStatus();
@@ -51,6 +52,18 @@ const LoginPage = () => {
   };
   return (
     <div className=" min-h-[calc(100vh-80px)] flex items-center justify-center bg-gray-50">
+      <Helmet>
+        <title>Login - AssetPanda</title>
+        <meta
+          name="description"
+          content="Log in to your AssetPanda account to manage employees, track performance, and stay connected with your team."
+        />
+        <meta
+          name="keywords"
+          content="AssetPanda, Login, Employee Management, Team, HR, Login to Account"
+        />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
       <div className="relative">
         <img
           className="absolute hidden md:block -top-16 -left-8 "

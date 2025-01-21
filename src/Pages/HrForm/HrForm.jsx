@@ -6,7 +6,7 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import showToast from "../../Components/ShowToast";
 import Container from "../../Components/Container";
 import hrIll from "../../assets/shapes/hrlogin.png";
-
+import { Helmet } from "react-helmet-async";
 const HrForm = () => {
   const { userSignUp, updateUserProfile } = useAuth();
   const axiosPublic = useAxiosPublic();
@@ -15,14 +15,16 @@ const HrForm = () => {
 
   const validateForm = (data) => {
     const newErrors = {};
-
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
     if (!data.fullName) newErrors.fullName = "Full Name is required.";
     if (!data.companyName) newErrors.companyName = "Company Name is required.";
     if (!data.email) newErrors.email = "Email is required.";
     else if (!/\S+@\S+\.\S+/.test(data.email))
       newErrors.email = "Invalid email format.";
-    if (!data.password || data.password.length < 6)
-      newErrors.password = "Password must be at least 6 characters.";
+    if (!data.password || !passwordRegex.test(data.password)) {
+      newErrors.password =
+        "Password must be at least 6 characters long and include at least one uppercase and one lowercase letter.";
+    }
     if (!data.dateOfBirth) newErrors.dateOfBirth = "Date of Birth is required.";
     if (!data.packageOption)
       newErrors.packageOption = "Please select a package.";
@@ -52,12 +54,12 @@ const HrForm = () => {
       setErrors(validationErrors);
       return;
     }
-    setErrors({}); // Clear previous errors
+    setErrors({});
 
     try {
       const logoUrl = await imageUpload(data.companyLogo);
       const profileUrl = await imageUpload(data.profilePhoto);
-      const result = await userSignUp(data.email, data.password);
+      await userSignUp(data.email, data.password);
 
       await updateUserProfile({
         displayName: data.fullName,
@@ -83,6 +85,19 @@ const HrForm = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>Join as HR - AssetPanda</title>
+        <meta
+          name="description"
+          content="Become an HR at AssetPanda. Join our team and help manage employees, recruit talents, and build a strong organization."
+        />
+        <meta
+          name="keywords"
+          content="AssetPanda, HR, Join, Career, Human Resources, Recruitment"
+        />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
+
       <section className="flex pt-6 items-center">
         <div className="px-24 hidden lg:block">
           <img src={hrIll} alt="HR Illustration" />

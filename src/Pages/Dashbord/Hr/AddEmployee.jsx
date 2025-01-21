@@ -179,9 +179,9 @@ const AddEmployee = () => {
 
   return (
     <Container>
-      <div className="mx-auto max-w-4xl bg-white border shadow-md mt-8">
+      <div className="mx-auto max-w-4xl bg-white border border-gray-300 shadow-sm rounded-md mt-8">
         {/* Package Section */}
-        <div className="p-4 flex justify-between items-center border bg-gray-50 mb-8">
+        <div className="p-4 flex justify-between items-center bg-gray-50 border-b border-gray-300">
           <div>
             <p>
               <strong>Current Team Members:</strong> {team.length}
@@ -192,25 +192,25 @@ const AddEmployee = () => {
           </div>
           <button
             onClick={handleIncreaseLimit}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md shadow-md shadow-blue-500 hover:bg-blue-700 transition-colors"
+            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md shadow-md hover:bg-blue-700 transition-colors"
           >
             Increase Limit
           </button>
         </div>
 
-        {/* Free Employee List Section */}
+        {/* Employees Section */}
         <div>
           <h2 className="text-xl font-semibold mb-4 px-4">
             Available Employees
           </h2>
           {currentEmployees.length === 0 ? (
-            <p>No free employees available.</p>
+            <p className="text-center">No free employees available.</p>
           ) : (
             <div className="space-y-4">
               {currentEmployees.map((employee) => (
                 <div
                   key={employee._id}
-                  className="flex items-center justify-between p-4 border  bg-gray-50"
+                  className="flex items-center justify-between p-4 bg-gray-50  border-gray-300 rounded-md"
                 >
                   <div className="flex items-center gap-4">
                     <input
@@ -228,7 +228,7 @@ const AddEmployee = () => {
                   </div>
                   <button
                     onClick={() => handleAddToTeam(employee)}
-                    className="px-4 py-2  bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+                    className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
                   >
                     Add to Team
                   </button>
@@ -237,11 +237,13 @@ const AddEmployee = () => {
             </div>
           )}
         </div>
-        <div className="flex items-center justify-center">
+
+        {/* Add Selected Members Button */}
+        <div className="flex items-center my-3 justify-center">
           {selectedEmployees.length > 0 && (
             <button
               onClick={handleAddSelectedToTeam}
-              className={`py-2 px-2 bg-[#7367F0] my-2 text-white rounded-md font-semibold hover:bg-[#4d45a5] transition-colors flex items-center justify-center gap-2 ${
+              className={`py-2 px-4 bg-purple-600 text-white rounded-md font-semibold hover:bg-purple-700 transition-colors flex items-center justify-center gap-2 ${
                 selectLoading && "cursor-not-allowed"
               }`}
               disabled={selectLoading}
@@ -275,14 +277,14 @@ const AddEmployee = () => {
         </div>
 
         {/* Pagination Controls */}
-        <div className="flex justify-end border items-center gap-2 px-4 py-4">
+        <div className="flex justify-between items-center px-4 py-4 bg-gray-50 border-t border-gray-300 rounded-b-md">
           <button
             onClick={handlePreviousPage}
             disabled={currentPage === 1}
             className={`px-4 py-2 rounded-md ${
               currentPage === 1
-                ? "bg-gray-300  btn-sm btn cursor-not-allowed"
-                : "bg-blue-600  btn-sm btn text-white hover:bg-blue-700"
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : " bg-[#7367F0] text-white rounded hover:bg-[#685DD8]"
             }`}
           >
             Previous
@@ -295,8 +297,8 @@ const AddEmployee = () => {
             disabled={currentPage === totalPages}
             className={`px-4 py-2 rounded-md ${
               currentPage === totalPages
-                ? "bg-gray-300  btn-sm btn cursor-not-allowed"
-                : "bg-blue-600  btn-sm btn text-white hover:bg-blue-700"
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : " bg-[#7367F0] text-white rounded hover:bg-[#685DD8]"
             }`}
           >
             Next

@@ -9,6 +9,7 @@ import { FiTrash2 } from "react-icons/fi";
 import showToast from "../../../Components/ShowToast";
 import AssetsUpdateModal from "../../../Modal/AssetsUpdateModal";
 import Swal from "sweetalert2";
+import { ImSpinner2 } from "react-icons/im"; // Import spinner icon
 
 const AssistList = () => {
   const { user } = useAuth();
@@ -21,7 +22,11 @@ const AssistList = () => {
   const [currentPage, setCurrentPage] = useState(1); // State to track the current page
   const itemsPerPage = 10; // Number of items per page
 
-  const { data: assets = [], refetch } = useQuery({
+  const {
+    data: assets = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["assetsList", user?.email, searchQuery, filterStatus, sortOrder],
     enabled: !!user?.email,
     queryFn: async () => {
@@ -81,9 +86,8 @@ const AssistList = () => {
   return (
     <Container>
       <div className="rounded-lg border shadow-md bg-white mt-8">
-        <div className="flex justify-between  px-4 py-3 border-b items-center">
-          {" "}
-          <div className="flex flex-wrap gap-4 ">
+        <div className="flex justify-between px-4 py-3 border-b items-center">
+          <div className="flex flex-wrap gap-4">
             {/* Stock Status Filter */}
             <div>
               <select
@@ -140,32 +144,45 @@ const AssistList = () => {
                 </tr>
               </thead>
               <tbody>
-                {paginatedAssets.map((asset, index) => (
-                  <tr key={asset._id} className="hover text-base">
-                    <th>{(currentPage - 1) * itemsPerPage + index + 1}</th>
-                    <td className="capitalize">{asset.name}</td>
-                    <td className="capitalize">{asset.productType}</td>
-                    <td>{asset.quantity}</td>
-                    <td>
-                      {asset?.timestamp &&
-                        format(new Date(asset?.timestamp), "yyyy-MM-dd")}
-                    </td>
-                    <td>
-                      <button
-                        onClick={() => handleEdit(asset._id)}
-                        className="text-[#6474E2] mr-4"
-                      >
-                        <FaRegEdit size={20} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(asset._id)}
-                        className=" text-[#F05206]"
-                      >
-                        <FiTrash2 size={20} />
-                      </button>
+                {isLoading ? (
+                  <tr>
+                    <td colSpan="6" className="text-center py-4">
+                      <div className="flex justify-center items-center py-8">
+                        <ImSpinner2 className="animate-spin text-3xl text-[#7367F0]" />
+                        <p className="ml-2 text-lg text-gray-500">
+                          Loading assets...
+                        </p>
+                      </div>
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  paginatedAssets.map((asset, index) => (
+                    <tr key={asset._id} className="hover text-base">
+                      <th>{(currentPage - 1) * itemsPerPage + index + 1}</th>
+                      <td className="capitalize">{asset.name}</td>
+                      <td className="capitalize">{asset.productType}</td>
+                      <td>{asset.quantity}</td>
+                      <td>
+                        {asset?.timestamp &&
+                          format(new Date(asset?.timestamp), "yyyy-MM-dd")}
+                      </td>
+                      <td>
+                        <button
+                          onClick={() => handleEdit(asset._id)}
+                          className="text-[#6474E2] mr-4"
+                        >
+                          <FaRegEdit size={20} />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(asset._id)}
+                          className=" text-[#F05206]"
+                        >
+                          <FiTrash2 size={20} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

@@ -7,19 +7,25 @@ import useEmployeeCount from "../../../Hooks/useEmployeeCount";
 import useTeam from "../../../Hooks/useTeam";
 import Swal from "sweetalert2";
 import { FiTrash2 } from "react-icons/fi";
+import { ImSpinner2 } from "react-icons/im";
 
 const MyEmployeeList = () => {
   const { user, loading } = useAuth();
-  const [currentPage, setCurrentPage] = useState(1); // Current page
-  const itemsPerPage = 5; // Items per page
-
-  if (loading) {
-    return <h3>Loading</h3>;
-  }
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const axiosSecure = useAxiosSecure();
   const { team: teams, isLoading, refetch } = useTeam();
   const { employeeCount, refetch: countRefetch } = useEmployeeCount();
+
+  if (loading || isLoading) {
+    return (
+      <div className="flex justify-center items-center py-8">
+        <ImSpinner2 className="animate-spin text-2xl text-[#7367F0]" />
+        <p className="ml-2 text-lg text-gray-500">Loading assets...</p>
+      </div>
+    );
+  }
 
   const handleDelete = async (id) => {
     Swal.fire({
@@ -97,8 +103,12 @@ const MyEmployeeList = () => {
                 <tr key={team._id} className="hover">
                   <th>{startIndex + index + 1}</th>
                   <td>
-                    <div>
-                      <img className="size-10" src={team.memberImage} alt="" />
+                    <div className=" ">
+                      <img
+                        className="size-10 rounded-full"
+                        src={team.memberImage}
+                        alt=""
+                      />
                     </div>
                   </td>
                   <td>{team.memberName}</td>

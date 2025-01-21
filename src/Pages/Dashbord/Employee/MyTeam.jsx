@@ -13,7 +13,7 @@ const MyTeam = () => {
 
   // State for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5; // Number of items per page
+  const itemsPerPage = 10;
 
   const {
     data: members,
@@ -90,7 +90,11 @@ const MyTeam = () => {
                 <tr className="text-base" key={member._id}>
                   <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                   <td>
-                    <img className="size-10" src={member?.memberImage} alt="" />
+                    <img
+                      className="size-10 rounded-full"
+                      src={member?.memberImage}
+                      alt=""
+                    />
                   </td>
                   <td>{member?.memberName}</td>
                   <td>{member.memberEmail}</td>
