@@ -22,6 +22,7 @@ const AddEmployee = () => {
   } = useEmployeeCount();
   const navigate = useNavigate();
   const [selectedEmployees, setSelectedEmployees] = useState([]);
+  const [selectLoading, setSelectedLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1); // Current page
   const employeesPerPage = 5; // Number of employees per page
 
@@ -68,9 +69,6 @@ const AddEmployee = () => {
 
   // Handle checkbox selection
   const handleCheckboxChange = (employeeId) => {
-    if (selectedEmployees.length >= employeeCount?.members) {
-      return;
-    }
     setSelectedEmployees((prev) =>
       prev.includes(employeeId)
         ? prev.filter((id) => id !== employeeId)
@@ -91,7 +89,7 @@ const AddEmployee = () => {
         toast: true,
         icon: "error",
         title: "Limit Exceeded",
-        text: "Adding this member exceeds your team limit. Increase your limit.",
+        text: "Adding this member exceeds your team limit. please Increase your limit.",
       });
       return;
     }
@@ -128,17 +126,18 @@ const AddEmployee = () => {
   };
 
   const handleAddSelectedToTeam = async () => {
-    if (team.length >= employeeCount?.members) {
+    console.log(team.length + selectedEmployees.length);
+    if (team.length + selectedEmployees.length > employeeCount?.members) {
       Swal.fire({
         toast: true,
         icon: "error",
         title: "Limit Exceeded",
-        text: "Adding this member exceeds your team limit. Increase your limit.",
+        text: "Adding this member exceeds your team limit. please Increase your limit.",
       });
       return;
     }
-
     try {
+      setSelectedLoading(true);
       const selectedEmployeeData = employees
         .filter((employee) => selectedEmployees.includes(employee._id))
         .map((employee) => ({
@@ -161,6 +160,7 @@ const AddEmployee = () => {
         title: "Success",
         text: "Selected employees have been added to the team.",
       });
+      setSelectedLoading(false);
     } catch (error) {
       console.error(error);
 
@@ -237,16 +237,43 @@ const AddEmployee = () => {
             </div>
           )}
         </div>
-        <div className="text-center ">
+        <div className="flex items-center justify-center">
           {selectedEmployees.length > 0 && (
             <button
               onClick={handleAddSelectedToTeam}
-              className=" py-2 btn btn-sm bg-[#F80136] my-2 text-white rounded-md font-semibold hover:bg-red-700 transition-colors"
+              className={`py-2 px-2 bg-[#7367F0] my-2 text-white rounded-md font-semibold hover:bg-[#4d45a5] transition-colors flex items-center justify-center gap-2 ${
+                selectLoading && "cursor-not-allowed"
+              }`}
+              disabled={selectLoading}
             >
-              Add Selected Members to the Team
+              {selectLoading ? (
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8H4z"
+                  ></path>
+                </svg>
+              ) : (
+                "Add Selected Members to the Team"
+              )}
             </button>
           )}
         </div>
+
         {/* Pagination Controls */}
         <div className="flex justify-end border items-center gap-2 px-4 py-4">
           <button
