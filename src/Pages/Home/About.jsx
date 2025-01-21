@@ -32,10 +32,10 @@ const About = () => {
               businesses keep track of inventory and reduce waste.
             </p>
             <p className="text-lg leading-relaxed mt-4">
-              At XYZ, we are committed to providing a secure, scalable, and
-              user-friendly solution for businesses of all sizes. Whether you're
-              a small startup or a large enterprise, our platform adapts to your
-              needs, helping you stay organized and efficient.
+              At AssetPanda, we are committed to providing a secure, scalable,
+              and user-friendly solution for businesses of all sizes. Whether
+              you're a small startup or a large enterprise, our platform adapts
+              to your needs, helping you stay organized and efficient.
             </p>
             <p className="text-lg leading-relaxed mt-4">
               Join us on this journey to redefine asset management and take
