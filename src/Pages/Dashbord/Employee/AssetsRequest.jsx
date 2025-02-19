@@ -147,7 +147,7 @@ const AssetsRequest = () => {
                           <span
                             className={`text-[#2EC973] bg-[#DDF6E8] px-1 rounded-md ${
                               asset.quantity === 0
-                                ? "text-red-600 bg-red-400"
+                                ? "text-red-600 bg-red-100"
                                 : ""
                             }`}
                           >
