@@ -28,7 +28,7 @@ const MyTeam = () => {
       );
       return data;
     },
-    enabled: !!userDetails?.hrEmail,
+    enabled: !!userDetails?.hrEmail && !!localStorage.getItem("access-token"),
   });
 
   if (isLoading) {

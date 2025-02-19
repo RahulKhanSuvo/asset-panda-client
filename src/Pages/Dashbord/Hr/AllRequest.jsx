@@ -30,7 +30,7 @@ const AllRequest = () => {
       });
       return data;
     },
-    enabled: !!user?.email,
+    enabled: !!user?.email && !!localStorage.getItem("access-token"),
   });
 
   const totalPages = Math.ceil(requests.length / itemsPerPage);

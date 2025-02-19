@@ -11,7 +11,7 @@ const usePayment = () => {
     refetch,
   } = useQuery({
     queryKey: ["payment", user?.email],
-    enabled: !!user?.email,
+    enabled: !!user?.email && !!localStorage.getItem("access-token"),
     queryFn: async () => {
       const { data } = await axiosSecure(`/payment/status/${user.email}`);
       return data;

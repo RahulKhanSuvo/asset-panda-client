@@ -29,7 +29,7 @@ const AssistList = () => {
     refetch,
   } = useQuery({
     queryKey: ["assetsList", user?.email, searchQuery, filterStatus, sortOrder],
-    enabled: !!user?.email,
+    enabled: !!user?.email && !!localStorage.getItem("access-token"),
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/allAssets/${user?.email}`, {
         params: {

@@ -39,7 +39,7 @@ const AddEmployee = () => {
       const { data } = await axiosSecure("/freeEmployee");
       return data;
     },
-    enabled: !!user?.email,
+    enabled: !!user?.email && !!localStorage.getItem("access-token"),
   });
 
   if (isLoading || isCountLoading) {

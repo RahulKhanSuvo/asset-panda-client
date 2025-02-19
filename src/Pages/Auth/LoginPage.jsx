@@ -8,11 +8,15 @@ import sp1 from "../../assets/Logo/svg_ (1).svg";
 import sp2 from "../../assets/Logo/svg__ (1).svg";
 import { FcGoogle } from "react-icons/fc";
 import { Helmet } from "react-helmet-async";
+import { useState } from "react";
+
 const LoginPage = () => {
   const { userSignIn, googleLogin } = useAuth();
   const { refetch } = useUserStatus();
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+
   const handleSocialLogin = () => {
     googleLogin()
       .then(async (result) => {
@@ -25,33 +29,31 @@ const LoginPage = () => {
           });
           navigate("/");
           refetch();
-          showToast("login successful");
+          showToast("Login successful");
         } catch (error) {
-          showToast("please try again", "error");
+          showToast("Please try again", "error");
         }
       })
       .catch(() => {
-        showToast("please try again", "error");
+        showToast("Please try again", "error");
       });
   };
-  const handelLogin = (e) => {
+
+  const handleLogin = (e) => {
     e.preventDefault();
-    const form = e.target;
-    const email = form.email.value;
-    const password = form.password.value;
-    console.log(email);
-    userSignIn(email, password)
+    userSignIn(loginData.email, loginData.password)
       .then(() => {
         refetch();
-        showToast("login successful");
+        showToast("Login successful");
         navigate("/");
       })
-      .catch((error) => {
-        showToast("please try again", "error");
+      .catch(() => {
+        showToast("Please try again", "error");
       });
   };
+
   return (
-    <div className=" min-h-[calc(100vh-80px)] flex items-center justify-center bg-gray-50">
+    <div className="min-h-[calc(100vh-80px)] flex items-center justify-center bg-gray-50">
       <Helmet>
         <title>Login - AssetPanda</title>
         <meta
@@ -66,7 +68,7 @@ const LoginPage = () => {
       </Helmet>
       <div className="relative">
         <img
-          className="absolute hidden md:block -top-16 -left-8 "
+          className="absolute hidden md:block -top-16 -left-8"
           src={sp2}
           alt="Decorative Shape"
         />
@@ -79,10 +81,36 @@ const LoginPage = () => {
           <h2 className="text-2xl font-medium text-gray-700">
             Welcome to AssetPanda 👋
           </h2>
-          <p>Please sign-in to your account and start managing your assets</p>
+          <p>Please sign in to your account and start managing your assets</p>
+
+          {/* HR & Employee Quick Login */}
+          <div className="flex space-x-4">
+            <button
+              onClick={() =>
+                setLoginData({
+                  email: "hr@gmail.com",
+                  password: "123456",
+                })
+              }
+              className="flex-1 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            >
+              HR Login
+            </button>
+            <button
+              onClick={() =>
+                setLoginData({
+                  email: "employee@example.com",
+                  password: "employeepass123",
+                })
+              }
+              className="flex-1 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            >
+              Employee Login
+            </button>
+          </div>
 
           {/* Email/Password Form */}
-          <form onSubmit={handelLogin} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label
                 htmlFor="email"
@@ -95,7 +123,11 @@ const LoginPage = () => {
                 required
                 name="email"
                 id="email"
-                className="w-full px-4 py-[6px] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] sh focus:shadow-md focus:shadow-[#685DD8]"
+                value={loginData.email}
+                onChange={(e) =>
+                  setLoginData({ ...loginData, email: e.target.value })
+                }
+                className="w-full px-4 py-[6px] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] focus:shadow-md focus:shadow-[#685DD8]"
                 placeholder="Enter your email"
               />
             </div>
@@ -112,14 +144,18 @@ const LoginPage = () => {
                 required
                 name="password"
                 id="password"
-                className="w-full px-4 py-[6px] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] sh focus:shadow-md focus:shadow-[#685DD8]"
+                value={loginData.password}
+                onChange={(e) =>
+                  setLoginData({ ...loginData, password: e.target.value })
+                }
+                className="w-full px-4 py-[6px] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#685DD8] focus:shadow-md focus:shadow-[#685DD8]"
                 placeholder="Enter your password"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full px-4 py-[6px] text-white bg-[#7367F0] rounded-lg hover:bg-[#685DD8] focus:outline-none focus:ring-2 "
+              className="w-full px-4 py-[6px] text-white bg-[#7367F0] rounded-lg hover:bg-[#685DD8] focus:outline-none focus:ring-2"
             >
               Login
             </button>

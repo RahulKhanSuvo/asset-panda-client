@@ -16,7 +16,7 @@ const HrPie = () => {
       const { data } = await axiosSecure(`/returnableCount/${user?.email}`);
       return data;
     },
-    enabled: !!user?.email,
+    enabled: !!user?.email && !!localStorage.getItem("access-token"),
   });
 
   if (isLoading) {

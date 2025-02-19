@@ -42,7 +42,7 @@ const AssetsRequest = () => {
       );
       return data;
     },
-    enabled: !!userDetails?.hrEmail,
+    enabled: !!userDetails?.hrEmail && !!localStorage.getItem("access-token"),
   });
 
   const handelRequest = (asset) => {

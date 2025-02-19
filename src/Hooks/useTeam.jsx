@@ -18,7 +18,7 @@ const useTeam = () => {
       const { data } = await axiosSecure(`/team/${user.email}`);
       return data;
     },
-    enabled: !!user?.email,
+    enabled: !!user?.email && !!localStorage.getItem("access-token"),
   });
 
   return { team, isLoading, refetch };
