@@ -7,6 +7,7 @@ import Banner from "./Banner";
 import Packages from "./Packages";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 import { Helmet } from "react-helmet-async";
+import What from "./What";
 const Home = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ const Home = () => {
         />
       </Helmet>
       <Banner />
+      <What />
       <About />
       <Packages />
     </>
