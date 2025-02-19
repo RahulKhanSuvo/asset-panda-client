@@ -3,11 +3,11 @@ import th from "../../assets/Banner/smart.svg";
 const Smart = () => {
   return (
     <section className="bg-[#F7F9FD]">
-      <div className="lg:container py-9 lg:mx-auto px-4 md:mx-6 flex gap-28">
-        <div className="w-1/2">
+      <div className="max-w-[1270px] lg:mx-auto px-4 md:mx-6 flex flex-col py-16 md:flex-row gap-28">
+        <div className="md:w-1/2">
           <img src={th} alt="" />
         </div>
-        <div className="w-1/2 flex flex-col justify-center">
+        <div className="md:w-1/2 flex flex-col justify-center">
           <h1 className="text-3xl font-bold">
             Smarter than the average spreadsheet
           </h1>

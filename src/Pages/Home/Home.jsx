@@ -9,6 +9,12 @@ import LoadingSpinner from "../../Components/LoadingSpinner";
 import { Helmet } from "react-helmet-async";
 import What from "./What";
 import Smart from "./Smart";
+import Mange from "./Mange";
+import ExpertsSection from "./ExpertsSection";
+import Team from "./Team";
+import Save from "./Save";
+import TestimonialSlider from "./TestimonialSlider";
+import FeaturesSection from "./FeaturesSection";
 const Home = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
@@ -51,7 +57,13 @@ const Home = () => {
         <What />
       </section>
       <Smart />
+      <Mange />
+      <ExpertsSection />
+      <Team />
+      <Save />
+      <TestimonialSlider />
       <About />
+      <FeaturesSection />
       <Packages />
     </>
   );

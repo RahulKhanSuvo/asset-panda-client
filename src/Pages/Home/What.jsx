@@ -3,7 +3,7 @@ import tham from "../../assets/Banner/tham.webp";
 const What = () => {
   return (
     <Container>
-      <div className="mt-16">
+      <div className="py-16 ">
         <h1 className="text-3xl font-bold text-center">
           What Exactly is an Asset?
         </h1>
@@ -15,7 +15,7 @@ const What = () => {
           Whatever you’re tracking, we’re here to help your team improve
           efficiency and save time and money.
         </p>
-        <div className="flex flex-col  mt-16 gap-16 justify-between">
+        <div className="flex flex-col md:flex-row  mt-16 gap-16 justify-between">
           <div className="md:w-1/2 flex flex-col justify-center">
             <div className="max-w-[520px]">
               <h2 className="text-3xl font-bold">
