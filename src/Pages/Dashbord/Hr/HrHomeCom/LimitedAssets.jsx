@@ -7,6 +7,7 @@ const LimitedAssets = () => {
   const axiosSecure = useAxiosSecure();
   const { data: limited = [], isLoading } = useQuery({
     queryKey: ["limited", user?.email],
+    enabled: !!user?.email && !!localStorage.getItem("access-token"),
     queryFn: async () => {
       const { data } = await axiosSecure(`/hr/limitedStock/${user?.email}`);
       return data;

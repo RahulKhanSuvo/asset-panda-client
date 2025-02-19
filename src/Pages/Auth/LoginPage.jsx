@@ -99,8 +99,8 @@ const LoginPage = () => {
             <button
               onClick={() =>
                 setLoginData({
-                  email: "employee@example.com",
-                  password: "employeepass123",
+                  email: "employee@gmail.com",
+                  password: "123456Aa",
                 })
               }
               className="flex-1 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"

@@ -7,6 +7,7 @@ const HrTopRequested = () => {
   const axiosSecure = useAxiosSecure();
   const { data: topRq, isLoading } = useQuery({
     queryKey: ["topRequests", user?.email],
+    enabled: !!localStorage.getItem("access-token"),
     queryFn: async () => {
       const { data } = await axiosSecure(`/hr/mostRequested/${user?.email}`);
       return data;

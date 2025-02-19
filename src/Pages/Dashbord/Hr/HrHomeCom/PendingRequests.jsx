@@ -9,6 +9,7 @@ const PendingRequests = () => {
   const axiosSecure = useAxiosSecure();
   const { data: pendingRq = [], isLoading } = useQuery({
     queryKey: ["pendingRequests", user?.email],
+    enabled: !!user?.email && !!localStorage.getItem("access-token"),
     queryFn: async () => {
       const { data } = await axiosSecure(`/hr/requestedAssets/${user?.email}`);
       return data;

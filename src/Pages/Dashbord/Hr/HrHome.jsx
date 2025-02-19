@@ -15,6 +15,7 @@ const HrHome = () => {
   const axiosSecure = useAxiosSecure();
   const { data: activity = {}, isLoading } = useQuery({
     queryKey: ["activity", user?.email],
+    enabled: !!user?.email && !!localStorage.getItem("access-token"),
     queryFn: async () => {
       const { data } = await axiosSecure(`/hr/activity/${user?.email}`);
       return data;
