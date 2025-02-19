@@ -51,7 +51,7 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <section className="bg-[#F7F9FD] py-12">
+    <section className="bg-white py-12">
       <Container>
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold text-gray-900">

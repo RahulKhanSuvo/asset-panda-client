@@ -28,9 +28,9 @@ const Packages = () => {
   ];
 
   return (
-    <section className="bg-white my-16 pt-8 rounded-t-[70px]">
+    <section className="bg-[#F7F9FD] py-16 pt-8 ">
       <Container>
-        <div className="text-center mt-10 bg-white">
+        <div className="text-center mt-10">
           <h2 className="text-2xl font-bold mb-6">Our Packages</h2>
           <p className="text-gray-600 mb-8">
             Choose a plan that fits your business needs.

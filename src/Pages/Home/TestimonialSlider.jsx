@@ -7,7 +7,7 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const TestimonialSlider = () => {
   return (
-    <section className="bg-[#F7F9FD]">
+    <section className="bg-[#F7F9FD] pb-6">
       <Container>
         <div className="py-12 px-6 text-center">
           <h2 className="text-3xl font-bold text-gray-900">
