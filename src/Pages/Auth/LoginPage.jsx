@@ -39,17 +39,25 @@ const LoginPage = () => {
       });
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    userSignIn(loginData.email, loginData.password)
-      .then(() => {
-        refetch();
-        showToast("Login successful");
-        navigate("/");
-      })
-      .catch(() => {
-        showToast("Please try again", "error");
-      });
+    try {
+      await userSignIn(loginData.email, loginData.password);
+      refetch();
+      showToast("Login successful", "success");
+      navigate("/");
+    } catch (error) {
+      console.error("Login error:", error);
+      if (error.code === "auth/too-many-requests") {
+        showToast("Too many attempts. Try again later.", "error");
+      } else if (error.code === "auth/wrong-password") {
+        showToast("Incorrect password. Please try again.", "error");
+      } else if (error.code === "auth/user-not-found") {
+        showToast("No user found with this email.", "error");
+      } else {
+        showToast("Login failed. Please try again.", "error");
+      }
+    }
   };
 
   return (
