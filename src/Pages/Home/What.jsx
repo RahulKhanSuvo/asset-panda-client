@@ -15,8 +15,8 @@ const What = () => {
           Whatever you’re tracking, we’re here to help your team improve
           efficiency and save time and money.
         </p>
-        <div className="flex mt-16 gap-16 justify-between">
-          <div className="w-1/2 flex flex-col justify-center">
+        <div className="flex flex-col  mt-16 gap-16 justify-between">
+          <div className="md:w-1/2 flex flex-col justify-center">
             <div className="max-w-[520px]">
               <h2 className="text-3xl font-bold">
                 Track everything from computers to contracts
@@ -34,7 +34,7 @@ const What = () => {
               </p>
             </div>
           </div>
-          <div className="w-1/2">
+          <div className="md:w-1/2">
             <img className="w-full" src={tham} alt="" />
           </div>
         </div>

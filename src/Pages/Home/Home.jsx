@@ -8,6 +8,7 @@ import Packages from "./Packages";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 import { Helmet } from "react-helmet-async";
 import What from "./What";
+import Smart from "./Smart";
 const Home = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
@@ -46,7 +47,10 @@ const Home = () => {
         />
       </Helmet>
       <Banner />
-      <What />
+      <section className="bg-[#FFFFFF]">
+        <What />
+      </section>
+      <Smart />
       <About />
       <Packages />
     </>
