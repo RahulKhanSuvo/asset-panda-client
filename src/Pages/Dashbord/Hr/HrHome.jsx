@@ -24,7 +24,7 @@ const HrHome = () => {
   if (isLoading) return <LoadingSpinner smallHeight></LoadingSpinner>;
 
   return (
-    <Container>
+    <section className="px-4">
       <Helmet>
         <title>HR Home - AssetPanda</title>
         <meta
@@ -38,7 +38,9 @@ const HrHome = () => {
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://www.assetpanda.com/hr-home" />
       </Helmet>
-
+      <div>
+        <h3 className="font-bold text-2xl"> Hi, Welcome Back</h3>
+      </div>
       <Activity activity={activity}></Activity>
       <div className=" grid grid-cols-1    lg:grid-cols-3 mt-6 justify-between gap-6">
         <PendingRequests></PendingRequests>
@@ -53,7 +55,7 @@ const HrHome = () => {
           <HRBarChart activity={activity} />
         </div>
       </div>
-    </Container>
+    </section>
   );
 };
 

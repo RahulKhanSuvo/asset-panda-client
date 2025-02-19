@@ -84,7 +84,7 @@ const AssistList = () => {
   const totalPages = Math.ceil(assets.length / itemsPerPage);
 
   return (
-    <Container>
+    <section className="px-4">
       <Helmet>
         <title>HR Assets - AssetPanda</title>
         <meta
@@ -227,7 +227,7 @@ const AssistList = () => {
           setIsModalOpen={setIsModalOpen}
         ></AssetsUpdateModal>
       </div>
-    </Container>
+    </section>
   );
 };
 

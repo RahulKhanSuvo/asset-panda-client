@@ -21,9 +21,9 @@ const Home = () => {
   useEffect(() => {
     if (!loading && !isLoading && user) {
       if (userDetails?.role === "hr") {
-        navigate("/hrHome");
+        navigate("/dashboard/hrHome");
       } else if (userDetails?.role === "employee") {
-        navigate("/employeeHome");
+        navigate("/dashboard/employeeHome");
       }
     }
   }, [loading, isLoading, user, userDetails, navigate]);

@@ -21,6 +21,7 @@ import EmployeeRoute from "./EmployeeRoute";
 import HrRouter from "./HrRouter";
 import Profile from "../Pages/Shared/Profile/Profile";
 import ErrorPage from "../Pages/Error/ErrorPage";
+import DashLayout from "../Layout/DashLayout";
 
 export const router = createBrowserRouter([
   {
@@ -45,8 +46,14 @@ export const router = createBrowserRouter([
         path: "/login",
         element: <LoginPage></LoginPage>,
       },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <DashLayout></DashLayout>,
+    children: [
       {
-        path: "/profile",
+        path: "profile",
         element: (
           <PrivateRouter>
             <Profile></Profile>
@@ -54,7 +61,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/payment",
+        path: "payment",
         element: (
           <PrivateRouter>
             <Payment></Payment>
@@ -63,7 +70,7 @@ export const router = createBrowserRouter([
       },
       // employee routes
       {
-        path: "/employee/requestAsset",
+        path: "employee/requestAsset",
         element: (
           <PrivateRouter>
             <EmployeeRoute>
@@ -73,7 +80,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/employeeHome",
+        path: "employeeHome",
         element: (
           <PrivateRouter>
             <EmployeeRoute>
@@ -83,7 +90,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/employee/myTeam",
+        path: "employee/myTeam",
         element: (
           <PrivateRouter>
             <EmployeeRoute>
@@ -93,7 +100,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/employee/myAssets",
+        path: "employee/myAssets",
         element: (
           <PrivateRouter>
             <EmployeeRoute>
@@ -104,7 +111,7 @@ export const router = createBrowserRouter([
       },
       // hr routes
       {
-        path: "/hrHome",
+        path: "hrHome",
         element: (
           <PrivateRouter>
             <HrRouter>
@@ -114,7 +121,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/hr/myEmployee",
+        path: "hr/myEmployee",
         element: (
           <PrivateRouter>
             <HrRouter>
@@ -124,7 +131,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/hr/addEmployee",
+        path: "hr/addEmployee",
         element: (
           <PrivateRouter>
             <HrRouter>
@@ -134,7 +141,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/hr/addAssets",
+        path: "hr/addAssets",
         element: (
           <PrivateRouter>
             <HrRouter>
@@ -144,7 +151,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/packages",
+        path: "packages",
         element: (
           <PrivateRouter>
             <HrRouter>
@@ -154,7 +161,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/hr/assets",
+        path: "hr/assets",
         element: (
           <PrivateRouter>
             <HrRouter>
@@ -164,7 +171,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/hr/allRequests",
+        path: "hr/allRequests",
         element: (
           <PrivateRouter>
             <HrRouter>

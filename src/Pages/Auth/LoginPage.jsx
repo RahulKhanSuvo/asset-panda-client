@@ -27,7 +27,7 @@ const LoginPage = () => {
             date_of_birth: null,
             image: result?.user?.photoURL,
           });
-          navigate("/");
+          navigate("/dashboard");
           refetch();
           showToast("Login successful");
         } catch (error) {
@@ -45,7 +45,7 @@ const LoginPage = () => {
       await userSignIn(loginData.email, loginData.password);
       refetch();
       showToast("Login successful", "success");
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Login error:", error);
       if (error.code === "auth/too-many-requests") {

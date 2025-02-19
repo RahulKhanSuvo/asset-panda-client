@@ -95,7 +95,7 @@ const CheckoutForm = ({ price, refetch }) => {
           });
         } finally {
           refetch();
-          navigate("/hrHome");
+          navigate("dashboard/hrHome");
         }
       }
     }

@@ -76,7 +76,7 @@ const MyEmployeeList = () => {
   };
 
   return (
-    <Container>
+    <section className="px-4">
       <Helmet>
         <title>My Employees - AssetPanda</title>
         <meta
@@ -191,7 +191,7 @@ const MyEmployeeList = () => {
           </button>
         </div>
       </div>
-    </Container>
+    </section>
   );
 };
 

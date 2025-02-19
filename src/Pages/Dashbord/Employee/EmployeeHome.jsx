@@ -34,7 +34,7 @@ const EmployeeHome = () => {
     return <LoadingSpinner smallHeight></LoadingSpinner>;
 
   return (
-    <Container>
+    <section className="px-4">
       <Helmet>
         <title>Employee Dashboard - AssetPanda</title>
         <meta
@@ -173,7 +173,7 @@ const EmployeeHome = () => {
       <div className=" pb-10">
         <CalendarSection></CalendarSection>
       </div>
-    </Container>
+    </section>
   );
 };
 

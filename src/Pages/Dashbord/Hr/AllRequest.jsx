@@ -68,7 +68,7 @@ const AllRequest = () => {
   );
 
   return (
-    <Container>
+    <section className="px-4">
       <Helmet>
         <title>All Requests - AssetPanda</title>
         <meta
@@ -217,7 +217,7 @@ const AllRequest = () => {
           </button>
         </div>
       </div>
-    </Container>
+    </section>
   );
 };
 

@@ -72,7 +72,7 @@ const MyTeam = () => {
   };
 
   return (
-    <Container>
+    <section className="px-4">
       <Helmet>
         <title>My Team - AssetPanda</title>
         <meta
@@ -174,7 +174,7 @@ const MyTeam = () => {
           </button>
         </div>
       </div>
-    </Container>
+    </section>
   );
 };
 

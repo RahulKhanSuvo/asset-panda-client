@@ -104,7 +104,7 @@ const MyAssets = () => {
   };
 
   return (
-    <Container>
+    <section className="px-4">
       <div className="bg-white rounded-md shadow-md mt-8">
         <div className="flex  flex-col md:flex-row border-t py-3 justify-between px-4">
           <div className="flex  items-center relative border-gray-300 rounded-md shadow-sm ">
@@ -289,7 +289,7 @@ const MyAssets = () => {
           </>
         )}
       </div>
-    </Container>
+    </section>
   );
 };
 

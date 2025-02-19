@@ -70,7 +70,7 @@ const AssetsRequest = () => {
   };
 
   return (
-    <Container>
+    <section className="px-4">
       <Helmet>
         <title>Request Asset - AssetPanda</title>
         <meta
@@ -229,7 +229,7 @@ const AssetsRequest = () => {
           </div>
         )}
       </div>
-    </Container>
+    </section>
   );
 };
 
