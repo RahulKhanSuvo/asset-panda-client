@@ -6,18 +6,21 @@ import { useState } from "react";
 
 const Profile = () => {
   const { user, updateUserProfile, loading } = useAuth();
-  const [fullName, setFullName] = useState(user?.displayName);
-  console.log(user?.displayName);
-  if (loading) return <>loading</>;
+  const [fullName, setFullName] = useState(user?.displayName || "");
+  const [phone, setPhone] = useState(user?.phoneNumber || "+8801712345678");
+  const [address, setAddress] = useState("Dhaka, Bangladesh");
+
+  if (loading) return <>Loading...</>;
+
   const handleUpdate = (e) => {
     e.preventDefault();
     updateUserProfile({ displayName: fullName })
-      .then((result) => {
-        console.log(result);
+      .then(() => {
         showToast("Profile Updated Successfully", "success");
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
+        showToast("Failed to update profile", "error");
       });
   };
 
@@ -25,15 +28,7 @@ const Profile = () => {
     <Container>
       <Helmet>
         <title>Profile - AssetPanda</title>
-        <meta
-          name="description"
-          content="View and manage your personal profile on AssetPanda. Update your details and settings."
-        />
-        <meta
-          name="keywords"
-          content="Profile, User Profile, AssetPanda, Manage Profile, Personal Information"
-        />
-        <meta name="robots" content="index, follow" />
+        <meta name="description" content="Manage your profile on AssetPanda." />
       </Helmet>
       <div className="mt-8 bg-white max-w-2xl mx-auto p-6 shadow-md rounded-lg">
         <div className="text-center">
@@ -42,46 +37,57 @@ const Profile = () => {
             src={user?.photoURL || "https://via.placeholder.com/150"}
             alt="User Profile"
           />
-          <h2 className="text-2xl font-semibold mb-2">
-            {fullName ? fullName : user?.user?.displayName}
-          </h2>
+          <h2 className="text-2xl font-semibold mb-2">{fullName}</h2>
         </div>
 
         <form onSubmit={handleUpdate} className="space-y-4">
-          {/* Full Name */}
           <div>
-            <label htmlFor="fullName" className="block text-sm font-medium">
-              Full Name
-            </label>
+            <label className="block text-sm font-medium">Full Name</label>
             <input
-              id="fullName"
               type="text"
-              defaultValue={user?.displayName}
+              value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your full name"
             />
           </div>
 
-          {/* Email (Readonly) */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium">
-              Email
-            </label>
+            <label className="block text-sm font-medium">Email</label>
             <input
-              id="email"
               type="email"
               value={user?.email || ""}
               readOnly
-              className="w-full border border-gray-300 rounded-md px-4 py-2 bg-gray-100 cursor-not-allowed"
+              className="w-full border rounded-md px-4 py-2 bg-gray-100 cursor-not-allowed"
             />
           </div>
 
-          {/* Update Button */}
+          <div>
+            <label className="block text-sm font-medium">Phone Number</label>
+            <input
+              type="text"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter your phone number"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium">Address</label>
+            <input
+              type="text"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              className="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter your address"
+            />
+          </div>
+
           <div className="text-right">
             <button
               type="submit"
-              className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 focus:ring-2 focus:ring-blue-400"
             >
               Update
             </button>

@@ -27,11 +27,6 @@ const ExpertsSection = () => {
           </div>
 
           {/* Button */}
-          <div className="mt-6">
-            <button className="bg-red-500 text-white px-6 py-3 rounded-md font-semibold hover:bg-red-600 transition">
-              Get a Demo
-            </button>
-          </div>
         </div>
       </Container>
     </section>

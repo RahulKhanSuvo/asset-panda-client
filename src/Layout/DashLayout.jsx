@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
 import useUserStatus from "../Hooks/useUserStatus";
 import { useEffect } from "react";
@@ -10,7 +10,7 @@ const DashLayout = () => {
   const { userDetails, isLoading } = useUserStatus();
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  console.log(user);
   useEffect(() => {
     if (!loading && !isLoading && user) {
       if (userDetails?.role === "hr") {
@@ -114,13 +114,6 @@ const DashLayout = () => {
       >
         Add an Employee
       </NavLink>
-      <NavLink
-        to="/dashboard/profile"
-        className={navLinkStyle}
-        onClick={() => setIsSidebarOpen(false)}
-      >
-        Profile
-      </NavLink>
     </>
   );
 
@@ -161,6 +154,19 @@ const DashLayout = () => {
               />
             </svg>
           </button>
+        </div>
+        <div className="flex flex-col justify-center items-center">
+          <Link to={"/dashboard/profile"}>
+            {" "}
+            <img
+              className="size-16 rounded-full border-2 shadow-md"
+              src={user?.photoURL}
+              alt=""
+            />
+            <div>
+              <h3>{user?.displayName}</h3>
+            </div>
+          </Link>
         </div>
         <nav className="flex flex-col space-y-3">
           {user?.email
