@@ -16,6 +16,7 @@ const useUserStatus = () => {
       const { data } = await axiosSecure(`/userStatus/${user?.email}`);
       return data;
     },
+    enabled: !!user?.email,
   });
 
   return { userDetails, isLoading, isError, refetch };
