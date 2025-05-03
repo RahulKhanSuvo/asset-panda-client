@@ -75,7 +75,7 @@ const EmployeeHome = () => {
           <div className="bg-white  border    shadow-md rounded-md w-full">
             <div className="flex justify-between items-center py-6 px-4 border-b">
               <p className=" text-lg text-black font-bold">Pending Requests</p>
-              <Link to={"/employee/myAssets"}>
+              <Link to={"/dashboard/employee/myAssets"}>
                 {" "}
                 <button className="text-[#005cbb]">View all</button>
               </Link>
@@ -120,7 +120,7 @@ const EmployeeHome = () => {
           <div className="bg-white border  w-full shadow-md rounded-md">
             <div className="flex justify-between items-center py-6 px-4 border-b">
               <p className=" text-lg text-black font-bold">Monthly Requests</p>
-              <Link to={"/employee/myAssets"}>
+              <Link to={"/dashboard/employee/myAssets"}>
                 {" "}
                 <button className="text-[#005cbb]">View all</button>
               </Link>
