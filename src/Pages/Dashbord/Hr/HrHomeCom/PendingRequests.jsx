@@ -32,7 +32,7 @@ const PendingRequests = () => {
     <div className="rounded-md w-full shadow-md border">
       <div className="rounded-md bg-white px-4 py-4 border-b flex justify-between items-center ">
         <h4 className="text-xl font-semibold">Pending Requests</h4>
-        <Link to={"/hr/allRequests"}>
+        <Link to={"/dashboard/hr/allRequests"}>
           <button className="text-blue-500">View All</button>
         </Link>
       </div>
