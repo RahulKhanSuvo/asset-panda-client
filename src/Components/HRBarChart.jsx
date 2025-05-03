@@ -84,8 +84,8 @@ const HRBarChart = ({ activity }) => {
   };
 
   return (
-    <div className="w-full  bg-white rounded-lg shadow-sm">
-      <div className="relative ">
+    <div className="w-full p-4 bg-white rounded-lg shadow-sm">
+      <div className="relative h-64 sm:h-72 md:h-80 lg:h-[400px]">
         <Bar data={data} options={options} />
       </div>
     </div>

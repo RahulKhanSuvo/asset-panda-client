@@ -69,7 +69,7 @@ const HrPie = () => {
       <h2 className="text-center font-semibold text-lg mb-2">
         Employee Request Summary
       </h2>
-      <div className="relative  ">
+      <div className="relative  sm:h-72 md:h-80 lg:h-96">
         <Pie data={data} options={options} />
       </div>
     </div>

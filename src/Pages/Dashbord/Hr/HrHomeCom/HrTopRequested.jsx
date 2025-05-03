@@ -5,7 +5,7 @@ import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 const HrTopRequested = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const { data: topRq, isLoading } = useQuery({
+  const { data: topRq = [], isLoading } = useQuery({
     queryKey: ["topRequests", user?.email],
     enabled: !!localStorage.getItem("access-token"),
     queryFn: async () => {
@@ -16,10 +16,39 @@ const HrTopRequested = () => {
 
   if (isLoading) {
     return (
-      <div className="w-full bg-white border shadow-md rounded-md p-4">
-        <div className="text-center">
-          <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full border-t-transparent border-blue-500" />
-          <p className="mt-2 text-gray-500">Loading top requests...</p>
+      <div className="w-full bg-white border shadow-md rounded-md">
+        <div className="px-4 border-b py-4">
+          <h3 className="text-lg font-medium opacity-75">Top Most Requests</h3>
+        </div>
+        <div className="md:h-[415px] overflow-x-auto">
+          <table className="table text-base w-full">
+            <thead>
+              <tr className="text-base uppercase">
+                <th className="opacity-50">#</th>
+                <th className="opacity-50">Assets</th>
+                <th className="opacity-50">Type</th>
+                <th className="text-center opacity-50">Total Request</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...Array(5)].map((_, index) => (
+                <tr key={index} className="animate-pulse">
+                  <td>
+                    <div className="h-4 w-4 bg-gray-200 rounded"></div>
+                  </td>
+                  <td>
+                    <div className="h-4 w-24 bg-gray-200 rounded"></div>
+                  </td>
+                  <td>
+                    <div className="h-4 w-16 bg-gray-200 rounded capitalize"></div>
+                  </td>
+                  <td className="text-center">
+                    <div className="h-4 w-8 bg-gray-200 rounded mx-auto"></div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     );
@@ -31,10 +60,8 @@ const HrTopRequested = () => {
         <div className="px-4 border-b py-4 text-lg font-medium">
           <h3>Top Most Requests</h3>
         </div>
-        {/* Add overflow-x-auto here */}
         <div className="md:h-[415px] overflow-x-auto">
           <table className="table text-base w-full">
-            {/* head */}
             <thead>
               <tr className="text-base uppercase">
                 <th>#</th>
