@@ -20,7 +20,9 @@ const HrPie = () => {
   });
 
   if (isLoading) {
-    return null; // Show spinner or placeholder if needed
+    return (
+      <div className="h-64 flex items-center justify-center">Loading...</div>
+    );
   }
 
   const data = {
@@ -28,7 +30,7 @@ const HrPie = () => {
     datasets: [
       {
         label: "Item Distribution",
-        data: [chartData.returnable, chartData.nonReturnable],
+        data: [chartData?.returnable || 0, chartData?.nonReturnable || 0],
         backgroundColor: ["rgba(255, 129, 50, 1)", "rgba(54, 162, 235, 0.7)"],
         borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
         borderWidth: 1,
@@ -42,19 +44,34 @@ const HrPie = () => {
     plugins: {
       legend: {
         position: "top",
+        labels: {
+          boxWidth: 12,
+          padding: 20,
+          font: {
+            size: window.innerWidth < 768 ? 10 : 12,
+          },
+        },
       },
       tooltip: {
         enabled: true,
+        bodyFont: {
+          size: window.innerWidth < 768 ? 10 : 12,
+        },
+        titleFont: {
+          size: window.innerWidth < 768 ? 12 : 14,
+        },
       },
     },
   };
 
   return (
-    <div className="w-full p-6 h-[300px] md:h-[400px] lg:h-[420px] mt-6">
-      <h2 className="text-center font-semibold text-lg">
+    <div className="w-full p-4 bg-white rounded-lg shadow-sm">
+      <h2 className="text-center font-semibold text-lg mb-2">
         Employee Request Summary
       </h2>
-      <Pie data={data} options={options} />
+      <div className="relative  ">
+        <Pie data={data} options={options} />
+      </div>
     </div>
   );
 };

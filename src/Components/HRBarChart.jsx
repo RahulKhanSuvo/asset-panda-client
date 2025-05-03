@@ -25,10 +25,10 @@ const HRBarChart = ({ activity }) => {
       {
         label: "Requests",
         data: [
-          activity.totalRequests,
-          activity.totalRejected,
-          activity.totalReturned,
-          activity.totalApproved,
+          activity?.totalRequests || 0,
+          activity?.totalRejected || 0,
+          activity?.totalReturned || 0,
+          activity?.totalApproved || 0,
         ],
         backgroundColor: [
           "#4CAF50", // Approved
@@ -48,22 +48,46 @@ const HRBarChart = ({ activity }) => {
     plugins: {
       legend: {
         position: "top",
+        labels: {
+          boxWidth: 12,
+          padding: 20,
+          font: {
+            size: window.innerWidth < 768 ? 10 : 12,
+          },
+        },
       },
       title: {
         display: true,
         text: "HR Request Breakdown",
+        font: {
+          size: window.innerWidth < 768 ? 14 : 16,
+        },
       },
     },
     scales: {
       y: {
         beginAtZero: true,
+        ticks: {
+          font: {
+            size: window.innerWidth < 768 ? 10 : 12,
+          },
+        },
+      },
+      x: {
+        ticks: {
+          font: {
+            size: window.innerWidth < 768 ? 10 : 12,
+          },
+        },
       },
     },
   };
 
   return (
-    <div className="w-full h-[300px] md:h-[400px] lg:h-[500px] border mt-6 bg-white rounded-md shadow-md p-4">
-      <Bar data={data} options={options} />
+    <div className="w-full  bg-white rounded-lg shadow-sm">
+      <div className="relative ">
+        <Bar data={data} options={options} />
+      </div>
     </div>
   );
 };

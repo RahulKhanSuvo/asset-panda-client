@@ -48,7 +48,7 @@ const HrHome = () => {
         <LimitedAssets></LimitedAssets>
       </div>
       <div className="flex flex-col pb-16 justify-between gap-6 mt-6 lg:flex-row items-center">
-        <div className="w-full lg:w-1/2">
+        <div className="w-full lg:w-1/2 ">
           <HrPie />
         </div>
         <div className="w-full lg:w-1/2">
