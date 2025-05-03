@@ -16,13 +16,47 @@ const PendingRequests = () => {
     },
   });
 
-  // Render a loading state while data is being fetched
+  // Render a blank loading state while data is being fetched
   if (isLoading) {
     return (
-      <div className="rounded-md w-full shadow-md border p-4">
-        <div className="text-center">
-          <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full border-t-transparent border-blue-500" />
-          <p className="mt-2 text-gray-500">Loading pending requests...</p>
+      <div className="rounded-md w-full shadow-md border">
+        <div className="rounded-md bg-white px-4 py-4 border-b flex justify-between items-center">
+          <h4 className="text-xl font-semibold">Pending Requests</h4>
+          <button className="text-blue-500 opacity-50 cursor-not-allowed">
+            View All
+          </button>
+        </div>
+        <div className="md:h-[415px] overflow-x-auto rounded-md bg-white">
+          <table className="table rounded-md w-full">
+            <thead>
+              <tr className="text-base uppercase">
+                <th className="opacity-50">Sender</th>
+                <th className="opacity-50">Assets</th>
+                <th className="text-center opacity-50">Date</th>
+              </tr>
+            </thead>
+            <tbody className="text-base">
+              {[...Array(5)].map((_, index) => (
+                <tr key={index} className="animate-pulse">
+                  <td>
+                    <div className="flex items-center gap-2">
+                      <div className="size-10 rounded-full bg-gray-200"></div>
+                      <div className="space-y-2">
+                        <div className="h-4 w-24 bg-gray-200 rounded"></div>
+                        <div className="h-3 w-32 bg-gray-100 rounded"></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="h-4 w-20 bg-gray-200 rounded"></div>
+                  </td>
+                  <td className="text-center">
+                    <div className="h-4 w-24 bg-gray-200 rounded mx-auto"></div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     );
