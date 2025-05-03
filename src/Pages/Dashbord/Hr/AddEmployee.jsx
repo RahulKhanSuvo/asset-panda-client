@@ -175,7 +175,7 @@ const AddEmployee = () => {
   };
 
   const handleIncreaseLimit = () => {
-    navigate("/packages");
+    navigate("/dashboard/packages");
   };
 
   return (
